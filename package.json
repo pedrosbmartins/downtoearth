@@ -1,0 +1,18 @@
+{
+  "name": "downtoearth-vanilla",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc && browserify build/main.js -o build/bundle.js",
+    "watch": "tsc-watch --onSuccess \"browserify build/main.js -o build/bundle.js\""
+  },
+  "devDependencies": {
+    "@types/mapbox-gl": "^2.7.10",
+    "tsc-watch": "^6.0.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@turf/turf": "^6.5.0",
+    "mapbox-gl": "^2.11.1"
+  }
+}
