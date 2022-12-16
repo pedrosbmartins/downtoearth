@@ -1,109 +1,186 @@
 import * as turf from '@turf/turf'
 
-import { INITIAL_CENTER, initializeMap } from './map'
+import { initializeMap } from './map'
 import { $sidebar } from './ui'
 
-const map = initializeMap()
+interface StoreEvent<T extends {}> extends Event {
+  detail?: T & { name: string }
+}
 
-interface Props {
+abstract class Store<D extends {}> {
+  protected data: D
+  protected listeners: EventTarget[] = []
+
+  constructor(protected namespace: string, initialData: D) {
+    this.namespace = namespace
+    this.data = initialData
+  }
+
+  get<K extends keyof D>(field: K): D[K] {
+    return this.data[field]
+  }
+
+  set(data: D): void {
+    Object.assign(this.data, data)
+    Object.keys(data).forEach(field => {
+      this.broadcast(field as keyof D)
+    })
+  }
+
+  public register<T extends EventTarget>(
+    listener: T,
+    field: keyof D,
+    handler: (this: T, event: StoreEvent<D>) => void
+  ) {
+    this.listeners.push(listener)
+    listener.addEventListener(this.eventName(field), handler)
+  }
+
+  private broadcast(field: keyof D) {
+    for (const listener of this.listeners) {
+      listener.dispatchEvent(
+        new CustomEvent(this.eventName(field), { detail: { name: field, ...this.data } })
+      )
+    }
+  }
+
+  private eventName(field: keyof D) {
+    return `${this.namespace}-${field}-changed`
+  }
+}
+
+interface Data {
   visible: boolean
 }
 
-interface TypedCustomEvent<T> extends Event {
-  detail?: T
-}
-
-class Component {
-  private props: Props = { visible: true }
-  private listeners: EventTarget[] = []
-
-  get<K extends keyof Props>(propName: K): Props[K] {
-    return this.props[propName]
-  }
-
-  set(update: Props): void {
-    Object.assign(this.props, update)
-    this.broadcastEvent()
-  }
-
-  public addListener<T extends EventTarget>(
-    listener: T,
-    event: string,
-    handler: (this: T, event: TypedCustomEvent<Props>) => void
-  ) {
-    this.listeners.push(listener)
-    listener.addEventListener(event, handler)
-  }
-
-  private broadcastEvent() {
-    for (const listener of this.listeners) {
-      listener.dispatchEvent(new CustomEvent('button-clicked', { detail: this.props }))
-    }
+class TestStore extends Store<Data> {
+  constructor(namespace: string) {
+    super(namespace, { visible: true })
   }
 }
 
-class Target extends EventTarget {
-  public onUpdate(event: TypedCustomEvent<Props>) {
+function Button({ title, onClick }: { title: string; onClick: () => void }) {
+  const $button = document.createElement('button') as HTMLButtonElement
+  $button.innerText = title
+  $button.addEventListener('click', onClick)
+  return $button
+}
+
+function Square({ color }: { color: string }) {
+  const $square = document.createElement('div')
+  $square.setAttribute('style', `width:100px;height:100px;background:${color}`)
+  return $square
+}
+
+abstract class StoreListener<D extends {}> extends EventTarget {
+  constructor(store: Store<D>, events: Array<keyof D>) {
+    super()
+    events.forEach(event => {
+      store.register(this, event as any, this.onUpdate)
+    })
+  }
+
+  abstract onUpdate(event: StoreEvent<D>): void
+}
+
+interface MarkerOptions {
+  color: string
+  center: number[]
+}
+
+class CircleMapMarker extends StoreListener<Data> {
+  constructor(private namespace: string, store: Store<Data>, private options: MarkerOptions) {
+    super(store, ['visible'])
+    this.onLoad()
+  }
+
+  onLoad() {
+    this.addSource()
+    this.renderLayers()
+  }
+
+  onUpdate(event: StoreEvent<Data>) {
     if (event.detail?.visible) {
-      createLayers()
+      this.showLayers()
     } else {
-      map.removeLayer('maine')
-      map.removeLayer('outline')
+      this.hideLayers()
     }
+  }
+
+  private addSource() {
+    map.addSource(this.id('circle'), {
+      type: 'geojson',
+      data: turf.circle(this.options.center, 5, { steps: 50, units: 'kilometers' })
+    })
+  }
+
+  private renderLayers() {
+    map.addLayer({
+      id: this.id('circle'),
+      type: 'fill',
+      source: this.id('circle'),
+      layout: {},
+      paint: {
+        'fill-color': this.options.color,
+        'fill-opacity': 0.5
+      }
+    })
+    map.addLayer({
+      id: this.id('outline'),
+      type: 'line',
+      source: this.id('circle'),
+      layout: {},
+      paint: {
+        'line-color': '#000',
+        'line-width': 3
+      }
+    })
+  }
+
+  private showLayers() {
+    map.setLayoutProperty(this.id('circle'), 'visibility', 'visible')
+    map.setLayoutProperty(this.id('outline'), 'visibility', 'visible')
+  }
+
+  private hideLayers() {
+    map.setLayoutProperty(this.id('circle'), 'visibility', 'none')
+    map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
+  }
+
+  private id(value: string) {
+    return `${this.namespace}-${value}`
   }
 }
 
-const $button = document.createElement('button') as HTMLButtonElement
-$button.innerText = 'Click me'
+function createComponent(namespace: string, color: string, center: number[]) {
+  const store = new TestStore(namespace)
 
-const $display = document.createElement('div')
-$display.setAttribute('style', 'width:100px;height:100px;background:red')
+  const $button = Button({
+    title: 'Hide',
+    onClick: () => {
+      store.set({ visible: !store.get('visible') })
+    }
+  })
+  store.register($button, 'visible', function (this, event) {
+    this.innerText = event.detail?.visible ? 'Hide' : 'Show'
+  })
 
-$sidebar.append($button, $display)
-
-const component = new Component()
-
-component.addListener(
-  $display,
-  'button-clicked',
-  function (this: HTMLElement, event: TypedCustomEvent<Props>) {
+  const $square = Square({ color })
+  store.register($square, 'visible', function (this, event) {
     this.style.display = event.detail?.visible ? 'block' : 'none'
-  }
-)
-
-component.addListener(new Target(), 'button-clicked', function (this, event) {
-  this.onUpdate(event)
-})
-
-$button.addEventListener('click', event => component.set({ visible: !component.get('visible') }))
-
-function createLayers() {
-  map.addLayer({
-    id: 'maine',
-    type: 'fill',
-    source: 'maine',
-    layout: {},
-    paint: {
-      'fill-color': '#0080ff',
-      'fill-opacity': 0.5
-    }
   })
-  map.addLayer({
-    id: 'outline',
-    type: 'line',
-    source: 'maine',
-    layout: {},
-    paint: {
-      'line-color': '#000',
-      'line-width': 3
-    }
-  })
+
+  const $wrapper = document.createElement('div')
+  $wrapper.append($button, $square)
+
+  $sidebar.append($wrapper)
+
+  new CircleMapMarker(namespace, store, { color, center })
 }
+
+const map = initializeMap()
 
 map.on('load', () => {
-  map.addSource('maine', {
-    type: 'geojson',
-    data: turf.circle(INITIAL_CENTER as number[], 5, { steps: 50, units: 'kilometers' })
-  })
-  createLayers()
+  createComponent('test1', '#0080ff', [-43.2209, -22.9619])
+  createComponent('test2', '#ff0033', [-43.2009, -22.9419])
 })
