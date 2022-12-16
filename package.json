@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "tsc && browserify build/main.js -o build/bundle.js",
-    "watch": "tsc-watch --onSuccess \"browserify build/main.js -o build/bundle.js\""
+    "dev": "tsc && yarn browserify",
+    "watch": "tsc-watch --onSuccess \"yarn browserify\"",
+    "browserify": "browserify build/main.js -o build/bundle.js && echo done"
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.10",
