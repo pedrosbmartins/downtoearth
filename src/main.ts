@@ -7,23 +7,25 @@ import { $sidebar } from './ui'
 function createComponent(namespace: string, color: string, center: number[]) {
   const store = new ProofOfConceptStore(namespace)
 
-  const $button = Button({
+  const $button = Button(store, {
     title: 'Hide',
     onClick: () => {
       store.set({ visible: !store.get('visible') })
+    },
+    events: ['visible'],
+    onUpdate: ($, event) => {
+      $.innerText = event.detail?.visible ? 'Hide' : 'Show'
     }
   })
-  store.register($button, 'visible', function (this, event) {
-    this.innerText = event.detail?.visible ? 'Hide' : 'Show'
-  })
 
-  const $square = Square({ color })
-  store.register($square, 'visible', function (this, event) {
-    this.style.display = event.detail?.visible ? 'block' : 'none'
+  const $square = Square(store, {
+    color,
+    events: ['visible'],
+    onUpdate: ($, event) => ($.style.display = event.detail?.visible ? 'block' : 'none')
   })
 
   const $wrapper = document.createElement('div')
-  $wrapper.append($button, $square)
+  $wrapper.append($button.dom(), $square.dom())
 
   $sidebar.append($wrapper)
 
