@@ -2,7 +2,7 @@ export interface StoreEvent<T extends {}> extends Event {
   detail?: T & { name: string }
 }
 
-export abstract class Store<D extends {}> {
+export class Store<D extends {}> {
   protected data: D
   protected listeners: EventTarget[] = []
 
@@ -15,7 +15,7 @@ export abstract class Store<D extends {}> {
     return this.data[field]
   }
 
-  set(data: D): void {
+  set(data: Partial<D>): void {
     Object.assign(this.data, data)
     Object.keys(data).forEach(field => {
       this.broadcast(field as keyof D)

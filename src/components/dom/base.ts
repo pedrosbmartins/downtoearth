@@ -2,8 +2,8 @@ import { Store, StoreEvent } from '../../store'
 import { StoreListener } from '../../store/listener'
 
 export interface ComponentProps<E extends HTMLElement, D extends {}> {
-  events: Array<keyof D>
-  onUpdate: ($: E, event: StoreEvent<D>) => void
+  events?: Array<keyof D>
+  onUpdate?: ($: E, event: StoreEvent<D>) => void
 }
 
 export abstract class DOMComponent<
@@ -14,7 +14,7 @@ export abstract class DOMComponent<
   private $: E
 
   constructor(store: Store<D>, protected props: P) {
-    super(store, props.events)
+    super(store, props.events ?? [])
     this.$ = this.render()
   }
 
@@ -25,6 +25,6 @@ export abstract class DOMComponent<
   abstract render(): E
 
   onUpdate(event: StoreEvent<D>): void {
-    this.props.onUpdate(this.$, event)
+    if (this.props.onUpdate) this.props.onUpdate(this.$, event)
   }
 }

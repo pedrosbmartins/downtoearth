@@ -4,14 +4,17 @@ import map from '../../map'
 import { Store, StoreEvent } from '../../store'
 import { StoreListener } from '../../store/listener'
 import { Data } from '../../store/poc'
+import { Fill, Outline } from '../../types'
 
 interface Options {
-  color: string
+  diameter: number
   center: number[]
+  fill?: Fill
+  outline?: Outline
 }
 
-export class Circle extends StoreListener<Data> {
-  constructor(private namespace: string, store: Store<Data>, private options: Options) {
+export class Circle<D extends { visible: boolean }> extends StoreListener<D> {
+  constructor(private namespace: string, store: Store<D>, private props: Options) {
     super(store, ['visible'])
     this.onLoad()
   }
@@ -29,44 +32,59 @@ export class Circle extends StoreListener<Data> {
     }
   }
 
-  private addSource() {
-    map.addSource(this.id('circle'), {
+  public source(): { type: 'geojson'; data: turf.Feature<turf.Polygon> } {
+    return {
       type: 'geojson',
-      data: turf.circle(this.options.center, 5, { steps: 50, units: 'kilometers' })
-    })
+      data: turf.circle(this.props.center, this.props.diameter, { steps: 80, units: 'kilometers' })
+    }
+  }
+
+  private addSource() {
+    map.addSource(this.id('circle'), this.source())
   }
 
   private renderLayers() {
+    this.renderFill()
+    this.renderOutline()
+  }
+
+  private renderFill() {
+    if (!this.props.fill) return
     map.addLayer({
-      id: this.id('circle'),
+      id: this.id('fill'),
       type: 'fill',
       source: this.id('circle'),
       layout: {},
       paint: {
-        'fill-color': this.options.color,
-        'fill-opacity': 0.5
+        'fill-color': this.props.fill.color,
+        'fill-opacity': this.props.fill.opacity ?? 0.5
       }
     })
+  }
+
+  private renderOutline() {
+    const { outline } = this.props
+    if (!outline) return
     map.addLayer({
       id: this.id('outline'),
       type: 'line',
       source: this.id('circle'),
       layout: {},
       paint: {
-        'line-color': '#000',
-        'line-width': 3
+        'line-color': outline.color,
+        'line-width': outline.width ?? 3
       }
     })
   }
 
   private showLayers() {
-    map.setLayoutProperty(this.id('circle'), 'visibility', 'visible')
-    map.setLayoutProperty(this.id('outline'), 'visibility', 'visible')
+    if (this.props.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'visible')
+    if (this.props.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'visible')
   }
 
   private hideLayers() {
-    map.setLayoutProperty(this.id('circle'), 'visibility', 'none')
-    map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
+    if (this.props.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'none')
+    if (this.props.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
   }
 
   private id(value: string) {
