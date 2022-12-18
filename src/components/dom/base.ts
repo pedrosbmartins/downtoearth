@@ -14,7 +14,7 @@ export abstract class DOMComponent<
   private $: E
 
   constructor(store: Store<D>, protected props: P) {
-    super(store, props.events ?? [])
+    super([{ store, events: props.events ?? [] }])
     this.$ = this.render()
   }
 
@@ -24,7 +24,8 @@ export abstract class DOMComponent<
 
   abstract render(): E
 
-  onUpdate(event: StoreEvent<D>): void {
+  // @todo: make class listen to multiple stores correctly
+  onUpdate(storeId: string, event: StoreEvent<D>): void {
     if (this.props.onUpdate) this.props.onUpdate(this.$, event)
   }
 }

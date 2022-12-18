@@ -1,12 +1,14 @@
 import { Store, StoreEvent } from '.'
 
 export abstract class StoreListener<D extends {}> extends EventTarget {
-  constructor(store: Store<D>, events: Array<keyof D>) {
+  constructor(config: Array<{ store: Store<D>; events: Array<keyof D> }>) {
     super()
-    events.forEach(event => {
-      store.register(this, event, this.onUpdate)
+    config.forEach(({ store, events }) => {
+      events.forEach(event => {
+        store.register(this, event, e => this.onUpdate(store.id(), e))
+      })
     })
   }
 
-  abstract onUpdate(event: StoreEvent<D>): void
+  abstract onUpdate(storeId: string, event: StoreEvent<D>): void
 }

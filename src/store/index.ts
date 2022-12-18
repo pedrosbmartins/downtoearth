@@ -1,5 +1,5 @@
 export interface StoreEvent<T extends {}> extends Event {
-  detail?: T & { name: string }
+  detail?: T & { name: keyof T }
 }
 
 export class Store<D extends {}> {
@@ -29,6 +29,10 @@ export class Store<D extends {}> {
   ) {
     this.listeners.push(listener)
     listener.addEventListener(this.eventName(field), handler)
+  }
+
+  public id() {
+    return this.namespace
   }
 
   private broadcast(field: keyof D) {

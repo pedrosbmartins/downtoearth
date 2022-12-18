@@ -3,32 +3,59 @@ import * as turf from '@turf/turf'
 import map from '../../map'
 import { Store, StoreEvent } from '../../store'
 import { StoreListener } from '../../store/listener'
-import { Data } from '../../store/poc'
 import { Fill, Outline } from '../../types'
 
 interface Options {
   diameter: number
+  ratio?: number
   center: number[]
   fill?: Fill
   outline?: Outline
 }
 
-export class Circle<D extends { visible: boolean }> extends StoreListener<D> {
-  constructor(private namespace: string, store: Store<D>, private props: Options) {
-    super(store, ['visible'])
-    this.onLoad()
+export class Circle<D extends { visible: boolean; diameter?: number }> extends StoreListener<D> {
+  constructor(
+    private namespace: string,
+    store: Store<D>,
+    private props: Options,
+    private rootStore?: Store<D>
+  ) {
+    const stores = [{ store, events: ['visible', 'diameter'] as Array<keyof D> }]
+    if (rootStore) stores.push({ store: rootStore, events: ['diameter' as keyof D] })
+    super(stores)
+    this.render()
   }
 
-  onLoad() {
+  render() {
     this.addSource()
     this.renderLayers()
   }
 
-  onUpdate(event: StoreEvent<Data>) {
-    if (event.detail?.visible) {
-      this.showLayers()
+  onUpdate(storeId: string, event: StoreEvent<D>) {
+    if (storeId === 'root' && this.rootStore) {
+      this.onRootUpdate(event)
     } else {
-      this.hideLayers()
+      switch (event.detail!.name) {
+        case 'visible':
+          if (event.detail?.visible) {
+            this.showLayers()
+          } else {
+            this.hideLayers()
+          }
+          break
+        case 'diameter':
+          this.resize(event.detail!.diameter!)
+          break
+        default:
+          console.error(`no handler for event ${name}`)
+          break
+      }
+    }
+  }
+
+  onRootUpdate(event: StoreEvent<D>) {
+    if (event.detail?.name === 'diameter') {
+      this.resize(event.detail!.diameter! * this.props.ratio!)
     }
   }
 
@@ -85,6 +112,14 @@ export class Circle<D extends { visible: boolean }> extends StoreListener<D> {
   private hideLayers() {
     if (this.props.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'none')
     if (this.props.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
+  }
+
+  private resize(diameter: number) {
+    this.props.diameter = diameter
+    if (this.props.fill) map.removeLayer(this.id('fill'))
+    if (this.props.outline) map.removeLayer(this.id('outline'))
+    map.removeSource(this.id('circle'))
+    this.render()
   }
 
   private id(value: string) {

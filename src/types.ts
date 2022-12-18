@@ -1,5 +1,5 @@
 export interface Config {
-  root: Root
+  root?: Root
   groups?: Group[]
 }
 
@@ -13,10 +13,10 @@ export interface Model {
   bearing?: number
 }
 
-export interface Root extends Model {
+export interface Root extends Omit<Model, 'layers'> {
   id: 'root'
-  realDiameter: number
   diameterPresets: DiameterPreset[]
+  layer: Layer
 }
 
 export interface DiameterPreset {
@@ -28,7 +28,7 @@ export interface DiameterPreset {
 export interface Group {
   id: string
   label: string
-  objects: Model[]
+  models: Model[]
   visible: boolean
   layers?: Layer[]
   bearingControl?: boolean
@@ -41,7 +41,7 @@ export interface CircleLayer {
   visible: boolean
   fill?: Fill
   outline?: Outline
-  diameter?: number // { unit: 'AU' | 'SolarDiameter'; value: number }
+  diameter?: { unit: 'km' | 'root'; value: number }
   offset?: { unit: 'AU'; value: number; bearingFrom: 'group' | 'object' }
   label?: { value: string; position: 'center' | 'outline' }
   popup?: { content: string }
