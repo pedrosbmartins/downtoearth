@@ -1,7 +1,9 @@
 import { Store, StoreEvent } from '.'
 
+export type StoreListenerConfig<D extends {}> = { store: Store<D>; events: Array<keyof D> }
+
 export abstract class StoreListener<D extends {}> extends EventTarget {
-  constructor(config: Array<{ store: Store<D>; events: Array<keyof D> }>) {
+  constructor(config: StoreListenerConfig<D>[]) {
     super()
     config.forEach(({ store, events }) => {
       events.forEach(event => {

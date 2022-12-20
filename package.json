@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "tsc && yarn browserify",
-    "watch": "tsc-watch --onSuccess \"yarn browserify\"",
-    "browserify": "browserify build/main.js -o build/bundle.js && echo done"
+    "dev": "concurrently \"yarn:tsc:watch\" \"yarn:browserify:watch\"",
+    "tsc:watch": "tsc -w",
+    "browserify": "browserify build/main.js -o build/bundle.js",
+    "browserify:watch": "watchify build/main.js -o build/bundle.js -v"
   },
   "devDependencies": {
     "@types/mapbox-gl": "^2.7.10",
-    "tsc-watch": "^6.0.0",
-    "typescript": "^4.9.4"
+    "browserify": "^17.0.0",
+    "concurrently": "^7.6.0",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.4",
+    "watchify": "^4.0.0"
   },
   "dependencies": {
     "@turf/turf": "^6.5.0",

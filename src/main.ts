@@ -1,17 +1,15 @@
-import * as turf from '@turf/turf'
-
 import { Button } from './components/dom'
-import { Circle } from './components/map'
+import * as mapComponents from './components/map'
 import map, { INITIAL_CENTER } from './map'
-import { Store } from './store'
-import { Config, DiameterPreset, Group, Layer, Model, Root } from './types'
+import { ModelData, Store } from './store'
+import { Config, DiameterPreset, Group, Model, Root } from './types'
 import { $sidebar } from './ui'
 
 const config: Config = {
   root: {
     id: 'root',
     label: 'Root',
-    diameterPresets: [
+    sizePresets: [
       { label: '1', value: 1 },
       { label: '5', value: 5, default: true },
       { label: '10', value: 10 }
@@ -21,7 +19,7 @@ const config: Config = {
       id: 'root',
       shape: 'circle',
       visible: true,
-      diameter: { unit: 'km', value: 5 },
+      size: { unit: 'km', value: 5 },
       fill: { color: '#0080ff' }
     }
   },
@@ -40,7 +38,7 @@ const config: Config = {
               id: '1',
               shape: 'circle',
               visible: true,
-              diameter: { unit: 'root', value: 3 },
+              size: { unit: 'root', value: 3 },
               outline: { color: '#ff0033' }
             }
           ]
@@ -50,13 +48,7 @@ const config: Config = {
   ]
 }
 
-interface Data {
-  visible: boolean
-  layers: Circle<Data>[]
-  diameter?: number
-}
-
-let rootStore: Store<Data> | undefined
+let rootStore: Store<ModelData> | undefined
 
 function initialize() {
   const { root, groups } = config
@@ -67,47 +59,43 @@ function initialize() {
 }
 
 function buildRoot(root: Root) {
-  const store = new Store<Data>('root', {
+  const store = new Store<ModelData>('root', {
+    center: INITIAL_CENTER,
     visible: root.visible,
-    diameter: root.layer.diameter!.value,
-    layers: []
+    size: root.layer.size!.value
   })
-  $sidebar.append(buildItem(root.label, store, root.diameterPresets))
-  buildLayer(`root-${root.layer.id}`, root.layer, store)
+  $sidebar.append(buildItem(root.label, store, root.sizePresets))
+  new mapComponents.Root('root', store, { layerDefinitions: [root.layer] })
   return store
 }
 
 function buildGroup(group: Group) {
-  const store = new Store<Data>(`group-${group.id}`, {
-    visible: true,
-    layers: []
+  const store = new Store<ModelData>(`group-${group.id}`, {
+    visible: group.visible
   })
   $sidebar.append(buildItem(group.label, store))
   group.models.forEach(model => buildModel(model, store))
 }
 
-function buildModel(model: Model, groupStore?: Store<Data>) {
+function buildModel(model: Model, groupStore?: Store<ModelData>) {
   const store =
     groupStore ??
-    new Store<Data>(`model-${model.id}`, {
-      visible: model.visible,
-      layers: []
+    new Store<ModelData>(`model-${model.id}`, {
+      visible: model.visible
     })
-  model.layers.forEach(layer => {
-    buildLayer(`${model.id}-${layer.id}`, layer, store)
-  })
+  new mapComponents.Regular(model.id, store, { layerDefinitions: model.layers }, rootStore)
 }
 
-function buildDiameterPresets(diameterPresets: DiameterPreset[] | undefined, store: Store<Data>) {
+function buildDiameterPresets(sizePresets: DiameterPreset[] | undefined, store: Store<ModelData>) {
   const $wrapper = document.createElement('div')
-  if (!diameterPresets) return $wrapper
-  diameterPresets.forEach(preset => {
+  if (!sizePresets) return $wrapper
+  sizePresets.forEach(preset => {
     const PresetButton = Button(store, {
       title: `${preset.default ? '*' : ''}${preset.label}`,
-      onClick: () => store.set({ diameter: preset.value }),
-      events: ['diameter'],
+      onClick: () => store.set({ size: preset.value }),
+      events: ['size'],
       onUpdate: ($, event) => {
-        const isCurrent = event.detail?.diameter === preset.value
+        const isCurrent = event.detail?.size === preset.value
         $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
       }
     })
@@ -116,11 +104,11 @@ function buildDiameterPresets(diameterPresets: DiameterPreset[] | undefined, sto
   return $wrapper
 }
 
-function buildItem(label: string, store: Store<Data>, diameterPresets?: DiameterPreset[]) {
+function buildItem(label: string, store: Store<ModelData>, sizePresets?: DiameterPreset[]) {
   const $label = document.createElement('h3')
   $label.innerText = label
 
-  const $diameterPresets = buildDiameterPresets(diameterPresets, store)
+  const $sizePresets = buildDiameterPresets(sizePresets, store)
 
   const VisibilityButton = Button(store, {
     title: 'Hide',
@@ -136,39 +124,25 @@ function buildItem(label: string, store: Store<Data>, diameterPresets?: Diameter
   const CenterButton = Button(store, {
     title: 'Center',
     onClick: () => {
-      const layers = store.get('layers')
-      map.fitBounds(
-        turf.bbox(layers[layers.length - 1].source().data) as [number, number, number, number],
-        { padding: 20 }
-      )
+      const boundingBox = store.get('boundingBox')
+      if (!boundingBox) {
+        console.warn(`store ${store.id()} has no bounding box defined`)
+        return
+      }
+      map.fitBounds(boundingBox, { padding: 20 })
     }
   })
 
   const $wrapper = document.createElement('div')
-  $wrapper.append($label, $diameterPresets, VisibilityButton.dom(), CenterButton.dom())
+  $wrapper.append($label, $sizePresets, VisibilityButton.dom(), CenterButton.dom())
 
   return $wrapper
 }
 
-function buildLayer(id: string, layer: Layer, store: Store<Data>) {
-  const circleLayer = new Circle(
-    id,
-    store,
-    {
-      diameter:
-        layer.diameter!.unit === 'km'
-          ? layer.diameter!.value
-          : (rootStore!.get('diameter') ?? 1) * layer.diameter!.value,
-      fill: layer.fill,
-      outline: layer.outline,
-      center: INITIAL_CENTER as number[],
-      ratio: layer.diameter!.unit === 'root' ? layer.diameter?.value : undefined
-    },
-    layer.diameter!.unit === 'root' && store.id() !== 'root' ? rootStore : undefined
-  )
-  store.set({ layers: [...store.get('layers'), circleLayer] } as any) // @todo: fix typing
-}
-
 map.on('load', () => {
   initialize()
+})
+
+map.on('click', event => {
+  rootStore?.set({ center: event.lngLat.toArray() })
 })
