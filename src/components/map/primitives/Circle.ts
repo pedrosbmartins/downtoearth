@@ -12,7 +12,7 @@ interface Props {
 }
 
 export class Circle {
-  private sourceID = this.id('circle')
+  private sourceId = this.id('circle')
   private layer: CircleLayer
 
   constructor(private namespace: string, private props: Props) {
@@ -43,6 +43,12 @@ export class Circle {
     return turf.bbox(this.sourceData()) as BoundingBox
   }
 
+  public destroy() {
+    if (this.layer.fill) map.removeLayer(this.id('fill'))
+    if (this.layer.outline) map.removeLayer(this.id('outline'))
+    map.removeSource(this.sourceId)
+  }
+
   private sourceData() {
     return turf.circle(this.center(), this.props.size, { steps: 80, units: 'kilometers' })
   }
@@ -56,12 +62,12 @@ export class Circle {
   }
 
   private addSource() {
-    map.addSource(this.sourceID, { type: 'geojson', data: this.sourceData() })
+    map.addSource(this.sourceId, { type: 'geojson', data: this.sourceData() })
   }
 
   private updateSource(props: Partial<Props>) {
     this.props = { ...this.props, ...props }
-    ;(map.getSource(this.sourceID) as GeoJSONSource).setData(this.sourceData())
+    ;(map.getSource(this.sourceId) as GeoJSONSource).setData(this.sourceData())
   }
 
   private renderLayers() {

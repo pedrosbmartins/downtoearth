@@ -24,6 +24,10 @@ export abstract class Model extends StoreListener<ModelData> {
     super(stores.map<StoreListenerConfig<ModelData>>(store => ({ store, events })))
   }
 
+  public destroy() {
+    this.layers.forEach(layer => layer.rendered.destroy())
+  }
+
   protected show() {
     this.layers.forEach(({ rendered }) => rendered.show())
   }

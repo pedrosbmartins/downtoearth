@@ -1,21 +1,41 @@
 import { Button } from './components/dom'
 import * as mapComponents from './components/map'
 import demo1 from './demo1.json'
+import demo2 from './demo2.json'
 import map, { INITIAL_CENTER } from './map'
 import { ModelData, Store } from './store'
 import { Config, DiameterPreset, Group, Model, Root } from './types'
-import { $sidebar } from './ui'
+import { $configSelector, $sidebar } from './ui'
 
-const config: Config = demo1 as Config
+const config1: Config = demo1 as Config
+const config2: Config = demo2 as Config
 
 let rootStore: Store<ModelData> | undefined
 
-function initialize() {
+function initialize(config: Config) {
   const { root, groups } = config
-  rootStore = root && buildRoot(root)
-  groups?.forEach(group => {
-    buildGroup(group)
+  let rootMapComponent: mapComponents.Root | undefined
+  if (root) {
+    const { store, mapComponent } = buildRoot(root)
+    rootStore = store
+    rootMapComponent = mapComponent
+  }
+  const builtGroups = groups?.map(group => {
+    return buildGroup(group)
   })
+  return () => {
+    $sidebar.innerHTML = ''
+    rootStore?.destroy()
+    rootStore = undefined
+    rootMapComponent?.destroy()
+    builtGroups?.forEach(group => {
+      group.store.destroy()
+      group.builtModels.forEach(model => {
+        model.store.destroy()
+        model.mapComponent.destroy()
+      })
+    })
+  }
 }
 
 function buildRoot(root: Root) {
@@ -25,10 +45,11 @@ function buildRoot(root: Root) {
     size: root.layer?.size!.value
   })
   $sidebar.append(buildItem(root.label, store, root.sizePresets))
+  let mapComponent: mapComponents.Root | undefined
   if (root.layer) {
-    new mapComponents.Root('root', store, { layerDefinitions: [root.layer] })
+    mapComponent = new mapComponents.Root('root', store, { layerDefinitions: [root.layer] })
   }
-  return store
+  return { store, mapComponent }
 }
 
 function buildGroup(group: Group) {
@@ -36,7 +57,8 @@ function buildGroup(group: Group) {
     visible: group.visible
   })
   $sidebar.append(buildItem(group.label, store))
-  group.models.forEach(model => buildModel(model, store))
+  const builtModels = group.models.map(model => buildModel(model, store))
+  return { store, builtModels }
 }
 
 function buildModel(model: Model, groupStore?: Store<ModelData>) {
@@ -44,13 +66,14 @@ function buildModel(model: Model, groupStore?: Store<ModelData>) {
     visible: model.visible
   })
   $sidebar.append(buildItem(model.label, store))
-  new mapComponents.Regular(
+  const mapComponent = new mapComponents.Regular(
     model.id,
     store,
     { layerDefinitions: model.layers },
     rootStore,
     groupStore
   )
+  return { store, mapComponent }
 }
 
 function buildDiameterPresets(sizePresets: DiameterPreset[] | undefined, store: Store<ModelData>) {
@@ -107,7 +130,12 @@ function buildItem(label: string, store: Store<ModelData>, sizePresets?: Diamete
 }
 
 map.on('load', () => {
-  initialize()
+  let destroy = initialize(config1)
+
+  $configSelector.addEventListener('change', function (this: HTMLSelectElement) {
+    destroy()
+    destroy = initialize(this.value === 'demo1' ? config1 : config2)
+  })
 })
 
 map.on('click', event => {
