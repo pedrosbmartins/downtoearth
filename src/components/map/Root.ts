@@ -37,8 +37,7 @@ export class Root extends Model {
   protected buildLayer(layer: Layer) {
     const circle = new Circle(`${this.namespace}-${layer.id}`, {
       size: layer.size.value,
-      fill: layer.fill,
-      outline: layer.outline,
+      definition: layer,
       center: this.store.get('center') ?? INITIAL_CENTER
     })
     this.store.set({ boundingBox: circle.boundingBox() })

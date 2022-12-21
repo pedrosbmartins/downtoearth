@@ -3,31 +3,32 @@ import { GeoJSONSource } from 'mapbox-gl'
 
 import map from '../../../map'
 import { BoundingBox } from '../../../store'
-import { Fill, Outline } from '../../../types'
+import { CircleLayer } from '../../../types'
 
 interface Props {
   size: number
   center: number[]
-  fill?: Fill
-  outline?: Outline
+  definition: CircleLayer
 }
 
 export class Circle {
   private sourceID = this.id('circle')
+  private layer: CircleLayer
 
   constructor(private namespace: string, private props: Props) {
+    this.layer = props.definition
     this.addSource()
     this.renderLayers()
   }
 
   public show() {
-    if (this.props.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'visible')
-    if (this.props.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'visible')
+    if (this.layer.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'visible')
+    if (this.layer.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'visible')
   }
 
   public hide() {
-    if (this.props.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'none')
-    if (this.props.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
+    if (this.layer.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'none')
+    if (this.layer.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
   }
 
   public resize(size: number) {
@@ -43,7 +44,15 @@ export class Circle {
   }
 
   private sourceData() {
-    return turf.circle(this.props.center, this.props.size, { steps: 80, units: 'kilometers' })
+    return turf.circle(this.center(), this.props.size, { steps: 80, units: 'kilometers' })
+  }
+
+  private center() {
+    if (this.layer.offset) {
+      const { value, bearing } = this.layer.offset
+      return turf.destination(this.props.center, value, bearing)
+    }
+    return this.props.center
   }
 
   private addSource() {
@@ -61,21 +70,21 @@ export class Circle {
   }
 
   private renderFill() {
-    if (!this.props.fill) return
+    if (!this.layer.fill) return
     map.addLayer({
       id: this.id('fill'),
       type: 'fill',
       source: this.id('circle'),
       layout: {},
       paint: {
-        'fill-color': this.props.fill.color,
-        'fill-opacity': this.props.fill.opacity ?? 0.5
+        'fill-color': this.layer.fill.color,
+        'fill-opacity': this.layer.fill.opacity ?? 0.5
       }
     })
   }
 
   private renderOutline() {
-    const { outline } = this.props
+    const { outline } = this.layer
     if (!outline) return
     map.addLayer({
       id: this.id('outline'),

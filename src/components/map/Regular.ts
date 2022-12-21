@@ -9,48 +9,69 @@ export class Regular extends Model {
     namespace: string,
     private store: Store<ModelData>,
     props: ModelProps,
-    private rootStore?: Store<ModelData>
+    private rootStore?: Store<ModelData>,
+    private groupStore?: Store<ModelData>
   ) {
-    super(namespace, [store, ...(rootStore ? [rootStore] : [])], props)
-    this.rootStore = rootStore
+    const stores = [store]
+    if (rootStore) stores.push(rootStore)
+    if (groupStore) stores.push(groupStore)
+    super(namespace, stores, props)
     this.layers = this.buildLayers()
     this.setBoundingBox()
   }
 
   onUpdate(storeId: string, event: StoreEvent<ModelData>) {
-    if (storeId === 'root' && this.rootStore) {
+    if (this.rootStore && storeId === this.rootStore.id()) {
       this.onRootUpdate(event)
-    } else {
-      switch (event.detail!.name) {
-        case 'visible':
-          if (event.detail?.visible) {
-            this.show()
-          } else {
-            this.hide()
-          }
-          break
-        case 'size':
-          this.resize(event.detail!.size!)
-          break
-      }
+    }
+    if (this.groupStore && storeId === this.groupStore.id()) {
+      this.onGroupUpdate(event)
+    }
+    if (storeId === this.store.id()) {
+      this.onStoreUpdate(event)
     }
   }
 
-  onRootUpdate(rootEvent: StoreEvent<ModelData>) {
-    const { name } = rootEvent.detail!
-    if (name === 'size') {
-      this.resize(rootEvent.detail!.size!, true)
-      this.setBoundingBox()
-    } else if (name === 'center') {
-      this.setCenter(rootEvent.detail!.center!)
+  onStoreUpdate(event: StoreEvent<ModelData>) {
+    switch (event.detail!.name) {
+      case 'visible':
+        event.detail!.visible ? this.show() : this.hide()
+        break
     }
+  }
+
+  onGroupUpdate(event: StoreEvent<ModelData>) {
+    switch (event.detail!.name) {
+      case 'visible':
+        event.detail!.visible ? this.show() : this.hide()
+        break
+    }
+  }
+
+  onRootUpdate(event: StoreEvent<ModelData>) {
+    switch (event.detail!.name) {
+      case 'size':
+        this.onRootResize(event.detail!.size!)
+        break
+      case 'center':
+        this.setCenter(event.detail!.center!)
+        break
+    }
+  }
+
+  protected onRootResize(size: number) {
+    this.layers.forEach(({ definition, rendered }) => {
+      if (definition.size.unit === 'root') {
+        rendered.resize(definition.size.value * size)
+      }
+    })
+    this.setBoundingBox()
   }
 
   protected buildLayer(layer: Layer) {
     return new Circle(`${this.namespace}-${layer.id}`, {
       size: this.layerSize(layer),
-      fill: layer.fill,
-      outline: layer.outline,
+      definition: layer,
       center: INITIAL_CENTER as number[]
     })
   }

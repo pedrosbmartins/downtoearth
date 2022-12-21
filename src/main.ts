@@ -1,52 +1,12 @@
 import { Button } from './components/dom'
 import * as mapComponents from './components/map'
+import demo1 from './demo1.json'
 import map, { INITIAL_CENTER } from './map'
 import { ModelData, Store } from './store'
 import { Config, DiameterPreset, Group, Model, Root } from './types'
 import { $sidebar } from './ui'
 
-const config: Config = {
-  root: {
-    id: 'root',
-    label: 'Root',
-    sizePresets: [
-      { label: '1', value: 1 },
-      { label: '5', value: 5, default: true },
-      { label: '10', value: 10 }
-    ],
-    visible: true,
-    layer: {
-      id: 'root',
-      shape: 'circle',
-      visible: true,
-      size: { unit: 'km', value: 5 },
-      fill: { color: '#0080ff' }
-    }
-  },
-  groups: [
-    {
-      id: 'group-1',
-      label: 'Group',
-      visible: true,
-      models: [
-        {
-          id: 'object',
-          label: 'Object',
-          visible: true,
-          layers: [
-            {
-              id: '1',
-              shape: 'circle',
-              visible: true,
-              size: { unit: 'root', value: 3 },
-              outline: { color: '#ff0033' }
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
+const config: Config = demo1 as Config
 
 let rootStore: Store<ModelData> | undefined
 
@@ -62,10 +22,12 @@ function buildRoot(root: Root) {
   const store = new Store<ModelData>('root', {
     center: INITIAL_CENTER,
     visible: root.visible,
-    size: root.layer.size!.value
+    size: root.layer?.size!.value
   })
   $sidebar.append(buildItem(root.label, store, root.sizePresets))
-  new mapComponents.Root('root', store, { layerDefinitions: [root.layer] })
+  if (root.layer) {
+    new mapComponents.Root('root', store, { layerDefinitions: [root.layer] })
+  }
   return store
 }
 
@@ -78,12 +40,17 @@ function buildGroup(group: Group) {
 }
 
 function buildModel(model: Model, groupStore?: Store<ModelData>) {
-  const store =
-    groupStore ??
-    new Store<ModelData>(`model-${model.id}`, {
-      visible: model.visible
-    })
-  new mapComponents.Regular(model.id, store, { layerDefinitions: model.layers }, rootStore)
+  const store = new Store<ModelData>(`model-${model.id}`, {
+    visible: model.visible
+  })
+  $sidebar.append(buildItem(model.label, store))
+  new mapComponents.Regular(
+    model.id,
+    store,
+    { layerDefinitions: model.layers },
+    rootStore,
+    groupStore
+  )
 }
 
 function buildDiameterPresets(sizePresets: DiameterPreset[] | undefined, store: Store<ModelData>) {

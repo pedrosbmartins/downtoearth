@@ -16,7 +16,7 @@ export interface Model {
 export interface Root extends Omit<Model, 'layers'> {
   id: 'root'
   sizePresets: DiameterPreset[]
-  layer: Layer
+  layer?: Layer
 }
 
 export interface DiameterPreset {
@@ -42,7 +42,7 @@ export interface CircleLayer {
   size: { unit: 'km' | 'root'; value: number }
   fill?: Fill
   outline?: Outline
-  offset?: { unit: 'AU'; value: number; bearingFrom: 'group' | 'object' }
+  offset?: { unit: 'km'; value: number; bearing: number; bearingFrom?: 'group' | 'object' }
   label?: { value: string; position: 'center' | 'outline' }
   popup?: { content: string }
   actsAsInitialBounds?: boolean

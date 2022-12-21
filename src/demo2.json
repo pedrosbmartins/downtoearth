@@ -1,0 +1,46 @@
+{
+  "root": {
+    "id": "root",
+    "label": "Root",
+    "visible": true
+  },
+  "groups": [
+    {
+      "id": "group-1",
+      "label": "Group",
+      "visible": true,
+      "models": [
+        {
+          "id": "1",
+          "label": "Object 1",
+          "visible": true,
+          "layers": [
+            {
+              "id": "1",
+              "shape": "circle",
+              "visible": true,
+              "size": { "unit": "km", "value": 10 },
+              "fill": { "color": "#0080ff" },
+              "offset": { "unit": "km", "value": 2, "bearing": 90 }
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "label": "Object 2",
+          "visible": true,
+          "layers": [
+            {
+              "id": "2",
+              "shape": "circle",
+              "visible": true,
+              "size": { "unit": "km", "value": 10 },
+              "fill": { "color": "#ff0033" },
+              "offset": { "unit": "km", "value": 2, "bearing": 270 }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

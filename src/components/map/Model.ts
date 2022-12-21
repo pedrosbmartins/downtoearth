@@ -32,11 +32,8 @@ export abstract class Model extends StoreListener<ModelData> {
     this.layers.forEach(({ rendered }) => rendered.hide())
   }
 
-  protected resize(value: number, relative: boolean = false) {
-    this.layers.forEach(({ definition, rendered }) => {
-      if (relative) {
-        value *= definition.size!.value
-      }
+  protected resize(value: number) {
+    this.layers.forEach(({ rendered }) => {
       rendered.resize(value)
     })
     this.setBoundingBox()
