@@ -5,14 +5,16 @@ import demo2 from './demo2.json'
 import map, { INITIAL_CENTER } from './map'
 import { ModelData, Store } from './store'
 import { Config, DiameterPreset, Group, Model, Root } from './types'
-import { $configSelector, $sidebar } from './ui'
+import { $configDropdown, $configFileSelector, $sidebar } from './ui'
 
 const config1: Config = demo1 as Config
 const config2: Config = demo2 as Config
 
+let destroy: (() => void) | undefined
 let rootStore: Store<ModelData> | undefined
 
 function initialize(config: Config) {
+  if (destroy) destroy()
   const { root, groups } = config
   let rootMapComponent: mapComponents.Root | undefined
   if (root) {
@@ -130,11 +132,26 @@ function buildItem(label: string, store: Store<ModelData>, sizePresets?: Diamete
 }
 
 map.on('load', () => {
-  let destroy = initialize(config1)
+  destroy = initialize(config1)
 
-  $configSelector.addEventListener('change', function (this: HTMLSelectElement) {
-    destroy()
+  $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     destroy = initialize(this.value === 'demo1' ? config1 : config2)
+  })
+
+  $configFileSelector.addEventListener('change', async function (event) {
+    const fileList = (<HTMLInputElement>event.target).files
+    const file = fileList && fileList[0]
+    if (!file) {
+      console.error('could not load file')
+      return
+    }
+    if (file.type !== 'application/json') {
+      console.error(`file type ${file.type} not supported`)
+      return
+    }
+    const configText = await file.text()
+    const config = JSON.parse(configText) as Config
+    destroy = initialize(config)
   })
 })
 
