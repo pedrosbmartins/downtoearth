@@ -1,55 +1,21 @@
 import { INITIAL_CENTER } from '../../map'
-import { ModelData, Store, StoreEvent } from '../../store'
+import { ModelData, ModelStore, StoreEvent } from '../../store'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
 import { Model, ModelProps } from './Model'
 
 export class Regular extends Model {
-  constructor(
-    namespace: string,
-    private store: Store<ModelData>,
-    props: ModelProps,
-    private rootStore?: Store<ModelData>,
-    private groupStore?: Store<ModelData>
-  ) {
-    const stores = [store]
-    if (rootStore) stores.push(rootStore)
-    if (groupStore) stores.push(groupStore)
-    super(namespace, stores, props)
+  constructor(namespace: string, store: ModelStore, props: ModelProps) {
+    super(namespace, store, props)
     this.layers = this.buildLayers()
     this.setBoundingBox()
   }
 
-  onUpdate(storeId: string, event: StoreEvent<ModelData>) {
-    if (this.rootStore && storeId === this.rootStore.id()) {
-      this.onRootUpdate(event)
-    }
-    if (this.groupStore && storeId === this.groupStore.id()) {
-      this.onGroupUpdate(event)
-    }
-    if (storeId === this.store.id()) {
-      this.onStoreUpdate(event)
-    }
-  }
-
-  onStoreUpdate(event: StoreEvent<ModelData>) {
+  onUpdate(_: string, event: StoreEvent<ModelData>) {
     switch (event.detail!.name) {
       case 'visible':
         event.detail!.visible ? this.show() : this.hide()
         break
-    }
-  }
-
-  onGroupUpdate(event: StoreEvent<ModelData>) {
-    switch (event.detail!.name) {
-      case 'visible':
-        event.detail!.visible ? this.show() : this.hide()
-        break
-    }
-  }
-
-  onRootUpdate(event: StoreEvent<ModelData>) {
-    switch (event.detail!.name) {
       case 'size':
         this.onRootResize(event.detail!.size!)
         break
@@ -85,9 +51,9 @@ export class Regular extends Model {
       case 'km':
         return value
       case 'root':
-        const size = this.rootStore?.get('size')
+        const size = this.store.get('size')
         if (!size) {
-          throw new Error(`no root store or no size set for root store in model ${this.namespace}`)
+          throw new Error(`no size set for model ${this.namespace} store`)
         }
         return size * value
       default:

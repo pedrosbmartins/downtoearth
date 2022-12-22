@@ -1,11 +1,11 @@
 import map from '../../map'
-import { ModelData, Store } from '../../store'
+import { ModelData, ModelStore } from '../../store'
 import { SizePreset } from '../../types'
-import { ComponentProps, DOMComponent } from './base'
 import { Button } from './Button'
+import { ComponentProps, DOMComponent } from './DOMComponent'
 
-export function SidebarItem(props: Props, store: Store<ModelData>, groupStore?: Store<ModelData>) {
-  return new SidebarItemComponent(store, props)
+export function SidebarItem(props: Props, store: ModelStore) {
+  return new SidebarItemComponent(store, { ...props, events: ['visible'] })
 }
 
 interface Props extends ComponentProps<HTMLDivElement, ModelData> {
@@ -22,17 +22,18 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
 
     const VisibilityButton = Button(this.store, {
       title: 'Hide',
-      onClick: () => {
-        this.store.set({ visible: !this.store.get('visible') })
-      },
       events: ['visible'],
       onUpdate: ($, event) => {
         $.innerText = event.detail?.visible ? 'Hide' : 'Show'
+      },
+      onClick: () => {
+        this.store.set({ visible: !this.store.get('visible') })
       }
     })
 
     const CenterButton = Button(this.store, {
       title: 'Center',
+      events: ['visible'],
       onClick: () => {
         const boundingBox = this.store.get('boundingBox')
         if (!boundingBox) {
@@ -59,12 +60,12 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
     sizePresets.forEach(preset => {
       const PresetButton = Button(store, {
         title: `${preset.default ? '*' : ''}${preset.label}`,
-        onClick: () => store.set({ size: preset.value }),
         events: ['size'],
         onUpdate: ($, event) => {
           const isCurrent = event.detail?.size === preset.value
           $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
-        }
+        },
+        onClick: () => store.set({ size: preset.value })
       })
       $wrapper.append(PresetButton.dom())
     })

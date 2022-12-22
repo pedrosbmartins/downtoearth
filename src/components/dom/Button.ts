@@ -1,7 +1,7 @@
-import { Store } from '../../store'
-import { ComponentProps, DOMComponent } from './base'
+import { BaseStore } from '../../store'
+import { ComponentProps, DOMComponent } from './DOMComponent'
 
-export function Button<D extends {}>(store: Store<D>, props: Props<D>) {
+export function Button<D extends {}>(store: BaseStore<D>, props: Props<D>) {
   return new ButtonComponent(store, props)
 }
 

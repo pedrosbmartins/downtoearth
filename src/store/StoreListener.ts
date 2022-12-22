@@ -1,6 +1,6 @@
-import { Store, StoreEvent } from '.'
+import { BaseStore, StoreEvent } from './BaseStore'
 
-export type StoreListenerConfig<D extends {}> = { store: Store<D>; events: Array<keyof D> }
+export type StoreListenerConfig<D extends {}> = { store: BaseStore<D>; events: Array<keyof D> }
 
 export abstract class StoreListener<D extends {}> extends EventTarget {
   constructor(config: StoreListenerConfig<D>[]) {

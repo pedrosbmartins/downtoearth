@@ -1,5 +1,4 @@
-import { ModelData, Store } from '../../store'
-import { StoreListener, StoreListenerConfig } from '../../store/listener'
+import { BaseStore, ModelData, StoreListener } from '../../store'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
 
@@ -17,11 +16,11 @@ export abstract class Model extends StoreListener<ModelData> {
 
   constructor(
     protected namespace: string,
-    protected stores: Store<ModelData>[],
+    protected store: BaseStore<ModelData>,
     protected props: ModelProps
   ) {
     const events: Array<keyof ModelData> = ['size', 'center', 'visible']
-    super(stores.map<StoreListenerConfig<ModelData>>(store => ({ store, events })))
+    super([{ store, events }])
   }
 
   public destroy() {

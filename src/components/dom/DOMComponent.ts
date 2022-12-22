@@ -1,5 +1,4 @@
-import { Store, StoreEvent } from '../../store'
-import { StoreListener } from '../../store/listener'
+import { BaseStore, StoreEvent, StoreListener } from '../../store'
 
 export interface ComponentProps<E extends HTMLElement, D extends {}> {
   events?: Array<keyof D>
@@ -13,7 +12,7 @@ export abstract class DOMComponent<
 > extends StoreListener<D> {
   private $: E
 
-  constructor(protected store: Store<D>, protected props: P) {
+  constructor(protected store: BaseStore<D>, protected props: P) {
     super([{ store, events: props.events ?? [] }])
     this.$ = this.render()
   }
@@ -24,8 +23,7 @@ export abstract class DOMComponent<
 
   abstract render(): E
 
-  // @todo: make class listen to multiple stores correctly
-  onUpdate(storeId: string, event: StoreEvent<D>): void {
+  onUpdate(_: string, event: StoreEvent<D>): void {
     if (this.props.onUpdate) this.props.onUpdate(this.$, event)
   }
 }

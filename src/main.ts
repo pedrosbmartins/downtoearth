@@ -2,7 +2,7 @@ import solarSystemJSON from '../setup/solar-system.json'
 import { SidebarItem } from './components/dom/SidebarItem'
 import * as mapComponents from './components/map'
 import map, { INITIAL_CENTER } from './map'
-import { ModelData, Store } from './store'
+import { BaseStore, ModelData, ModelStore, Store, StoreListenerConfig } from './store'
 import { Config, Group, Model, Root } from './types'
 import { $configDropdown, $configFileSelector, $sidebar } from './ui'
 
@@ -11,7 +11,7 @@ const configs = {
 }
 
 let destroy: (() => void) | undefined
-let rootStore: Store<ModelData> | undefined
+let rootStore: Store | undefined
 
 function initialize(config: Config) {
   if (destroy) destroy()
@@ -42,12 +42,12 @@ function initialize(config: Config) {
 
 function buildRoot(root: Root) {
   const { label, sizePresets, layer, visible } = root
-  const store = new Store<ModelData>('root', {
+  const store = new Store('root', {
     center: INITIAL_CENTER,
     visible: visible,
     size: layer?.size.value
   })
-  const item = SidebarItem({ label, sizePresets, events: ['visible'] }, store)
+  const item = SidebarItem({ label, sizePresets }, store)
   $sidebar.append(item.dom())
   let mapComponent: mapComponents.Root | undefined
   if (layer) {
@@ -57,28 +57,32 @@ function buildRoot(root: Root) {
 }
 
 function buildGroup(group: Group) {
-  const store = new Store<ModelData>(`group-${group.id}`, {
+  const store = new Store(`group-${group.id}`, {
     visible: group.visible
   })
-  const item = SidebarItem({ label: group.label, events: ['visible'] }, store)
+  const item = SidebarItem({ label: group.label }, store)
   $sidebar.append(item.dom())
   const builtModels = group.models.map(model => buildModel(model, store))
   return { store, builtModels }
 }
 
-function buildModel(model: Model, groupStore?: Store<ModelData>) {
-  const store = new Store<ModelData>(`model-${model.id}`, {
-    visible: model.visible
-  })
-  const item = SidebarItem({ label: model.label, events: ['visible'] }, store)
-  $sidebar.append(item.dom())
-  const mapComponent = new mapComponents.Regular(
-    model.id,
-    store,
-    { layerDefinitions: model.layers },
-    rootStore,
-    groupStore
+function buildModel(model: Model, groupStore?: BaseStore<ModelData>) {
+  const storeConfigs: StoreListenerConfig<ModelData>[] = []
+  if (rootStore) storeConfigs.push({ store: rootStore!, events: ['size', 'center'] })
+  if (groupStore) storeConfigs.push({ store: groupStore, events: ['visible'] })
+  const store = new ModelStore(
+    `model-${model.id}`,
+    {
+      visible: model.visible,
+      size: rootStore?.get('size')
+    },
+    storeConfigs
   )
+  const item = SidebarItem({ label: model.label }, store)
+  $sidebar.append(item.dom())
+  const mapComponent = new mapComponents.Regular(model.id, store, {
+    layerDefinitions: model.layers
+  })
   return { store, mapComponent }
 }
 

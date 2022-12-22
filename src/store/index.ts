@@ -7,5 +7,7 @@ export interface ModelData {
 
 export type BoundingBox = [number, number, number, number]
 
-export { StoreListener } from './listener'
-export { Store, StoreEvent } from './base'
+export { StoreListener, StoreListenerConfig } from './StoreListener'
+export { Store } from './Store'
+export { ModelStore } from './ModelStore'
+export { BaseStore, StoreEvent } from './BaseStore'

@@ -1,3 +1,5 @@
+import { StoreListener, StoreListenerConfig } from './StoreListener'
+
 export interface StoreEvent<T extends {}> extends Event {
   detail?: T & { name: keyof T }
 }
@@ -7,20 +9,22 @@ interface ListenerConfig<D extends {}> {
   handler: (this: any, event: StoreEvent<D>) => void
 }
 
-export class Store<D extends {}> {
-  protected data: D
+export abstract class BaseStore<D extends {}> extends StoreListener<D> {
   protected listeners: { [field: string]: ListenerConfig<D>[] } = {}
 
-  constructor(protected namespace: string, initialData: D) {
-    this.namespace = namespace
-    this.data = initialData
+  constructor(
+    protected namespace: string,
+    protected data: D,
+    storeConfigs?: StoreListenerConfig<D>[]
+  ) {
+    super(storeConfigs ?? [])
   }
 
-  get<K extends keyof D>(field: K): D[K] {
+  public get<K extends keyof D>(field: K): D[K] {
     return this.data[field]
   }
 
-  set(data: Partial<D>): void {
+  public set(data: Partial<D>): void {
     Object.assign(this.data, data)
     Object.keys(data).forEach(field => {
       this.broadcast(field as keyof D)
