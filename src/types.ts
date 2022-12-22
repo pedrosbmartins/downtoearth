@@ -15,11 +15,11 @@ export interface Model {
 
 export interface Root extends Omit<Model, 'layers'> {
   id: 'root'
-  sizePresets: DiameterPreset[]
+  sizePresets: SizePreset[]
   layer?: Layer
 }
 
-export interface DiameterPreset {
+export interface SizePreset {
   label: string
   value: number
   default?: boolean

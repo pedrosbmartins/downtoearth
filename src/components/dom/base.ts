@@ -13,7 +13,7 @@ export abstract class DOMComponent<
 > extends StoreListener<D> {
   private $: E
 
-  constructor(store: Store<D>, protected props: P) {
+  constructor(protected store: Store<D>, protected props: P) {
     super([{ store, events: props.events ?? [] }])
     this.$ = this.render()
   }
