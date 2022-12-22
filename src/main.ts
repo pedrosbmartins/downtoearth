@@ -1,14 +1,14 @@
+import solarSystemJSON from '../setup/solar-system.json'
 import { Button } from './components/dom'
 import * as mapComponents from './components/map'
-import demo1 from './demo1.json'
-import demo2 from './demo2.json'
 import map, { INITIAL_CENTER } from './map'
 import { ModelData, Store } from './store'
 import { Config, DiameterPreset, Group, Model, Root } from './types'
 import { $configDropdown, $configFileSelector, $sidebar } from './ui'
 
-const config1: Config = demo1 as Config
-const config2: Config = demo2 as Config
+const configs = {
+  solarSystem: solarSystemJSON as Config
+}
 
 let destroy: (() => void) | undefined
 let rootStore: Store<ModelData> | undefined
@@ -132,10 +132,13 @@ function buildItem(label: string, store: Store<ModelData>, sizePresets?: Diamete
 }
 
 map.on('load', () => {
-  destroy = initialize(config1)
+  destroy = initialize(configs.solarSystem)
 
   $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
-    destroy = initialize(this.value === 'demo1' ? config1 : config2)
+    const config = configs[this.value as keyof typeof configs]
+    if (config) {
+      destroy = initialize(config)
+    }
   })
 
   $configFileSelector.addEventListener('change', async function (event) {

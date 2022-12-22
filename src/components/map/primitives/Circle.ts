@@ -99,7 +99,7 @@ export class Circle {
       layout: {},
       paint: {
         'line-color': outline.color,
-        'line-width': outline.width ?? 3
+        'line-width': outline.width ?? 1
       }
     })
   }

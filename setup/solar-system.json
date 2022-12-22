@@ -1,0 +1,179 @@
+{
+  "root": {
+    "id": "root",
+    "icon": "sun",
+    "label": "Sun",
+    "visible": true,
+    "layer": {
+      "id": "sun",
+      "shape": "circle",
+      "visible": true,
+      "label": { "value": "Sun", "position": "center" },
+      "fill": { "color": "yellow", "opacity": 0.5 },
+      "outline": { "color": "orange" },
+      "size": { "unit": "km", "value": 0.1 }
+    },
+    "sizePresets": [
+      { "label": "1 cm", "value": 0.00001 },
+      { "label": "1 m", "value": 0.001 },
+      { "label": "10 m", "value": 0.01 },
+      { "label": "100 m", "value": 0.1, "default": true },
+      { "label": "1 km", "value": 1 }
+    ]
+  },
+  "groups": [
+    {
+      "id": "solar-system",
+      "label": "Solar System",
+      "visible": true,
+      "models": [
+        {
+          "id": "mercury",
+          "label": "Mercury",
+          "visible": true,
+          "icon": "mercury",
+          "layers": [
+            {
+              "id": "mercury-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Mercury", "position": "outline" },
+              "outline": { "color": "Crimson" },
+              "size": { "unit": "root", "value": 83.22552824493316 }
+            }
+          ]
+        },
+        {
+          "id": "venus",
+          "label": "Venus",
+          "visible": true,
+          "icon": "venus",
+          "layers": [
+            {
+              "id": "venus-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Venus", "position": "outline" },
+              "outline": { "color": "Chocolate" },
+              "size": { "unit": "root", "value": 155.52680753198217 }
+            }
+          ]
+        },
+        {
+          "id": "earth",
+          "label": "Earth",
+          "visible": true,
+          "icon": "earth",
+          "layers": [
+            {
+              "id": "earth-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Earth", "position": "outline" },
+              "outline": { "color": "blue" },
+              "size": { "unit": "root", "value": 215.0352163288774 },
+              "actsAsInitialBounds": true
+            }
+          ]
+        },
+        {
+          "id": "mars",
+          "label": "Mars",
+          "visible": true,
+          "icon": "mars",
+          "layers": [
+            {
+              "id": "mars-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Mars", "position": "outline" },
+              "outline": { "color": "red" },
+              "size": { "unit": "root", "value": 327.58372861865746 }
+            }
+          ]
+        },
+        {
+          "id": "asteroid",
+          "label": "Asteroid Belt",
+          "visible": true,
+          "icon": "asteroid",
+          "layers": [
+            {
+              "id": "asteroid-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Asteroid Belt", "position": "outline" },
+              "outline": { "color": "gray" },
+              "size": { "unit": "root", "value": 574.96 }
+            }
+          ]
+        },
+        {
+          "id": "jupiter",
+          "label": "Jupiter",
+          "visible": true,
+          "icon": "jupiter",
+          "layers": [
+            {
+              "id": "jupiter-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Jupiter", "position": "outline" },
+              "outline": { "color": "orange" },
+              "size": { "unit": "root", "value": 1119.1605577116572 }
+            }
+          ]
+        },
+        {
+          "id": "saturn",
+          "label": "Saturn",
+          "visible": true,
+          "icon": "saturn",
+          "layers": [
+            {
+              "id": "saturn-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Saturn", "position": "outline" },
+              "outline": { "color": "DarkGoldenRod" },
+              "size": { "unit": "root", "value": 2060.5145896219633 }
+            }
+          ]
+        },
+        {
+          "id": "uranus",
+          "label": "Uranus",
+          "visible": true,
+          "icon": "uranus",
+          "layers": [
+            {
+              "id": "uranus-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Uranus", "position": "outline" },
+              "outline": { "color": "DarkBlue" },
+              "size": { "unit": "root", "value": 4128.934885726606 }
+            }
+          ]
+        },
+        {
+          "id": "neptune",
+          "label": "Neptune",
+          "visible": true,
+          "icon": "neptune",
+          "layers": [
+            {
+              "id": "neptune-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Neptune", "position": "outline" },
+              "outline": { "color": "blue" },
+              "size": { "unit": "root", "value": 6461.262038234871 },
+              "actAsGroupBounds": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
