@@ -63,6 +63,13 @@ function buildGroup(group: Group) {
   const item = SidebarItem({ label: group.label }, store)
   $sidebar.append(item.dom())
   const builtModels = group.models.map(model => buildModel(model, store))
+  const boundingBoxModel = builtModels.find(m => m.layers.some(l => l.actAsGroupBounds))
+  if (boundingBoxModel) {
+    store.set({ boundingBox: boundingBoxModel.mapComponent.boundingBox() })
+    boundingBoxModel.store.register(store, 'boundingBox', event =>
+      store.set({ boundingBox: event.detail!.boundingBox })
+    )
+  }
   return { store, builtModels }
 }
 
@@ -83,7 +90,7 @@ function buildModel(model: Model, groupStore?: BaseStore<ModelData>) {
   const mapComponent = new mapComponents.Regular(model.id, store, {
     layerDefinitions: model.layers
   })
-  return { store, mapComponent }
+  return { store, mapComponent, layers: model.layers }
 }
 
 map.on('load', () => {

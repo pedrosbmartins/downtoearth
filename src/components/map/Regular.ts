@@ -43,7 +43,11 @@ export class Regular extends Model {
   }
 
   protected setBoundingBox() {
-    this.store.set({ boundingBox: this.layers[0].rendered.boundingBox() }) // @todo: handle bounding box config
+    this.store.set({ boundingBox: this.boundingBox() })
+  }
+
+  public boundingBox() {
+    return this.layers[0].rendered.boundingBox() // @todo: handle bounding box config
   }
 
   private layerSize({ size: { unit, value } }: Layer): number {

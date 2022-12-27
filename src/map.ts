@@ -1,5 +1,7 @@
 import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
+import { BoundingBox } from './store'
+
 export const INITIAL_CENTER = [-43.210855877349104, -22.951904902574256]
 
 const map = new mapboxgl.Map({
@@ -12,3 +14,7 @@ const map = new mapboxgl.Map({
 })
 
 export default map
+
+export function fitBounds(boundingBox: BoundingBox) {
+  map.fitBounds(boundingBox, { padding: 20 })
+}

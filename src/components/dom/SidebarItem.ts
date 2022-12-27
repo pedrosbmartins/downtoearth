@@ -1,4 +1,4 @@
-import map from '../../map'
+import map, { fitBounds } from '../../map'
 import { ModelData, ModelStore } from '../../store'
 import { SizePreset } from '../../types'
 import { Button } from './Button'
@@ -40,7 +40,7 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
           console.warn(`store ${this.store.id()} has no bounding box defined`)
           return
         }
-        map.fitBounds(boundingBox, { padding: 20 })
+        fitBounds(boundingBox)
       }
     })
 
