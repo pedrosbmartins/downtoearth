@@ -43,7 +43,7 @@ export interface CircleLayer {
   fill?: Fill
   outline?: Outline
   offset?: { unit: 'km'; value: number; bearing: number; bearingFrom?: 'group' | 'object' }
-  label?: { value: string; position: 'center' | 'outline' }
+  label?: Label
   popup?: { content: string }
   actsAsInitialBounds?: boolean
   actAsGroupBounds?: boolean
@@ -59,4 +59,9 @@ export interface Fill {
 export interface Outline {
   color: string
   width?: number
+}
+
+export interface Label {
+  value: string
+  position: 'center' | 'outline'
 }

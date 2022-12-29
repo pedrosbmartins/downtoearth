@@ -1,9 +1,9 @@
 import * as turf from '@turf/turf'
-import { GeoJSONSource } from 'mapbox-gl'
 
-import map from '../../../map'
+import map, { circle } from '../../../map'
 import { BoundingBox } from '../../../store'
 import { CircleLayer } from '../../../types'
+import { CircleLabelSource, CircleSource, Source } from './sources'
 
 interface Props {
   size: number
@@ -12,99 +12,101 @@ interface Props {
 }
 
 export class Circle {
-  private sourceId = this.id('circle')
-  private layer: CircleLayer
+  private definition: CircleLayer
+  private sources: Source[]
+  private mainSource: Source | undefined
 
-  constructor(private namespace: string, private props: Props) {
-    this.layer = props.definition
-    this.addSource()
+  constructor(private id: string, private props: Props) {
+    this.definition = props.definition
+    this.sources = this.getSources()
+    this.addSources()
     this.renderLayers()
   }
 
   public show() {
-    if (this.layer.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'visible')
-    if (this.layer.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'visible')
+    this.sources.forEach(source => {
+      source.layers.forEach(layer => {
+        map.setLayoutProperty(layer.id, 'visibility', 'visible')
+      })
+    })
   }
 
   public hide() {
-    if (this.layer.fill) map.setLayoutProperty(this.id('fill'), 'visibility', 'none')
-    if (this.layer.outline) map.setLayoutProperty(this.id('outline'), 'visibility', 'none')
+    this.sources.forEach(source => {
+      source.layers.forEach(layer => {
+        map.setLayoutProperty(layer.id, 'visibility', 'none')
+      })
+    })
   }
 
   public resize(size: number) {
-    this.updateSource({ size })
+    this.updateSources({ size })
   }
 
   public setCenter(center: number[]) {
-    this.updateSource({ center })
+    this.updateSources({ center })
   }
 
   public boundingBox(): BoundingBox {
-    return turf.bbox(this.sourceData()) as BoundingBox
+    if (!this.mainSource) throw new Error(`layer ${this.id} does not have main source`)
+    return turf.bbox(this.mainSource.data()) as BoundingBox
   }
 
   public destroy() {
-    if (this.layer.fill) map.removeLayer(this.id('fill'))
-    if (this.layer.outline) map.removeLayer(this.id('outline'))
-    map.removeSource(this.sourceId)
-  }
-
-  private sourceData() {
-    return turf.circle(this.center(), this.props.size, { steps: 80, units: 'kilometers' })
+    this.sources.forEach(source => {
+      source.layers.forEach(({ id }) => map.removeLayer(id))
+      map.removeSource(source.id)
+    })
   }
 
   private center() {
-    if (this.layer.offset) {
-      const { value, bearing } = this.layer.offset
-      return turf.destination(this.props.center, value, bearing)
+    if (this.definition.offset) {
+      const { value, bearing } = this.definition.offset
+      return turf.destination(this.props.center, value, bearing).geometry.coordinates
     }
     return this.props.center
   }
 
-  private addSource() {
-    map.addSource(this.sourceId, { type: 'geojson', data: this.sourceData() })
+  private updateSources(props: Partial<Props>) {
+    this.props = { ...this.props, ...props }
+    this.sources.forEach(source => source.update())
   }
 
-  private updateSource(props: Partial<Props>) {
-    this.props = { ...this.props, ...props }
-    ;(map.getSource(this.sourceId) as GeoJSONSource).setData(this.sourceData())
+  private addSources() {
+    this.sources.forEach(source => {
+      map.addSource(source.id, source.content())
+    })
+  }
+
+  private getSources() {
+    const sources: Source[] = []
+    this.mainSource = new CircleSource(
+      this.namespace('main'),
+      () => circle(this.center(), this.props.size),
+      this.definition
+    )
+    sources.push(this.mainSource)
+    if (this.definition.label?.position === 'outline') {
+      sources.push(
+        new CircleLabelSource(
+          this.namespace('outline-label'),
+          () => circle(this.center(), 1.05 * this.props.size),
+          { label: this.definition.label! }
+        )
+      )
+    }
+    return sources
   }
 
   private renderLayers() {
-    this.renderFill()
-    this.renderOutline()
-  }
-
-  private renderFill() {
-    if (!this.layer.fill) return
-    map.addLayer({
-      id: this.id('fill'),
-      type: 'fill',
-      source: this.id('circle'),
-      layout: {},
-      paint: {
-        'fill-color': this.layer.fill.color,
-        'fill-opacity': this.layer.fill.opacity ?? 0.5
-      }
+    this.sources.forEach(({ layers }) => {
+      layers.forEach(layer => {
+        map.addLayer(layer)
+      })
     })
   }
 
-  private renderOutline() {
-    const { outline } = this.layer
-    if (!outline) return
-    map.addLayer({
-      id: this.id('outline'),
-      type: 'line',
-      source: this.id('circle'),
-      layout: {},
-      paint: {
-        'line-color': outline.color,
-        'line-width': outline.width ?? 1
-      }
-    })
-  }
-
-  private id(value: string) {
-    return `${this.namespace}-${value}`
+  private namespace(value: string) {
+    return `${this.id}-${value}`
   }
 }

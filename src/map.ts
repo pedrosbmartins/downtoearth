@@ -1,3 +1,4 @@
+import * as turf from '@turf/turf'
 import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
 import { BoundingBox } from './store'
@@ -17,4 +18,8 @@ export default map
 
 export function fitBounds(boundingBox: BoundingBox) {
   map.fitBounds(boundingBox, { padding: 20 })
+}
+
+export function circle(center: number[], size: number) {
+  return turf.circle(center, size, { steps: 80, units: 'kilometers' })
 }
