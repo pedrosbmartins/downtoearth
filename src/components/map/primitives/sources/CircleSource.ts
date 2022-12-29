@@ -1,11 +1,12 @@
-import { AnyLayer, FillLayer, LineLayer } from 'mapbox-gl'
+import { AnyLayer, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
 
-import { Fill, Outline } from '../../../../types'
+import { Fill, Label, Outline } from '../../../../types'
 import { Source } from './Source'
 
 interface Props {
   fill?: Fill
   outline?: Outline
+  label?: Label
 }
 
 export class CircleSource extends Source {
@@ -16,7 +17,8 @@ export class CircleSource extends Source {
   private static layers(sourceId: string, props: Props): AnyLayer[] {
     return [
       ...CircleSource.fillLayer(sourceId, props),
-      ...CircleSource.outlineLayer(sourceId, props)
+      ...CircleSource.outlineLayer(sourceId, props),
+      ...CircleSource.labelLayer(sourceId, props)
     ]
   }
 
@@ -47,6 +49,23 @@ export class CircleSource extends Source {
         paint: {
           'line-color': props.outline.color,
           'line-width': props.outline.width ?? 1
+        }
+      }
+    ]
+  }
+
+  private static labelLayer(sourceId: string, props: Props): SymbolLayer[] {
+    if (!props.label || props.label.position !== 'center') return []
+    return [
+      {
+        id: `${sourceId}-label`,
+        type: 'symbol',
+        source: sourceId,
+        layout: {
+          'symbol-placement': 'point',
+          'text-font': ['Open Sans Regular'],
+          'text-field': props.label.value,
+          'text-size': 14
         }
       }
     ]
