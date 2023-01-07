@@ -13,7 +13,7 @@ export abstract class BaseStore<D extends {}> extends StoreListener<D> {
   protected listeners: { [field: string]: ListenerConfig<D>[] } = {}
 
   constructor(
-    protected namespace: string,
+    public readonly id: string,
     protected data: D,
     storeConfigs?: StoreListenerConfig<D>[]
   ) {
@@ -41,10 +41,6 @@ export abstract class BaseStore<D extends {}> extends StoreListener<D> {
     listener.addEventListener(this.eventName(field), handler)
   }
 
-  public id() {
-    return this.namespace
-  }
-
   public destroy() {
     Object.entries(this.listeners).forEach(([field, listeners]) => {
       listeners.forEach(({ listener, handler }) => {
@@ -62,6 +58,6 @@ export abstract class BaseStore<D extends {}> extends StoreListener<D> {
   }
 
   private eventName(field: keyof D) {
-    return `${this.namespace}-${field}-changed`
+    return `${this.id}-${field}-changed`
   }
 }

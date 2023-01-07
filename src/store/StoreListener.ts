@@ -7,7 +7,7 @@ export abstract class StoreListener<D extends {}> extends EventTarget {
     super()
     config.forEach(({ store, events }) => {
       events.forEach(event => {
-        store.register(this, event, e => this.onUpdate(store.id(), e))
+        store.register(this, event, e => this.onUpdate(store.id, e))
       })
     })
   }

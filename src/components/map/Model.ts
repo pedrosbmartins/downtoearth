@@ -15,7 +15,7 @@ export abstract class Model extends StoreListener<ModelData> {
   protected layers: ModelLayer[] = []
 
   constructor(
-    protected namespace: string,
+    protected id: string,
     protected store: BaseStore<ModelData>,
     protected props: ModelProps
   ) {

@@ -37,7 +37,7 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
       onClick: () => {
         const boundingBox = this.store.get('boundingBox')
         if (!boundingBox) {
-          console.warn(`store ${this.store.id()} has no bounding box defined`)
+          console.warn(`store ${this.store.id} has no bounding box defined`)
           return
         }
         fitBounds(boundingBox)
@@ -62,10 +62,10 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
         title: `${preset.default ? '*' : ''}${preset.label}`,
         events: ['size'],
         onUpdate: ($, event) => {
-          const isCurrent = event.detail?.size === preset.value
+          const isCurrent = event.detail?.size?.rendered === preset.value
           $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
         },
-        onClick: () => store.set({ size: preset.value })
+        onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.value } })
       })
       $wrapper.append(PresetButton.dom())
     })

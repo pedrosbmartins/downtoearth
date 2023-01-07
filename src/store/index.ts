@@ -1,6 +1,6 @@
 export interface ModelData {
   center?: number[]
-  size?: number
+  size?: { real: number; rendered: number }
   visible?: boolean
   boundingBox?: BoundingBox
 }

@@ -39,10 +39,10 @@ export interface CircleLayer {
   id: string
   shape: 'circle'
   visible: boolean
-  size: { unit: 'km' | 'root'; value: number }
+  size: Size
   fill?: Fill
   outline?: Outline
-  offset?: { unit: 'km'; value: number; bearing: number; bearingFrom?: 'group' | 'object' }
+  offset?: { unit: string; value: number; bearing?: number; bearingFrom?: 'group' | 'object' }
   label?: Label
   popup?: { content: string }
   actsAsInitialBounds?: boolean
@@ -51,6 +51,20 @@ export interface CircleLayer {
 }
 
 export type Layer = CircleLayer
+
+export type Size = AbsoluteSize | RelativeSize
+
+export interface AbsoluteSize {
+  type: 'absolute'
+  unit: string
+  value: number
+}
+
+export interface RelativeSize {
+  type: 'relative'
+  to?: 'root' | 'group'
+  real: AbsoluteSize
+}
 
 export interface Fill {
   color: string

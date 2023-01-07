@@ -11,7 +11,7 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.5 },
       "outline": { "color": "orange" },
-      "size": { "unit": "km", "value": 0.1 }
+      "size": { "type": "relative", "real": { "type": "absolute", "unit": "km", "value": 1 } }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001 },
@@ -39,7 +39,10 @@
               "visible": true,
               "label": { "value": "Mercury", "position": "outline" },
               "outline": { "color": "Crimson" },
-              "size": { "unit": "root", "value": 83.22552824493316 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 83.22552824493316 }
+              }
             }
           ]
         },
@@ -55,7 +58,10 @@
               "visible": true,
               "label": { "value": "Venus", "position": "outline" },
               "outline": { "color": "Chocolate" },
-              "size": { "unit": "root", "value": 155.52680753198217 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 155.52680753198217 }
+              }
             }
           ]
         },
@@ -71,7 +77,10 @@
               "visible": true,
               "label": { "value": "Earth", "position": "outline" },
               "outline": { "color": "blue" },
-              "size": { "unit": "root", "value": 215.0352163288774 },
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 215.0352163288774 }
+              },
               "actsAsInitialBounds": true
             }
           ]
@@ -88,7 +97,10 @@
               "visible": true,
               "label": { "value": "Mars", "position": "outline" },
               "outline": { "color": "red" },
-              "size": { "unit": "root", "value": 327.58372861865746 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 327.58372861865746 }
+              }
             }
           ]
         },
@@ -104,7 +116,10 @@
               "visible": true,
               "label": { "value": "Asteroid Belt", "position": "outline" },
               "outline": { "color": "gray" },
-              "size": { "unit": "root", "value": 574.96 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 574.96 }
+              }
             }
           ]
         },
@@ -120,7 +135,10 @@
               "visible": true,
               "label": { "value": "Jupiter", "position": "outline" },
               "outline": { "color": "orange" },
-              "size": { "unit": "root", "value": 1119.1605577116572 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 1119.1605577116572 }
+              }
             }
           ]
         },
@@ -136,7 +154,10 @@
               "visible": true,
               "label": { "value": "Saturn", "position": "outline" },
               "outline": { "color": "DarkGoldenRod" },
-              "size": { "unit": "root", "value": 2060.5145896219633 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 2060.5145896219633 }
+              }
             }
           ]
         },
@@ -152,7 +173,10 @@
               "visible": true,
               "label": { "value": "Uranus", "position": "outline" },
               "outline": { "color": "DarkBlue" },
-              "size": { "unit": "root", "value": 4128.934885726606 }
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 4128.934885726606 }
+              }
             }
           ]
         },
@@ -168,7 +192,10 @@
               "visible": true,
               "label": { "value": "Neptune", "position": "outline" },
               "outline": { "color": "blue" },
-              "size": { "unit": "root", "value": 6461.262038234871 },
+              "size": {
+                "type": "relative",
+                "real": { "type": "absolute", "unit": "km", "value": 6461.262038234871 }
+              },
               "actAsGroupBounds": true
             }
           ]

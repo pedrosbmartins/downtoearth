@@ -6,9 +6,11 @@ import { Model, ModelLayer, ModelProps } from './Model'
 
 export class Root extends Model {
   private layer: ModelLayer
+  private size: number
 
-  constructor(namespace: string, store: Store, props: ModelProps) {
-    super(namespace, store, props)
+  constructor(id: string, store: Store, props: ModelProps & { size: number }) {
+    super(id, store, props)
+    this.size = props.size
     this.layers = this.buildLayers()
     this.layer = this.layers[0]
   }
@@ -23,7 +25,7 @@ export class Root extends Model {
         }
         break
       case 'size':
-        this.resize(event.detail!.size!)
+        this.resize(event.detail!.size!.rendered)
         break
       case 'center':
         this.setCenter(event.detail!.center!)
@@ -35,8 +37,8 @@ export class Root extends Model {
   }
 
   protected buildLayer(layer: Layer) {
-    const circle = new Circle(`${this.namespace}-${layer.id}`, {
-      size: layer.size.value,
+    const circle = new Circle(`${this.id}-${layer.id}`, {
+      size: this.size,
       definition: layer,
       center: this.store.get('center') ?? INITIAL_CENTER
     })

@@ -62,7 +62,7 @@ export class Circle {
   private center() {
     if (this.definition.offset) {
       const { value, bearing } = this.definition.offset
-      return turf.destination(this.props.center, value, bearing).geometry.coordinates
+      return turf.destination(this.props.center, value, bearing || 270).geometry.coordinates
     }
     return this.props.center
   }

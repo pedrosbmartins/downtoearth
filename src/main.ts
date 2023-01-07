@@ -1,13 +1,15 @@
+import demo3JSON from '../setup/demo3.json'
 import solarSystemJSON from '../setup/solar-system.json'
 import { SidebarItem } from './components/dom/SidebarItem'
 import * as mapComponents from './components/map'
 import map, { INITIAL_CENTER } from './map'
 import { BaseStore, ModelData, ModelStore, Store, StoreListenerConfig } from './store'
-import { Config, Group, Model, Root } from './types'
+import { Config, Group, Model, RelativeSize, Root } from './types'
 import { $configDropdown, $configFileSelector, $sidebar } from './ui'
 
 const configs = {
-  solarSystem: solarSystemJSON as Config
+  solarSystem: solarSystemJSON as Config,
+  demo3: demo3JSON as Config
 }
 
 let destroy: (() => void) | undefined
@@ -45,13 +47,19 @@ function buildRoot(root: Root) {
   const store = new Store('root', {
     center: INITIAL_CENTER,
     visible: visible,
-    size: layer?.size.value
+    size: {
+      real: (layer?.size as RelativeSize)?.real.value,
+      rendered: sizePresets.find(sp => sp.default)!.value
+    }
   })
   const item = SidebarItem({ label, sizePresets }, store)
   $sidebar.append(item.dom())
   let mapComponent: mapComponents.Root | undefined
   if (layer) {
-    mapComponent = new mapComponents.Root('root', store, { layerDefinitions: [layer] })
+    mapComponent = new mapComponents.Root('root', store, {
+      size: sizePresets.find(sp => sp.default)!.value,
+      layerDefinitions: [layer]
+    })
   }
   return { store, mapComponent }
 }
