@@ -1,4 +1,5 @@
 {
+  "unit": { "name": "AU", "km": 149597870700 },
   "root": {
     "id": "root",
     "icon": "sun",
@@ -11,7 +12,7 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.5 },
       "outline": { "color": "orange" },
-      "size": { "type": "relative", "real": { "type": "absolute", "unit": "km", "value": 1 } }
+      "size": { "type": "relative", "real": { "type": "absolute", "value": 0.0046504 } }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001 },
@@ -41,7 +42,7 @@
               "outline": { "color": "Crimson" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 83.22552824493316 }
+                "real": { "type": "absolute", "value": 0.4 }
               }
             }
           ]
@@ -60,7 +61,7 @@
               "outline": { "color": "Chocolate" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 155.52680753198217 }
+                "real": { "type": "absolute", "value": 0.7 }
               }
             }
           ]
@@ -79,7 +80,7 @@
               "outline": { "color": "blue" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 215.0352163288774 }
+                "real": { "type": "absolute", "value": 1 }
               },
               "actsAsInitialBounds": true
             }
@@ -99,7 +100,7 @@
               "outline": { "color": "red" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 327.58372861865746 }
+                "real": { "type": "absolute", "value": 1.5 }
               }
             }
           ]
@@ -118,7 +119,7 @@
               "outline": { "color": "gray" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 574.96 }
+                "real": { "type": "absolute", "value": 2.8 }
               }
             }
           ]
@@ -137,7 +138,7 @@
               "outline": { "color": "orange" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 1119.1605577116572 }
+                "real": { "type": "absolute", "value": 5.2 }
               }
             }
           ]
@@ -156,7 +157,7 @@
               "outline": { "color": "DarkGoldenRod" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 2060.5145896219633 }
+                "real": { "type": "absolute", "value": 9.6 }
               }
             }
           ]
@@ -175,7 +176,7 @@
               "outline": { "color": "DarkBlue" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 4128.934885726606 }
+                "real": { "type": "absolute", "value": 19.2 }
               }
             }
           ]
@@ -194,7 +195,7 @@
               "outline": { "color": "blue" },
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 6461.262038234871 }
+                "real": { "type": "absolute", "value": 30 }
               },
               "actAsGroupBounds": true
             }

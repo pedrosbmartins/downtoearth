@@ -14,19 +14,31 @@ const configs = {
 
 let destroy: (() => void) | undefined
 let rootStore: Store | undefined
+let unitStore: Store | undefined
 
 function initialize(config: Config) {
   if (destroy) destroy()
-  const { root, groups } = config
+  const { unit, root, groups } = config
   let rootMapComponent: mapComponents.Root | undefined
   if (root) {
     const { store, mapComponent } = buildRoot(root)
     rootStore = store
     rootMapComponent = mapComponent
   }
-  const builtGroups = groups?.map(group => {
-    return buildGroup(group)
-  })
+  if (unit) {
+    let baseSize = 1
+    const config: StoreListenerConfig<ModelData>[] = []
+    if (rootStore) {
+      baseSize = rootStore.get('size')!.rendered
+      config.push({ store: rootStore, events: ['size'] })
+    }
+    unitStore = new ModelStore(
+      'unit',
+      { size: { real: unit.km, rendered: baseSize / unit.km } },
+      config
+    )
+  }
+  const builtGroups = groups?.map(group => buildGroup(group))
   return () => {
     $sidebar.innerHTML = ''
     rootStore?.destroy()
@@ -83,7 +95,16 @@ function buildGroup(group: Group) {
 
 function buildModel(model: Model, groupStore?: BaseStore<ModelData>) {
   const storeConfigs: StoreListenerConfig<ModelData>[] = []
-  if (rootStore) storeConfigs.push({ store: rootStore!, events: ['size', 'center'] })
+  if (unitStore) {
+    storeConfigs.push({ store: unitStore!, events: ['size'] })
+  }
+  if (rootStore) {
+    const events: Array<keyof ModelData> = ['center']
+    if (!unitStore) {
+      events.push('size')
+    }
+    storeConfigs.push({ store: rootStore!, events })
+  }
   if (groupStore) storeConfigs.push({ store: groupStore, events: ['visible'] })
   const store = new ModelStore(
     `model-${model.id}`,

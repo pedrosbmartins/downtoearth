@@ -8,7 +8,7 @@
       "id": "root",
       "shape": "circle",
       "visible": true,
-      "size": { "type": "relative", "real": { "type": "absolute", "unit": "km", "value": 5 } },
+      "size": { "type": "relative", "real": { "type": "absolute", "value": 1 } },
       "fill": { "color": "#0080ff" }
     },
     "sizePresets": [
@@ -34,7 +34,7 @@
               "visible": true,
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 5 }
+                "real": { "type": "absolute", "value": 1 }
               },
               "outline": { "color": "#ff0033" }
             }
@@ -51,7 +51,7 @@
               "visible": true,
               "size": {
                 "type": "relative",
-                "real": { "type": "absolute", "unit": "km", "value": 10 }
+                "real": { "type": "absolute", "value": 2 }
               },
               "outline": { "color": "green" }
             }

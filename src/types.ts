@@ -1,4 +1,5 @@
 export interface Config {
+  unit?: Unit
   root?: Root
   groups?: Group[]
 }
@@ -42,7 +43,7 @@ export interface CircleLayer {
   size: Size
   fill?: Fill
   outline?: Outline
-  offset?: { unit: string; value: number; bearing?: number; bearingFrom?: 'group' | 'object' }
+  offset?: { value: number; bearing?: number; bearingFrom?: 'group' | 'object' }
   label?: Label
   popup?: { content: string }
   actsAsInitialBounds?: boolean
@@ -56,7 +57,6 @@ export type Size = AbsoluteSize | RelativeSize
 
 export interface AbsoluteSize {
   type: 'absolute'
-  unit: string
   value: number
 }
 
@@ -78,4 +78,9 @@ export interface Outline {
 export interface Label {
   value: string
   position: 'center' | 'outline'
+}
+
+export interface Unit {
+  name: string
+  km: number
 }
