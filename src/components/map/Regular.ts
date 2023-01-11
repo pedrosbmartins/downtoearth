@@ -12,15 +12,16 @@ export class Regular extends Model {
   }
 
   onUpdate(_: string, event: StoreEvent<ModelData>) {
-    switch (event.detail!.name) {
+    const { origin, data } = event
+    switch (origin) {
       case 'visible':
-        event.detail!.visible ? this.show() : this.hide()
+        data.visible ? this.show() : this.hide()
         break
       case 'size':
-        this.onRootResize(event.detail!.size!)
+        this.onRootResize(data.size!)
         break
       case 'center':
-        this.setCenter(event.detail!.center!)
+        this.setCenter(data.center!)
         break
     }
   }

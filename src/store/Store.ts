@@ -7,8 +7,8 @@ export class Store extends BaseStore<ModelData> {
 
 export class UnitStore extends Store {
   onUpdate(_: string, event: StoreEvent<ModelData>) {
-    if (event.detail?.name === 'size') {
-      const { rendered: rootRenderedSize } = event.detail.size!
+    if (event.origin === 'size') {
+      const { rendered: rootRenderedSize } = event.data.size!
       const { real } = this.data.size!
       this.set({ size: { real, rendered: rootRenderedSize / real } })
     }

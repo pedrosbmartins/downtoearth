@@ -16,22 +16,23 @@ export class Root extends Model {
   }
 
   onUpdate(_: string, event: StoreEvent<ModelData>) {
-    switch (event.detail!.name) {
+    const { origin, data } = event
+    switch (origin) {
       case 'visible':
-        if (event.detail?.visible) {
+        if (data.visible) {
           this.show()
         } else {
           this.hide()
         }
         break
       case 'size':
-        this.resize(event.detail!.size!.rendered)
+        this.resize(data.size!.rendered)
         break
       case 'center':
-        this.setCenter(event.detail!.center!)
+        this.setCenter(data.center!)
         break
       default:
-        console.error(`no handler for event ${event.detail!.name} in root model`)
+        console.error(`no handler for event ${origin} in root model`)
         break
     }
   }

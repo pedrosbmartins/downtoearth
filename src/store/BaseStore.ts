@@ -1,7 +1,8 @@
 import { StoreListener, StoreListenerConfig } from './StoreListener'
 
-export interface StoreEvent<T extends {}> extends Event {
-  detail?: T & { name: keyof T }
+export interface StoreEvent<D extends {}> extends MessageEvent<D> {
+  origin: keyof D
+  data: D
 }
 
 interface ListenerConfig<D extends {}> {
@@ -38,13 +39,13 @@ export abstract class BaseStore<D extends {}> extends StoreListener<D> {
   ) {
     if (!this.listeners[field]) this.listeners[field] = []
     this.listeners[field].push({ listener, handler })
-    listener.addEventListener(this.eventName(field), handler)
+    listener.addEventListener(this.eventName(field), handler as EventListener)
   }
 
   public destroy() {
     Object.entries(this.listeners).forEach(([field, listeners]) => {
       listeners.forEach(({ listener, handler }) => {
-        listener.removeEventListener(this.eventName(field as keyof D), handler)
+        listener.removeEventListener(this.eventName(field as keyof D), handler as EventListener)
       })
     })
   }
@@ -52,7 +53,7 @@ export abstract class BaseStore<D extends {}> extends StoreListener<D> {
   private broadcast(field: keyof D) {
     ;(this.listeners[field] ?? []).forEach(({ listener }) => {
       listener.dispatchEvent(
-        new CustomEvent(this.eventName(field), { detail: { name: field, ...this.data } })
+        new MessageEvent<D>(this.eventName(field), { origin: field, data: this.data })
       )
     })
   }

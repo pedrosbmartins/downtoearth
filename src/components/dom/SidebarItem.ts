@@ -24,7 +24,7 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
       title: 'Hide',
       events: ['visible'],
       onUpdate: ($, event) => {
-        $.innerText = event.detail?.visible ? 'Hide' : 'Show'
+        $.innerText = event.data.visible ? 'Hide' : 'Show'
       },
       onClick: () => {
         this.store.set({ visible: !this.store.get('visible') })
@@ -62,7 +62,7 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
         title: `${preset.default ? '*' : ''}${preset.label}`,
         events: ['size'],
         onUpdate: ($, event) => {
-          const isCurrent = event.detail?.size?.rendered === preset.value
+          const isCurrent = event.data.size?.rendered === preset.value
           $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
         },
         onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.value } })

@@ -87,7 +87,7 @@ function buildGroup(group: Group) {
   if (boundingBoxModel) {
     store.set({ boundingBox: boundingBoxModel.mapComponent.boundingBox() })
     boundingBoxModel.store.register(store, 'boundingBox', event =>
-      store.set({ boundingBox: event.detail!.boundingBox })
+      store.set({ boundingBox: event.data.boundingBox })
     )
   }
   return { store, builtModels }
