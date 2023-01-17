@@ -1,15 +1,13 @@
-import map, { fitBounds } from '../../map'
-import { BoundingBox, ModelData, RootData } from '../../store'
-import { AnyStoreEvent, matchEvent, Store, StoreEvent } from '../../store/core'
-import { GroupData } from '../../store/GroupStore'
+import { fitBounds } from '../../map'
+import { BoundingBox, RootData } from '../../store'
+import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
 import { SizePreset } from '../../types'
 import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 
 type SidebarItemStore = Store<SidebarItemData<any>>
 
-export interface SidebarItemData<T extends string> {
-  type: T
+export interface SidebarItemData<T extends string> extends StoreData<T> {
   visible: boolean
   center: number[]
   size: { real: number; rendered: number }
@@ -19,8 +17,6 @@ export interface SidebarItemData<T extends string> {
 export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) {
   return new SidebarItemComponent(store, { ...props, events: ['visible'] })
 }
-
-type Data = RootData | GroupData | ModelData
 
 interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   label: string
