@@ -1,16 +1,17 @@
-import { AnyStore, StoreData } from '../../store/core'
+import { AnyStore } from '../../store/core'
+import { AnyStoreData } from '../../store/core/StoreData'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 
-export function Button<D extends StoreData<any>>(store: AnyStore, props: Props<D>) {
+export function Button<D extends AnyStoreData>(store: AnyStore, props: Props<D>) {
   return new ButtonComponent(store, props)
 }
 
-interface Props<D extends StoreData<any>> extends ComponentProps<HTMLButtonElement, D> {
+interface Props<D extends AnyStoreData> extends ComponentProps<HTMLButtonElement, D> {
   title: string
   onClick: () => void
 }
 
-class ButtonComponent<D extends StoreData<any>> extends DOMComponent<
+class ButtonComponent<D extends AnyStoreData> extends DOMComponent<
   AnyStore,
   HTMLButtonElement,
   Props<D>,

@@ -1,4 +1,4 @@
-import { StoreData } from './StoreData'
+import { AnyStoreData } from './StoreData'
 import { AnyStoreEvent } from './StoreEvent'
 import { AnyObservable, StoreListener } from './StoreListener'
 
@@ -9,7 +9,7 @@ interface ListenerConfig {
 
 export type AnyStore = Store
 
-export abstract class Store<D extends StoreData<any> = { type: any }> extends StoreListener {
+export abstract class Store<D extends AnyStoreData = { type: any }> extends StoreListener {
   protected listeners: { [field: string]: ListenerConfig[] } = {}
 
   constructor(public readonly id: string, protected data: D, observables?: AnyObservable[]) {

@@ -1,6 +1,7 @@
-import { AnyStore, AnyStoreEvent, StoreData, StoreListener } from '../../store/core'
+import { AnyStore, AnyStoreEvent, StoreListener } from '../../store/core'
+import { AnyStoreData } from '../../store/core/StoreData'
 
-export interface ComponentProps<E extends HTMLElement, D extends StoreData<any>> {
+export interface ComponentProps<E extends HTMLElement, D extends AnyStoreData> {
   events?: Array<keyof D>
   onUpdate?: ($: E, event: AnyStoreEvent) => void
 }
@@ -9,7 +10,7 @@ export abstract class DOMComponent<
   S extends AnyStore,
   E extends HTMLElement,
   P extends ComponentProps<E, D>,
-  D extends StoreData<any>
+  D extends AnyStoreData
 > extends StoreListener {
   protected storeId: string
   private $: E

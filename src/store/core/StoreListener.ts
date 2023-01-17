@@ -1,8 +1,8 @@
 import { Store } from './Store'
-import { StoreData } from './StoreData'
+import { AnyStoreData } from './StoreData'
 import { AnyStoreEvent } from './StoreEvent'
 
-export class Observable<D extends StoreData<any>> {
+export class Observable<D extends AnyStoreData> {
   constructor(public store: Store<D>, public events: Array<keyof D>) {}
 }
 
