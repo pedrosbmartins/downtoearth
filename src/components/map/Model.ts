@@ -1,4 +1,4 @@
-import { BaseStore, ModelData, StoreListener } from '../../store'
+import { AnyStore, StoreListener } from '../../store/core'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
 
@@ -11,15 +11,15 @@ export interface ModelLayer {
   definition: Layer
 }
 
-export abstract class Model extends StoreListener<ModelData> {
+export abstract class Model<S extends AnyStore> extends StoreListener {
   protected layers: ModelLayer[] = []
 
   constructor(
     protected id: string,
-    protected store: BaseStore<ModelData>,
+    protected store: S,
+    events: string[],
     protected props: ModelProps
   ) {
-    const events: Array<keyof ModelData> = ['size', 'center', 'visible']
     super([{ store, events }])
   }
 

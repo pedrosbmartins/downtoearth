@@ -1,37 +1,69 @@
 import map, { fitBounds } from '../../map'
-import { ModelData, ModelStore } from '../../store'
+import { BoundingBox, ModelData, RootData } from '../../store'
+import { AnyStoreEvent, matchEvent, Store, StoreEvent } from '../../store/core'
+import { GroupData } from '../../store/GroupStore'
 import { SizePreset } from '../../types'
 import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 
-export function SidebarItem(props: Props, store: ModelStore) {
+type SidebarItemStore = Store<SidebarItemData<any>>
+
+export interface SidebarItemData<T extends string> {
+  type: T
+  visible: boolean
+  center: number[]
+  size: { real: number; rendered: number }
+  boundingBox?: BoundingBox
+}
+
+export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) {
   return new SidebarItemComponent(store, { ...props, events: ['visible'] })
 }
 
-interface Props extends ComponentProps<HTMLDivElement, ModelData> {
+type Data = RootData | GroupData | ModelData
+
+interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   label: string
   sizePresets?: SizePreset[]
 }
 
-class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData> {
+function matchDataEvent(
+  storeId: string,
+  event: AnyStoreEvent
+): event is StoreEvent<SidebarItemData<any>> {
+  return (
+    matchEvent<SidebarItemData<'root'>>(storeId, 'root', event) ||
+    matchEvent<SidebarItemData<'group'>>(storeId, 'group', event) ||
+    matchEvent<SidebarItemData<'model'>>(storeId, 'model', event)
+  )
+}
+
+class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
+  S,
+  HTMLDivElement,
+  Props,
+  SidebarItemData<any>
+> {
   render() {
     const $label = document.createElement('h3')
     $label.innerText = this.props.label
 
     const $sizePresets = this.buildSizePresets()
 
-    const VisibilityButton = Button(this.store, {
+    const VisibilityButton = Button<SidebarItemData<any>>(this.store, {
       title: 'Hide',
       events: ['visible'],
       onUpdate: ($, event) => {
-        $.innerText = event.data.visible ? 'Hide' : 'Show'
+        if (matchDataEvent(this.storeId, event)) {
+          $.innerText = event.data.visible ? 'Hide' : 'Show'
+        }
       },
       onClick: () => {
         this.store.set({ visible: !this.store.get('visible') })
       }
     })
 
-    const CenterButton = Button(this.store, {
+    const CenterButton = Button<SidebarItemData<any>>(this.store, {
       title: 'Center',
       events: ['visible'],
       onClick: () => {
@@ -58,12 +90,14 @@ class SidebarItemComponent extends DOMComponent<HTMLDivElement, Props, ModelData
     const $wrapper = document.createElement('div')
     if (!sizePresets) return $wrapper
     sizePresets.forEach(preset => {
-      const PresetButton = Button(store, {
+      const PresetButton = Button<RootData>(store, {
         title: `${preset.default ? '*' : ''}${preset.label}`,
         events: ['size'],
         onUpdate: ($, event) => {
-          const isCurrent = event.data.size?.rendered === preset.value
-          $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
+          if (matchEvent<RootData>(this.storeId, 'root', event)) {
+            const isCurrent = event.data.size?.rendered === preset.value
+            $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
+          }
         },
         onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.value } })
       })

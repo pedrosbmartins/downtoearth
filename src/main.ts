@@ -3,7 +3,8 @@ import solarSystemJSON from '../setup/solar-system.json'
 import { SidebarItem } from './components/dom/SidebarItem'
 import * as mapComponents from './components/map'
 import map, { INITIAL_CENTER } from './map'
-import { BaseStore, ModelData, ModelStore, Store, StoreListenerConfig } from './store'
+import { GroupStore, ModelData, ModelStore, RootStore, UnitStore } from './store'
+import { matchEvent } from './store/core'
 import { Config, Group, Model, RelativeSize, Root } from './types'
 import { $configDropdown, $configFileSelector, $sidebar } from './ui'
 
@@ -13,8 +14,8 @@ const configs = {
 }
 
 let destroy: (() => void) | undefined
-let rootStore: Store | undefined
-let unitStore: Store | undefined
+let rootStore: RootStore | undefined
+let unitStore: UnitStore
 
 function initialize(config: Config) {
   if (destroy) destroy()
@@ -25,19 +26,7 @@ function initialize(config: Config) {
     rootStore = store
     rootMapComponent = mapComponent
   }
-  if (unit) {
-    let baseSize = 1
-    const config: StoreListenerConfig<ModelData>[] = []
-    if (rootStore) {
-      baseSize = rootStore.get('size')!.rendered
-      config.push({ store: rootStore, events: ['size'] })
-    }
-    unitStore = new ModelStore(
-      'unit',
-      { size: { real: unit.km, rendered: baseSize / unit.km } },
-      config
-    )
-  }
+  unitStore = new UnitStore(rootStore)
   const builtGroups = groups?.map(group => buildGroup(group))
   return () => {
     $sidebar.innerHTML = ''
@@ -56,7 +45,7 @@ function initialize(config: Config) {
 
 function buildRoot(root: Root) {
   const { label, sizePresets, layer, visible } = root
-  const store = new Store('root', {
+  const store = new RootStore({
     center: INITIAL_CENTER,
     visible: visible,
     size: {
@@ -77,43 +66,24 @@ function buildRoot(root: Root) {
 }
 
 function buildGroup(group: Group) {
-  const store = new Store(`group-${group.id}`, {
-    visible: group.visible
-  })
+  const store = new GroupStore(`group-${group.id}`, group, rootStore)
   const item = SidebarItem({ label: group.label }, store)
   $sidebar.append(item.dom())
   const builtModels = group.models.map(model => buildModel(model, store))
   const boundingBoxModel = builtModels.find(m => m.layers.some(l => l.actAsGroupBounds))
   if (boundingBoxModel) {
     store.set({ boundingBox: boundingBoxModel.mapComponent.boundingBox() })
-    boundingBoxModel.store.register(store, 'boundingBox', event =>
-      store.set({ boundingBox: event.data.boundingBox })
-    )
+    boundingBoxModel.store.register(store, 'boundingBox', event => {
+      if (matchEvent<ModelData>(boundingBoxModel.store.id, 'model', event)) {
+        store.set({ boundingBox: event.data.boundingBox })
+      }
+    })
   }
   return { store, builtModels }
 }
 
-function buildModel(model: Model, groupStore?: BaseStore<ModelData>) {
-  const storeConfigs: StoreListenerConfig<ModelData>[] = []
-  if (unitStore) {
-    storeConfigs.push({ store: unitStore!, events: ['size'] })
-  }
-  if (rootStore) {
-    const events: Array<keyof ModelData> = ['center']
-    if (!unitStore) {
-      events.push('size')
-    }
-    storeConfigs.push({ store: rootStore!, events })
-  }
-  if (groupStore) storeConfigs.push({ store: groupStore, events: ['visible'] })
-  const store = new ModelStore(
-    `model-${model.id}`,
-    {
-      visible: model.visible,
-      size: rootStore?.get('size')
-    },
-    storeConfigs
-  )
+function buildModel(model: Model, groupStore?: GroupStore) {
+  const store = new ModelStore(model, unitStore, groupStore)
   const item = SidebarItem({ label: model.label }, store)
   $sidebar.append(item.dom())
   const mapComponent = new mapComponents.Regular(model.id, store, {

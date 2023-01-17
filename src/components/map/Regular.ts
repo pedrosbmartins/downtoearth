@@ -1,35 +1,37 @@
 import { INITIAL_CENTER } from '../../map'
-import { ModelData, ModelStore, StoreEvent } from '../../store'
+import { ModelData, ModelStore } from '../../store'
+import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
 import { Model, ModelProps } from './Model'
 
-export class Regular extends Model {
+export class Regular extends Model<ModelStore> {
   constructor(id: string, store: ModelStore, props: ModelProps) {
-    super(id, store, props)
+    super(id, store, ['visible', 'center', 'sizeRatio'], props)
     this.layers = this.buildLayers()
     this.setBoundingBox()
   }
 
-  onUpdate(_: string, event: StoreEvent<ModelData>) {
-    const { origin, data } = event
-    switch (origin) {
-      case 'visible':
-        data.visible ? this.show() : this.hide()
-        break
-      case 'size':
-        this.onRootResize(data.size!)
-        break
-      case 'center':
-        this.setCenter(data.center!)
-        break
+  onUpdate(event: AnyStoreEvent) {
+    if (matchEvent<ModelData>(this.store.id, 'model', event)) {
+      switch (eventField(event)) {
+        case 'visible':
+          event.data.visible ? this.show() : this.hide()
+          break
+        case 'sizeRatio':
+          this.onRootResize(event.data.sizeRatio)
+          break
+        case 'center':
+          this.setCenter(event.data.center!)
+          break
+      }
     }
   }
 
-  protected onRootResize(rootSize: ModelData['size']) {
+  protected onRootResize(ratio: ModelData['sizeRatio']) {
     this.layers.forEach(({ definition: { size }, rendered }) => {
       if (size.type === 'relative') {
-        rendered.resize(rootSize!.rendered * (size.real.value / rootSize!.real))
+        rendered.resize(size.real.value * ratio)
       }
     })
     this.setBoundingBox()
@@ -55,10 +57,10 @@ export class Regular extends Model {
     if (size.type === 'absolute') {
       return size.value
     }
-    const rootSize = this.store.get('size')
-    if (!rootSize) {
-      throw new Error(`no root size set for model ${this.id} store`)
+    const ratio = this.store.get('sizeRatio')
+    if (!ratio) {
+      throw new Error(`size ratio not set for relative sized model ${this.id}`)
     }
-    return rootSize.rendered * (size.real.value / rootSize.real)
+    return size.real.value * ratio
   }
 }

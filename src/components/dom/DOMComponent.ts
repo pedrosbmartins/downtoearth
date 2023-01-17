@@ -1,19 +1,22 @@
-import { BaseStore, StoreEvent, StoreListener } from '../../store'
+import { AnyStore, AnyStoreEvent, StoreData, StoreListener } from '../../store/core'
 
-export interface ComponentProps<E extends HTMLElement, D extends {}> {
+export interface ComponentProps<E extends HTMLElement, D extends StoreData<any>> {
   events?: Array<keyof D>
-  onUpdate?: ($: E, event: StoreEvent<D>) => void
+  onUpdate?: ($: E, event: AnyStoreEvent) => void
 }
 
 export abstract class DOMComponent<
+  S extends AnyStore,
   E extends HTMLElement,
   P extends ComponentProps<E, D>,
-  D extends {}
-> extends StoreListener<D> {
+  D extends StoreData<any>
+> extends StoreListener {
+  protected storeId: string
   private $: E
 
-  constructor(protected store: BaseStore<D>, protected props: P) {
+  constructor(protected store: S, protected props: P) {
     super([{ store, events: props.events ?? [] }])
+    this.storeId = store.id
     this.$ = this.render()
   }
 
@@ -23,7 +26,7 @@ export abstract class DOMComponent<
 
   abstract render(): E
 
-  onUpdate(_: string, event: StoreEvent<D>): void {
+  onUpdate(event: AnyStoreEvent): void {
     if (this.props.onUpdate) this.props.onUpdate(this.$, event)
   }
 }

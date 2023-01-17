@@ -1,39 +1,34 @@
 import { INITIAL_CENTER } from '../../map'
-import { ModelData, Store, StoreEvent } from '../../store'
+import { RootData, RootStore } from '../../store'
+import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
 import { Model, ModelLayer, ModelProps } from './Model'
 
-export class Root extends Model {
+export class Root extends Model<RootStore> {
   private layer: ModelLayer
   private size: number
 
-  constructor(id: string, store: Store, props: ModelProps & { size: number }) {
-    super(id, store, props)
+  constructor(id: string, store: RootStore, props: ModelProps & { size: number }) {
+    super(id, store, ['visible', 'size', 'center'], props)
     this.size = props.size
     this.layers = this.buildLayers()
     this.layer = this.layers[0]
   }
 
-  onUpdate(_: string, event: StoreEvent<ModelData>) {
-    const { origin, data } = event
-    switch (origin) {
-      case 'visible':
-        if (data.visible) {
-          this.show()
-        } else {
-          this.hide()
-        }
-        break
-      case 'size':
-        this.resize(data.size!.rendered)
-        break
-      case 'center':
-        this.setCenter(data.center!)
-        break
-      default:
-        console.error(`no handler for event ${origin} in root model`)
-        break
+  onUpdate(event: AnyStoreEvent) {
+    if (matchEvent<RootData>(this.store.id, 'root', event)) {
+      switch (eventField(event)) {
+        case 'visible':
+          event.data.visible ? this.show() : this.hide()
+          break
+        case 'size':
+          this.resize(event.data.size!.rendered)
+          break
+        case 'center':
+          this.setCenter(event.data.center!)
+          break
+      }
     }
   }
 
