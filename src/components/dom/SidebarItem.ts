@@ -1,7 +1,6 @@
 import { fitBounds } from '../../map'
-import { BoundingBox, RootData } from '../../store'
+import { BoundingBox } from '../../store'
 import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
-import { SizePreset } from '../../types'
 import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 
@@ -10,7 +9,6 @@ type SidebarItemStore = Store<SidebarItemData<any>>
 export interface SidebarItemData<T extends string> extends StoreData<T> {
   visible: boolean
   center: number[]
-  size: { real: number; rendered: number }
   boundingBox?: BoundingBox
 }
 
@@ -20,7 +18,6 @@ export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) 
 
 interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   label: string
-  sizePresets?: SizePreset[]
 }
 
 function matchDataEvent(
@@ -43,8 +40,6 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
   render() {
     const $label = document.createElement('h3')
     $label.innerText = this.props.label
-
-    const $sizePresets = this.buildSizePresets()
 
     const VisibilityButton = Button<SidebarItemData<any>>(this.store, {
       title: 'Hide',
@@ -73,32 +68,10 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
     })
 
     const $wrapper = document.createElement('div')
-    $wrapper.append($label, $sizePresets, VisibilityButton.dom(), CenterButton.dom())
+    $wrapper.append($label)
+    this.props.children?.forEach(child => $wrapper.append(child.dom()))
+    $wrapper.append(VisibilityButton.dom(), CenterButton.dom())
 
-    return $wrapper
-  }
-
-  private buildSizePresets() {
-    const {
-      store,
-      props: { sizePresets }
-    } = this
-    const $wrapper = document.createElement('div')
-    if (!sizePresets) return $wrapper
-    sizePresets.forEach(preset => {
-      const PresetButton = Button<RootData>(store, {
-        title: `${preset.default ? '*' : ''}${preset.label}`,
-        events: ['size'],
-        onUpdate: ($, event) => {
-          if (matchEvent<RootData>(this.storeId, 'root', event)) {
-            const isCurrent = event.data.size?.rendered === preset.value
-            $.innerHTML = `${isCurrent ? '*' : ''}${preset.label}`
-          }
-        },
-        onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.value } })
-      })
-      $wrapper.append(PresetButton.dom())
-    })
     return $wrapper
   }
 }

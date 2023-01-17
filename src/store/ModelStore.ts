@@ -21,8 +21,7 @@ export class ModelStore extends Store<ModelData> {
       type: 'model',
       visible: model.visible,
       sizeRatio: unitStore.get('ratio'),
-      center: [],
-      size: { real: 0, rendered: 0 }
+      center: []
     }
     super(`model-${model.id}`, data, observables)
     this.unitStoreId = unitStore.id

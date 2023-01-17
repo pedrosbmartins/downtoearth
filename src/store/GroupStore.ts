@@ -12,8 +12,7 @@ export class GroupStore extends Store<GroupData> {
     const data: GroupData = {
       type: 'group',
       visible: group.visible,
-      center: [],
-      size: { real: 0, rendered: 0 }
+      center: []
     }
     super(id, data, rootStore ? [new Observable(rootStore, ['center'])] : [])
     this.rootStoreId = rootStore?.id || ''

@@ -4,6 +4,7 @@ import { AnyStoreData } from '../../store/core/StoreData'
 export interface ComponentProps<E extends HTMLElement, D extends AnyStoreData> {
   events?: Array<keyof D>
   onUpdate?: ($: E, event: AnyStoreEvent) => void
+  children?: Array<DOMComponent<any, any, any, any>>
 }
 
 export abstract class DOMComponent<

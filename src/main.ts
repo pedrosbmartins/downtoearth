@@ -1,5 +1,6 @@
 import demo3JSON from '../setup/demo3.json'
 import solarSystemJSON from '../setup/solar-system.json'
+import { SizePresets } from './components/dom'
 import { SidebarItem } from './components/dom/SidebarItem'
 import * as mapComponents from './components/map'
 import map, { INITIAL_CENTER } from './map'
@@ -19,7 +20,7 @@ let unitStore: UnitStore
 
 function initialize(config: Config) {
   if (destroy) destroy()
-  const { unit, root, groups } = config
+  const { root, groups } = config
   let rootMapComponent: mapComponents.Root | undefined
   if (root) {
     const { store, mapComponent } = buildRoot(root)
@@ -53,8 +54,9 @@ function buildRoot(root: Root) {
       rendered: sizePresets.find(sp => sp.default)!.value
     }
   })
-  const item = SidebarItem({ label, sizePresets }, store)
-  $sidebar.append(item.dom())
+  const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
+  const itemComponent = SidebarItem({ label, children: [sizePresetsComponent] }, store)
+  $sidebar.append(itemComponent.dom())
   let mapComponent: mapComponents.Root | undefined
   if (layer) {
     mapComponent = new mapComponents.Root('root', store, {
