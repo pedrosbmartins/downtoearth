@@ -12,7 +12,7 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.5 },
       "outline": { "color": "orange" },
-      "size": { "type": "relative", "real": { "type": "absolute", "value": 0.0046504 } }
+      "size": { "type": "relative", "real": 0.0046504 }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001 },
@@ -40,10 +40,7 @@
               "visible": true,
               "label": { "value": "Mercury", "position": "outline" },
               "outline": { "color": "Crimson" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 0.4 }
-              }
+              "size": { "type": "relative", "real": 0.4 }
             }
           ]
         },
@@ -59,10 +56,7 @@
               "visible": true,
               "label": { "value": "Venus", "position": "outline" },
               "outline": { "color": "Chocolate" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 0.7 }
-              }
+              "size": { "type": "relative", "real": 0.7 }
             }
           ]
         },
@@ -78,10 +72,7 @@
               "visible": true,
               "label": { "value": "Earth", "position": "outline" },
               "outline": { "color": "blue" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 1 }
-              },
+              "size": { "type": "relative", "real": 1.0 },
               "actsAsInitialBounds": true
             }
           ]
@@ -98,10 +89,7 @@
               "visible": true,
               "label": { "value": "Mars", "position": "outline" },
               "outline": { "color": "red" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 1.5 }
-              }
+              "size": { "type": "relative", "real": 1.5 }
             }
           ]
         },
@@ -117,10 +105,7 @@
               "visible": true,
               "label": { "value": "Asteroid Belt", "position": "outline" },
               "outline": { "color": "gray" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 2.8 }
-              }
+              "size": { "type": "relative", "real": 2.8 }
             }
           ]
         },
@@ -136,10 +121,7 @@
               "visible": true,
               "label": { "value": "Jupiter", "position": "outline" },
               "outline": { "color": "orange" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 5.2 }
-              }
+              "size": { "type": "relative", "real": 5.2 }
             }
           ]
         },
@@ -155,10 +137,7 @@
               "visible": true,
               "label": { "value": "Saturn", "position": "outline" },
               "outline": { "color": "DarkGoldenRod" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 9.6 }
-              }
+              "size": { "type": "relative", "real": 9.6 }
             }
           ]
         },
@@ -174,10 +153,7 @@
               "visible": true,
               "label": { "value": "Uranus", "position": "outline" },
               "outline": { "color": "DarkBlue" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 19.2 }
-              }
+              "size": { "type": "relative", "real": 19.2 }
             }
           ]
         },
@@ -193,10 +169,7 @@
               "visible": true,
               "label": { "value": "Neptune", "position": "outline" },
               "outline": { "color": "blue" },
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 30 }
-              },
+              "size": { "type": "relative", "real": 30.0 },
               "actAsGroupBounds": true
             }
           ]

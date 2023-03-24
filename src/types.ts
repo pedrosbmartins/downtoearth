@@ -17,7 +17,7 @@ export interface Model {
 export interface Root extends Omit<Model, 'layers'> {
   id: 'root'
   sizePresets: SizePreset[]
-  layer?: Layer
+  layer: Layer
 }
 
 export interface SizePreset {
@@ -33,7 +33,7 @@ export interface Group {
   visible: boolean
   layers?: Layer[]
   bearingControl?: boolean
-  bearing?: number
+  offset?: { size: RelativeSize; bearing: number }
 }
 
 export interface CircleLayer {
@@ -55,10 +55,7 @@ export type Layer = CircleLayer
 
 export type Size = AbsoluteSize | RelativeSize
 
-export interface AbsoluteSize {
-  type: 'absolute'
-  value: number
-}
+export type AbsoluteSize = number
 
 export interface RelativeSize {
   type: 'relative'
@@ -83,4 +80,12 @@ export interface Label {
 export interface Unit {
   name: string
   km: number
+}
+
+export function isRelativeSize(object: any): object is RelativeSize {
+  return object && object.type === 'relative' && object.real !== undefined
+}
+
+export function isAbsluteSize(object: any): object is AbsoluteSize {
+  return object !== undefined && typeof object === 'number'
 }

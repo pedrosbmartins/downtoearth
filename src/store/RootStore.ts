@@ -1,6 +1,6 @@
 import { SidebarItemData } from '../components/dom/SidebarItem'
 import { INITIAL_CENTER } from '../constants'
-import { RelativeSize, Root } from '../types'
+import { isRelativeSize, Root } from '../types'
 import { AnyStoreEvent, Store, StoreData } from './core'
 
 export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
@@ -10,7 +10,7 @@ export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
 export class RootStore extends Store<RootData> {
   constructor(definition: Root) {
     const { visible, layer, sizePresets } = definition
-    const realSize = (layer?.size as RelativeSize)?.real.value
+    const realSize = isRelativeSize(layer.size) ? layer.size.real : layer.size
     const renderedSize = sizePresets.find(sp => sp.default)!.value
     super('root', {
       type: 'root',

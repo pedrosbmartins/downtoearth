@@ -1,5 +1,5 @@
 {
-  "unit": { "name": "AU", "km": 149597870700 },
+  "unit": { "name": "km", "km": 1 },
   "root": {
     "id": "root",
     "label": "Root",
@@ -8,12 +8,12 @@
       "id": "root",
       "shape": "circle",
       "visible": true,
-      "size": { "type": "relative", "real": { "type": "absolute", "value": 1 } },
-      "fill": { "color": "#0080ff" }
+      "size": { "type": "relative", "real": 1 },
+      "fill": { "color": "yellow" }
     },
     "sizePresets": [
-      { "label": "1", "value": 1 },
-      { "label": "5", "value": 5, "default": true },
+      { "label": "1", "value": 1, "default": true },
+      { "label": "5", "value": 5 },
       { "label": "10", "value": 10 }
     ]
   },
@@ -22,6 +22,10 @@
       "id": "group",
       "label": "Group",
       "visible": true,
+      "offset": {
+        "bearing": 270,
+        "size": { "type": "relative", "real": 10 }
+      },
       "models": [
         {
           "id": "1",
@@ -32,11 +36,8 @@
               "id": "1",
               "shape": "circle",
               "visible": true,
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 1 }
-              },
-              "outline": { "color": "#ff0033" }
+              "size": { "type": "relative", "real": 1.5 },
+              "fill": { "color": "red" }
             }
           ]
         },
@@ -49,11 +50,8 @@
               "id": "2",
               "shape": "circle",
               "visible": true,
-              "size": {
-                "type": "relative",
-                "real": { "type": "absolute", "value": 2 }
-              },
-              "outline": { "color": "green" }
+              "size": { "type": "relative", "real": 2 },
+              "fill": { "color": "blue" }
             }
           ]
         }

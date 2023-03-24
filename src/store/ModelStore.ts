@@ -21,7 +21,7 @@ export class ModelStore extends Store<ModelData> {
       type: 'model',
       visible: model.visible,
       sizeRatio: rootStore?.sizeRatio() ?? 1.0,
-      center: []
+      center: groupStore?.get('center') ?? []
     }
     super(`model-${model.id}`, data, observables)
     this.rootStore = rootStore

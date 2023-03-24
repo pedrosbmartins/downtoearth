@@ -1,7 +1,6 @@
-import { INITIAL_CENTER } from '../../constants'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { Layer } from '../../types'
+import { isAbsluteSize, isRelativeSize, Layer } from '../../types'
 import { Circle } from '../map/primitives'
 import { ModelMapComponent, ModelProps } from './Model'
 
@@ -30,8 +29,8 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
 
   protected onRootResize(ratio: ModelData['sizeRatio']) {
     this.layers.forEach(({ definition: { size }, rendered }) => {
-      if (size.type === 'relative') {
-        rendered.resize(size.real.value * ratio)
+      if (isRelativeSize(size)) {
+        rendered.resize(size.real * ratio)
       }
     })
     this.setBoundingBox()
@@ -41,7 +40,7 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
     return new Circle(`${this.id}-${layer.id}`, {
       size: this.layerSize(layer),
       definition: layer,
-      center: INITIAL_CENTER
+      center: this.store.get('center')
     })
   }
 
@@ -54,13 +53,13 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
   }
 
   private layerSize({ size }: Layer): number {
-    if (size.type === 'absolute') {
-      return size.value
+    if (isAbsluteSize(size)) {
+      return size
     }
     const ratio = this.store.get('sizeRatio')
     if (!ratio) {
       throw new Error(`size ratio not set for relative sized model ${this.id}`)
     }
-    return size.real.value * ratio
+    return size.real * ratio
   }
 }

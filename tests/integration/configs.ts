@@ -1,6 +1,6 @@
 import { Config } from '../../src/types'
 
-export const config: Config = {
+export const base: Config = {
   unit: { name: 'm', km: 1e-3 },
   root: {
     id: 'root',
@@ -10,7 +10,7 @@ export const config: Config = {
       id: 'root',
       shape: 'circle',
       visible: true,
-      size: { type: 'relative', real: { type: 'absolute', value: 5 } },
+      size: { type: 'relative', real: 5 },
       fill: { color: '#fff2d1' }
     },
     sizePresets: [
@@ -34,10 +34,7 @@ export const config: Config = {
               id: '1',
               shape: 'circle',
               visible: true,
-              size: {
-                type: 'relative',
-                real: { type: 'absolute', value: 10 }
-              },
+              size: { type: 'relative', real: 10 },
               fill: { color: '#fff0c0' }
             }
           ]
@@ -51,10 +48,7 @@ export const config: Config = {
               id: '2',
               shape: 'circle',
               visible: true,
-              size: {
-                type: 'relative',
-                real: { type: 'absolute', value: 15 }
-              },
+              size: { type: 'relative', real: 15 },
               fill: { color: '#ffeb93' }
             }
           ]
@@ -62,4 +56,12 @@ export const config: Config = {
       ]
     }
   ]
+}
+
+export const groupWithOffset: Config = {
+  ...base,
+  groups: base.groups!.map(group => {
+    group.offset = { size: { type: 'relative', real: 5 }, bearing: 270 }
+    return group
+  })
 }
