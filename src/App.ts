@@ -60,7 +60,7 @@ export default class App {
   }
 
   private buildGroup(group: Group) {
-    const store = new GroupStore(`group-${group.id}`, group, this.rootStore)
+    const store = new GroupStore(group, this.rootStore)
     const item = SidebarItem({ label: group.label }, store)
     $sidebar.append(item.dom())
     const builtModels = group.models.map(model => this.buildModel(model, store))

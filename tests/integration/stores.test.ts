@@ -1,5 +1,4 @@
 import { GroupStore, ModelStore, RootStore, UnitStore } from '../../src/store'
-import { RelativeSize } from '../../src/types'
 import { config } from './config'
 
 const INITIAL_CENTER = [0, 0]
@@ -15,22 +14,11 @@ let groups: Group[] = []
 
 describe('stores', () => {
   beforeEach(() => {
-    const { visible, layer, sizePresets } = config.root!
-    rootStore = new RootStore({
-      visible,
-      center: INITIAL_CENTER,
-      size: {
-        real: (layer?.size as RelativeSize)?.real.value,
-        rendered: sizePresets.find(sp => sp.default)!.value
-      }
-    })
+    rootStore = new RootStore(config.root!)
     unitStore = new UnitStore(rootStore)
     groups = (config.groups || []).map(group => {
-      const store = new GroupStore(`group-${group.id}`, group, rootStore)
-      const models = group.models.map(model => {
-        const modelStore = new ModelStore(model, unitStore!, store)
-        return modelStore
-      })
+      const store = new GroupStore(group, rootStore)
+      const models = group.models.map(model => new ModelStore(model, unitStore!, store))
       return { store, models }
     })
   })

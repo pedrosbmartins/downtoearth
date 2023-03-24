@@ -8,13 +8,13 @@ export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> 
 export class GroupStore extends Store<GroupData> {
   private rootStoreId: string
 
-  constructor(id: string, group: Group, rootStore: RootStore | undefined) {
+  constructor(group: Group, rootStore: RootStore | undefined) {
     const data: GroupData = {
       type: 'group',
       visible: group.visible,
       center: []
     }
-    super(id, data, rootStore ? [new Observable(rootStore, ['center'])] : [])
+    super(`group-${group.id}`, data, rootStore ? [new Observable(rootStore, ['center'])] : [])
     this.rootStoreId = rootStore?.id || ''
   }
 
