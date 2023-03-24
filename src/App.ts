@@ -4,8 +4,14 @@ import { RegularMapComponent, RootMapComponent } from './components/map'
 import map from './map'
 import { GroupStore, ModelData, ModelStore, RootStore } from './store'
 import { matchEvent } from './store/core'
-import { Config, Group, Model, Root } from './types'
+import { Config, Group, Layer, Model, Root } from './types'
 import { $sidebar } from './ui'
+
+interface BuiltModel {
+  store: ModelStore
+  mapComponent: RegularMapComponent
+  layers: Layer[]
+}
 
 export default class App {
   private rootStore: RootStore | undefined
@@ -57,7 +63,19 @@ export default class App {
     const store = new GroupStore(group, this.rootStore)
     const item = SidebarItem({ label: group.label }, store)
     $sidebar.append(item.dom())
-    const builtModels = group.models.map(model => this.buildModel(model, store))
+    let builtModels: BuiltModel[] = []
+    if (group.layers) {
+      const modelStore = new ModelStore(
+        { id: 'test', label: '', layers: group.layers, visible: true },
+        this.rootStore,
+        store
+      )
+      const mapComponent = new RegularMapComponent(group.id, modelStore, {
+        layerDefinitions: group.layers
+      })
+      builtModels.push({ store: modelStore, mapComponent, layers: group.layers })
+    }
+    builtModels.concat(group.models.map(model => this.buildModel(model, store)))
     const boundingBoxModel = builtModels.find(m => m.layers.some(l => l.actAsGroupBounds))
     if (boundingBoxModel) {
       store.set({ boundingBox: boundingBoxModel.mapComponent.boundingBox() })
@@ -70,7 +88,7 @@ export default class App {
     return { store, builtModels }
   }
 
-  private buildModel(model: Model, groupStore?: GroupStore) {
+  private buildModel(model: Model, groupStore?: GroupStore): BuiltModel {
     const store = new ModelStore(model, this.rootStore, groupStore)
     const item = SidebarItem({ label: model.label }, store)
     $sidebar.append(item.dom())

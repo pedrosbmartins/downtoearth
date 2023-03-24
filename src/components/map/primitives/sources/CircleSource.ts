@@ -7,6 +7,7 @@ interface Props {
   fill?: Fill
   outline?: Outline
   label?: Label
+  visible: boolean
 }
 
 export class CircleSource extends Source {
@@ -29,7 +30,7 @@ export class CircleSource extends Source {
         id: `${sourceId}-fill`,
         type: 'fill',
         source: sourceId,
-        layout: {},
+        layout: { visibility: props.visible ? 'visible' : 'none' },
         paint: {
           'fill-color': props.fill.color,
           'fill-opacity': props.fill.opacity ?? 0.5

@@ -30,7 +30,7 @@ export interface Group {
   id: string
   label: string
   models: Model[]
-  visible: boolean
+  visible?: boolean
   layers?: Layer[]
   bearingControl?: boolean
   offset?: { size: RelativeSize; bearing: number }
