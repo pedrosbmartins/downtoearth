@@ -1,4 +1,4 @@
-import { INITIAL_CENTER } from '../../map'
+import { INITIAL_CENTER } from '../../constants'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer } from '../../types'

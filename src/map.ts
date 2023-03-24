@@ -1,9 +1,8 @@
 import * as turf from '@turf/turf'
 import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
+import { INITIAL_CENTER } from './constants'
 import { BoundingBox } from './store'
-
-export const INITIAL_CENTER = [-43.210855877349104, -22.951904902574256]
 
 const map = new mapboxgl.Map({
   accessToken:

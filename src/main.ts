@@ -3,10 +3,10 @@ import solarSystemJSON from '../setup/solar-system.json'
 import { SizePresets } from './components/dom'
 import { SidebarItem } from './components/dom/SidebarItem'
 import * as mapComponents from './components/map'
-import map, { INITIAL_CENTER } from './map'
+import map from './map'
 import { GroupStore, ModelData, ModelStore, RootStore, UnitStore } from './store'
 import { matchEvent } from './store/core'
-import { Config, Group, Model, RelativeSize, Root } from './types'
+import { Config, Group, Model, Root } from './types'
 import { $configDropdown, $configFileSelector, $sidebar } from './ui'
 
 const configs = {
@@ -45,15 +45,8 @@ function initialize(config: Config) {
 }
 
 function buildRoot(root: Root) {
-  const { label, sizePresets, layer, visible } = root
-  const store = new RootStore({
-    center: INITIAL_CENTER,
-    visible: visible,
-    size: {
-      real: (layer?.size as RelativeSize)?.real.value,
-      rendered: sizePresets.find(sp => sp.default)!.value
-    }
-  })
+  const { label, sizePresets, layer } = root
+  const store = new RootStore(root)
   const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
   const itemComponent = SidebarItem({ label, children: [sizePresetsComponent] }, store)
   $sidebar.append(itemComponent.dom())

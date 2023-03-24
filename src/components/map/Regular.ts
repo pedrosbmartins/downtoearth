@@ -1,4 +1,4 @@
-import { INITIAL_CENTER } from '../../map'
+import { INITIAL_CENTER } from '../../constants'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer } from '../../types'
@@ -41,7 +41,7 @@ export class Regular extends Model<ModelStore> {
     return new Circle(`${this.id}-${layer.id}`, {
       size: this.layerSize(layer),
       definition: layer,
-      center: INITIAL_CENTER as number[]
+      center: INITIAL_CENTER
     })
   }
 
