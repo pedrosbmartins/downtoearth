@@ -2,18 +2,13 @@ import { SizePresets } from './components/dom'
 import { SidebarItem } from './components/dom/SidebarItem'
 import { RegularMapComponent, RootMapComponent } from './components/map'
 import map from './map'
-import { GroupStore, ModelData, ModelStore, RootStore, UnitStore } from './store'
+import { GroupStore, ModelData, ModelStore, RootStore } from './store'
 import { matchEvent } from './store/core'
 import { Config, Group, Model, Root } from './types'
 import { $sidebar } from './ui'
 
 export default class App {
-  private unitStore: UnitStore
   private rootStore: RootStore | undefined
-
-  constructor() {
-    this.unitStore = new UnitStore(undefined)
-  }
 
   public initialize(config: Config) {
     const { root, groups } = config
@@ -26,7 +21,6 @@ export default class App {
         this.rootStore?.set({ center: event.lngLat.toArray() })
       })
     }
-    this.unitStore = new UnitStore(this.rootStore)
     const builtGroups = groups?.map(group => this.buildGroup(group))
     return () => {
       $sidebar.innerHTML = ''
@@ -77,7 +71,7 @@ export default class App {
   }
 
   private buildModel(model: Model, groupStore?: GroupStore) {
-    const store = new ModelStore(model, this.unitStore, groupStore)
+    const store = new ModelStore(model, this.rootStore, groupStore)
     const item = SidebarItem({ label: model.label }, store)
     $sidebar.append(item.dom())
     const mapComponent = new RegularMapComponent(model.id, store, {

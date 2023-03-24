@@ -1,9 +1,8 @@
-import { GroupStore, UnitStore } from '.'
+import { GroupStore, RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
 import { Model } from '../types'
 import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store, StoreData } from './core'
 import { GroupData } from './GroupStore'
-import { UnitData } from './UnitStore'
 
 export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> {
   sizeRatio: number
@@ -11,28 +10,31 @@ export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> 
 }
 
 export class ModelStore extends Store<ModelData> {
-  private unitStoreId: string
-  private groupStoreId: string
+  private rootStore: RootStore | undefined
+  private groupStore: GroupStore | undefined
 
-  constructor(model: Model, unitStore: UnitStore, groupStore: GroupStore | undefined) {
-    const observables: AnyObservable[] = [new Observable(unitStore, ['ratio'])]
+  constructor(model: Model, rootStore: RootStore | undefined, groupStore: GroupStore | undefined) {
+    const observables: AnyObservable[] = []
+    if (rootStore) observables.push(new Observable(rootStore, ['size']))
     if (groupStore) observables.push(new Observable(groupStore, ['visible', 'center']))
     const data: ModelData = {
       type: 'model',
       visible: model.visible,
-      sizeRatio: unitStore.get('ratio'),
+      sizeRatio: rootStore?.sizeRatio() ?? 1.0,
       center: []
     }
     super(`model-${model.id}`, data, observables)
-    this.unitStoreId = unitStore.id
-    this.groupStoreId = groupStore?.id ?? ''
+    this.rootStore = rootStore
+    this.groupStore = groupStore
   }
 
   onUpdate(event: AnyStoreEvent): void {
-    if (matchEvent<UnitData>(this.unitStoreId, 'unit', event)) {
-      this.set({ sizeRatio: event.data.ratio })
+    if (this.rootStore && matchEvent<RootData>(this.rootStore.id, 'root', event)) {
+      if (eventField(event) === 'size') {
+        this.set({ sizeRatio: this.rootStore.sizeRatio() })
+      }
     }
-    if (matchEvent<GroupData>(this.groupStoreId, 'group', event)) {
+    if (this.groupStore && matchEvent<GroupData>(this.groupStore.id, 'group', event)) {
       switch (eventField(event)) {
         case 'visible':
           this.set({ visible: event.data.visible })
