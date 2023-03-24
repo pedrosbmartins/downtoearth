@@ -1,3 +1,5 @@
+import * as turf from '@turf/turf'
+
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { isAbsluteSize, isRelativeSize, Layer } from '../../types'
@@ -18,29 +20,39 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
           event.data.visible ? this.show() : this.hide()
           break
         case 'sizeRatio':
-          this.onRootResize(event.data.sizeRatio)
+          this.onRootResize()
           break
         case 'center':
-          this.setCenter(event.data.center!)
+          this.setCenter()
           break
       }
     }
   }
 
-  protected onRootResize(ratio: ModelData['sizeRatio']) {
-    this.layers.forEach(({ definition: { size }, rendered }) => {
-      if (isRelativeSize(size)) {
-        rendered.resize(size.real * ratio)
+  protected onRootResize() {
+    this.layers.forEach(({ definition, rendered }) => {
+      if (isRelativeSize(definition.size)) {
+        rendered.resize(this.layerSize(definition))
       }
+      if (definition.offset) {
+        rendered.setCenter(this.layerCenter(definition))
+      }
+    })
+    this.setBoundingBox()
+  }
+
+  protected setCenter() {
+    this.layers.forEach(({ definition, rendered }) => {
+      rendered.setCenter(this.layerCenter(definition))
     })
     this.setBoundingBox()
   }
 
   protected buildLayer(layer: Layer) {
     return new Circle(`${this.id}-${layer.id}`, {
-      size: this.layerSize(layer),
       definition: layer,
-      center: this.store.get('center')
+      size: this.layerSize(layer),
+      center: this.layerCenter(layer)
     })
   }
 
@@ -61,5 +73,20 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
       throw new Error(`size ratio not set for relative sized model ${this.id}`)
     }
     return size.real * ratio
+  }
+
+  private layerCenter({ offset }: Layer): number[] {
+    const center = this.store.get('center')
+
+    if (!offset) {
+      return this.store.get('center')
+    }
+
+    const ratio = this.store.get('sizeRatio')
+    if (!ratio) {
+      throw new Error(`size ratio not set for relative sized model ${this.id}`)
+    }
+    const destination = turf.destination(center, offset.size.real * ratio, offset.bearing || 0)
+    return destination.geometry.coordinates
   }
 }

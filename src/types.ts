@@ -43,7 +43,7 @@ export interface CircleLayer {
   size: Size
   fill?: Fill
   outline?: Outline
-  offset?: { value: number; bearing?: number; bearingFrom?: 'group' | 'object' }
+  offset?: { size: RelativeSize; bearing?: number }
   label?: Label
   popup?: { content: string }
   actsAsInitialBounds?: boolean

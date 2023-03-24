@@ -23,7 +23,7 @@
       "label": "Group",
       "visible": true,
       "offset": {
-        "bearing": 270,
+        "bearing": 0,
         "size": { "type": "relative", "real": 10 }
       },
       "models": [
@@ -36,7 +36,7 @@
               "id": "1",
               "shape": "circle",
               "visible": true,
-              "size": { "type": "relative", "real": 1.5 },
+              "size": { "type": "relative", "real": 2 },
               "fill": { "color": "red" }
             }
           ]
@@ -51,6 +51,7 @@
               "shape": "circle",
               "visible": true,
               "size": { "type": "relative", "real": 2 },
+              "offset": { "size": { "type": "relative", "real": 2.2 } },
               "fill": { "color": "blue" }
             }
           ]

@@ -59,14 +59,6 @@ export class Circle {
     })
   }
 
-  private center() {
-    if (this.definition.offset) {
-      const { value, bearing } = this.definition.offset
-      return turf.destination(this.props.center, value, bearing || 270).geometry.coordinates
-    }
-    return this.props.center
-  }
-
   private updateSources(props: Partial<Props>) {
     this.props = { ...this.props, ...props }
     this.sources.forEach(source => source.update())
@@ -82,7 +74,7 @@ export class Circle {
     const sources: Source[] = []
     this.mainSource = new CircleSource(
       this.namespace('main'),
-      () => circle(this.center(), this.props.size),
+      () => circle(this.props.center, this.props.size / 2),
       this.definition
     )
     sources.push(this.mainSource)
@@ -90,7 +82,7 @@ export class Circle {
       sources.push(
         new CircleLabelSource(
           this.namespace('outline-label'),
-          () => circle(this.center(), 1.05 * this.props.size),
+          () => circle(this.props.center, 1.05 * this.props.size),
           { label: this.definition.label! }
         )
       )
