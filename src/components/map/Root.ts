@@ -3,9 +3,9 @@ import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
-import { Model, ModelLayer, ModelProps } from './Model'
+import { ModelLayer, ModelMapComponent, ModelProps } from './Model'
 
-export class Root extends Model<RootStore> {
+export class RootMapComponent extends ModelMapComponent<RootStore> {
   private layer: ModelLayer
   private size: number
 

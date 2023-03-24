@@ -3,9 +3,9 @@ import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer } from '../../types'
 import { Circle } from '../map/primitives'
-import { Model, ModelProps } from './Model'
+import { ModelMapComponent, ModelProps } from './Model'
 
-export class Regular extends Model<ModelStore> {
+export class RegularMapComponent extends ModelMapComponent<ModelStore> {
   constructor(id: string, store: ModelStore, props: ModelProps) {
     super(id, store, ['visible', 'center', 'sizeRatio'], props)
     this.layers = this.buildLayers()

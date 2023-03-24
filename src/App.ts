@@ -1,6 +1,6 @@
 import { SizePresets } from './components/dom'
 import { SidebarItem } from './components/dom/SidebarItem'
-import * as mapComponents from './components/map'
+import { RegularMapComponent, RootMapComponent } from './components/map'
 import map from './map'
 import { GroupStore, ModelData, ModelStore, RootStore, UnitStore } from './store'
 import { matchEvent } from './store/core'
@@ -17,7 +17,7 @@ export default class App {
 
   public initialize(config: Config) {
     const { root, groups } = config
-    let rootMapComponent: mapComponents.Root | undefined
+    let rootMapComponent: RootMapComponent | undefined
     if (root) {
       const { store, mapComponent } = this.buildRoot(root)
       this.rootStore = store
@@ -49,9 +49,9 @@ export default class App {
     const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
     const itemComponent = SidebarItem({ label, children: [sizePresetsComponent] }, store)
     $sidebar.append(itemComponent.dom())
-    let mapComponent: mapComponents.Root | undefined
+    let mapComponent: RootMapComponent | undefined
     if (layer) {
-      mapComponent = new mapComponents.Root('root', store, {
+      mapComponent = new RootMapComponent('root', store, {
         size: sizePresets.find(sp => sp.default)!.value,
         layerDefinitions: [layer]
       })
@@ -80,7 +80,7 @@ export default class App {
     const store = new ModelStore(model, this.unitStore, groupStore)
     const item = SidebarItem({ label: model.label }, store)
     $sidebar.append(item.dom())
-    const mapComponent = new mapComponents.Regular(model.id, store, {
+    const mapComponent = new RegularMapComponent(model.id, store, {
       layerDefinitions: model.layers
     })
     return { store, mapComponent, layers: model.layers }

@@ -11,7 +11,7 @@ export interface ModelLayer {
   definition: Layer
 }
 
-export abstract class Model<S extends AnyStore> extends StoreListener {
+export abstract class ModelMapComponent<S extends AnyStore> extends StoreListener {
   protected layers: ModelLayer[] = []
 
   constructor(
