@@ -4,12 +4,13 @@ import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../s
 import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 
-type SidebarItemStore = Store<SidebarItemData<any>>
+interface SidebarItemStore extends Store<SidebarItemData<string>> {
+  boundingBox: () => BoundingBox | undefined
+}
 
 export interface SidebarItemData<T extends string> extends StoreData<T> {
   visible: boolean
   center: number[]
-  boundingBox?: BoundingBox
 }
 
 export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) {
@@ -58,8 +59,8 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       title: 'Center',
       events: ['visible'],
       onClick: () => {
-        const boundingBox = this.store.get('boundingBox')
-        if (!boundingBox) {
+        const boundingBox = this.store.boundingBox()
+        if (boundingBox === undefined) {
           console.warn(`store ${this.store.id} has no bounding box defined`)
           return
         }

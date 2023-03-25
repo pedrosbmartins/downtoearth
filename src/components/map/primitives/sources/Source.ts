@@ -6,9 +6,9 @@ export abstract class Source {
   constructor(
     public id: string,
     private type: 'geojson',
-    public data: () => any,
+    public data: () => any, // @todo: improve typing
     public layers: AnyLayer[]
-  ) {}
+  ) { }
 
   public update() {
     const source = this.mapSource()

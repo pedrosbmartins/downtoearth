@@ -32,17 +32,15 @@ export class RootMapComponent extends ModelMapComponent<RootStore> {
     }
   }
 
+  public boundingBox() {
+    return this.layer.rendered.boundingBox()
+  }
+
   protected buildLayer(layer: Layer) {
-    const circle = new Circle(`${this.id}-${layer.id}`, {
+    return new Circle(`${this.id}-${layer.id}`, {
       size: this.size,
       definition: layer,
       center: this.store.get('center') ?? INITIAL_CENTER
     })
-    this.store.set({ boundingBox: circle.boundingBox() })
-    return circle
-  }
-
-  protected setBoundingBox() {
-    this.store.set({ boundingBox: this.layer.rendered.boundingBox() })
   }
 }

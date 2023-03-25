@@ -10,7 +10,6 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
   constructor(id: string, store: ModelStore, props: ModelProps) {
     super(id, store, ['visible', 'center', 'sizeRatio'], props)
     this.layers = this.buildLayers()
-    this.setBoundingBox()
   }
 
   onUpdate(event: AnyStoreEvent) {
@@ -38,14 +37,12 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
         rendered.setCenter(this.layerCenter(definition))
       }
     })
-    this.setBoundingBox()
   }
 
   protected setCenter() {
     this.layers.forEach(({ definition, rendered }) => {
       rendered.setCenter(this.layerCenter(definition))
     })
-    this.setBoundingBox()
   }
 
   protected buildLayer(layer: Layer) {
@@ -54,10 +51,6 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
       size: this.layerSize(layer),
       center: this.layerCenter(layer)
     })
-  }
-
-  protected setBoundingBox() {
-    this.store.set({ boundingBox: this.boundingBox() })
   }
 
   public boundingBox() {

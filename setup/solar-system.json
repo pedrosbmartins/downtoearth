@@ -169,8 +169,7 @@
               "visible": true,
               "label": { "value": "Neptune", "position": "outline" },
               "outline": { "color": "blue" },
-              "size": { "type": "relative", "real": 30.0 },
-              "actAsGroupBounds": true
+              "size": { "type": "relative", "real": 30.0 }
             }
           ]
         }

@@ -1,10 +1,12 @@
 import { SidebarItemData } from '../components/dom/SidebarItem'
+import { RootMapComponent } from '../components/map'
 import { INITIAL_CENTER } from '../constants'
 import { isRelativeSize, Root } from '../types'
 import { AnyStoreEvent, Store, StoreData } from './core'
 
 export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
   size: { real: number; rendered: number }
+  mapComponent?: RootMapComponent
 }
 
 export class RootStore extends Store<RootData> {
@@ -23,10 +25,14 @@ export class RootStore extends Store<RootData> {
     })
   }
 
+  public boundingBox() {
+    return this.data.mapComponent?.boundingBox()
+  }
+
   public sizeRatio() {
     const { real: rootReal, rendered: rootRendered } = this.data.size
     return rootRendered / rootReal
   }
 
-  onUpdate(_: AnyStoreEvent) {}
+  onUpdate(_: AnyStoreEvent) { }
 }

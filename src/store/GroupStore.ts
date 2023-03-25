@@ -1,13 +1,15 @@
 import * as turf from '@turf/turf'
 
-import { RootData, RootStore } from '.'
+import { BoundingBox, RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
+import { RegularMapComponent } from '../components/map'
 import { Group } from '../types'
 import { AnyStoreEvent, eventField, matchEvent, Observable, Store, StoreData } from './core'
 
 export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> {
   sizeRatio: number
   offset?: { size: { real: number; rendered: number }; bearing: number }
+  mapComponents?: RegularMapComponent[]
 }
 
 export class GroupStore extends Store<GroupData> {
@@ -16,7 +18,7 @@ export class GroupStore extends Store<GroupData> {
   constructor(group: Group, rootStore: RootStore | undefined) {
     const data: GroupData = {
       type: 'group',
-      visible: group.visible,
+      visible: group.visible || true,
       center: GroupStore.center(group, rootStore),
       offset: GroupStore.offset(group, rootStore),
       sizeRatio: GroupStore.sizeRatio(rootStore)
@@ -24,6 +26,12 @@ export class GroupStore extends Store<GroupData> {
     const observables = rootStore ? [new Observable(rootStore, ['size', 'center'])] : []
     super(`group-${group.id}`, data, observables)
     this.rootStore = rootStore
+  }
+
+  public boundingBox() {
+    if (!this.data.mapComponents) return undefined
+    const componentBbox = (this.data.mapComponents || []).map(component => component.boundingBox())
+    return turf.bbox(turf.featureCollection(componentBbox.map(bbox => turf.bboxPolygon(bbox)))) as BoundingBox
   }
 
   onUpdate(event: AnyStoreEvent): void {

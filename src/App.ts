@@ -1,17 +1,12 @@
+import * as turf from '@turf/turf'
 import { SizePresets } from './components/dom'
 import { SidebarItem } from './components/dom/SidebarItem'
 import { RegularMapComponent, RootMapComponent } from './components/map'
 import map from './map'
-import { GroupStore, ModelData, ModelStore, RootStore } from './store'
+import { BoundingBox, GroupStore, ModelData, ModelStore, RootStore } from './store'
 import { matchEvent } from './store/core'
 import { Config, Group, Layer, Model, Root } from './types'
 import { $sidebar } from './ui'
-
-interface BuiltModel {
-  store: ModelStore
-  mapComponent: RegularMapComponent
-  layers: Layer[]
-}
 
 export default class App {
   private rootStore: RootStore | undefined
@@ -55,6 +50,7 @@ export default class App {
         size: sizePresets.find(sp => sp.default)!.value,
         layerDefinitions: [layer]
       })
+      store.set({ mapComponent })
     }
     return { store, mapComponent }
   }
@@ -63,38 +59,19 @@ export default class App {
     const store = new GroupStore(group, this.rootStore)
     const item = SidebarItem({ label: group.label }, store)
     $sidebar.append(item.dom())
-    let builtModels: BuiltModel[] = []
-    if (group.layers) {
-      const modelStore = new ModelStore(
-        { id: 'test', label: '', layers: group.layers, visible: true },
-        this.rootStore,
-        store
-      )
-      const mapComponent = new RegularMapComponent(group.id, modelStore, {
-        layerDefinitions: group.layers
-      })
-      builtModels.push({ store: modelStore, mapComponent, layers: group.layers })
-    }
-    builtModels.concat(group.models.map(model => this.buildModel(model, store)))
-    const boundingBoxModel = builtModels.find(m => m.layers.some(l => l.actAsGroupBounds))
-    if (boundingBoxModel) {
-      store.set({ boundingBox: boundingBoxModel.mapComponent.boundingBox() })
-      boundingBoxModel.store.register(store, 'boundingBox', event => {
-        if (matchEvent<ModelData>(boundingBoxModel.store.id, 'model', event)) {
-          store.set({ boundingBox: event.data.boundingBox })
-        }
-      })
-    }
+    const builtModels = group.models.map(model => this.buildModel(model, store))
+    store.set({ mapComponents: builtModels.map(model => model.mapComponent) })
     return { store, builtModels }
   }
 
-  private buildModel(model: Model, groupStore?: GroupStore): BuiltModel {
+  private buildModel(model: Model, groupStore?: GroupStore) {
     const store = new ModelStore(model, this.rootStore, groupStore)
     const item = SidebarItem({ label: model.label }, store)
     $sidebar.append(item.dom())
     const mapComponent = new RegularMapComponent(model.id, store, {
       layerDefinitions: model.layers
     })
+    store.set({ mapComponent })
     return { store, mapComponent, layers: model.layers }
   }
 }

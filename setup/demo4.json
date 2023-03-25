@@ -26,17 +26,6 @@
         "bearing": 0,
         "size": { "type": "relative", "real": 10 }
       },
-      "layers": [
-        {
-          "id": "1",
-          "shape": "circle",
-          "visible": false,
-          "size": { "type": "relative", "real": 4 },
-          "offset": { "size": { "type": "relative", "real": 1.1 } },
-          "fill": { "color": "green" },
-          "actAsGroupBounds": true
-        }
-      ],
       "models": [
         {
           "id": "1",

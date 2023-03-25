@@ -39,14 +39,12 @@ export abstract class ModelMapComponent<S extends AnyStore> extends StoreListene
     this.layers.forEach(({ rendered }) => {
       rendered.resize(value)
     })
-    this.setBoundingBox()
   }
 
   protected setCenter(value: number[]) {
     this.layers.forEach(({ rendered }) => {
       rendered.setCenter(value)
     })
-    this.setBoundingBox()
   }
 
   protected buildLayers() {
@@ -57,5 +55,4 @@ export abstract class ModelMapComponent<S extends AnyStore> extends StoreListene
   }
 
   protected abstract buildLayer(layer: Layer): Circle
-  protected abstract setBoundingBox(): void
 }

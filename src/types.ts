@@ -31,7 +31,6 @@ export interface Group {
   label: string
   models: Model[]
   visible?: boolean
-  layers?: Layer[]
   bearingControl?: boolean
   offset?: { size: RelativeSize; bearing: number }
 }
@@ -46,8 +45,6 @@ export interface CircleLayer {
   offset?: { size: RelativeSize; bearing?: number }
   label?: Label
   popup?: { content: string }
-  actsAsInitialBounds?: boolean
-  actAsGroupBounds?: boolean
   drawLineToRoot?: boolean
 }
 
