@@ -4,9 +4,7 @@ import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../s
 import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 
-interface SidebarItemStore extends Store<SidebarItemData<string>> {
-  boundingBox: () => BoundingBox | undefined
-}
+type SidebarItemStore = Store<SidebarItemData<string>>
 
 export interface SidebarItemData<T extends string> extends StoreData<T> {
   visible: boolean
@@ -19,6 +17,7 @@ export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) 
 
 interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   label: string
+  onCenter?: () => void
 }
 
 function matchDataEvent(
@@ -58,14 +57,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
     const CenterButton = Button<SidebarItemData<any>>(this.store, {
       title: 'Center',
       events: ['visible'],
-      onClick: () => {
-        const boundingBox = this.store.boundingBox()
-        if (boundingBox === undefined) {
-          console.warn(`store ${this.store.id} has no bounding box defined`)
-          return
-        }
-        fitBounds(boundingBox)
-      }
+      onClick: this.props.onCenter ?? (() => { })
     })
 
     const $wrapper = document.createElement('div')

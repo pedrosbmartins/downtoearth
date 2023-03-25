@@ -1,7 +1,5 @@
-import * as turf from '@turf/turf'
 import { GroupStore, RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
-import { RegularMapComponent } from '../components/map'
 import { Model } from '../types'
 import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store, StoreData } from './core'
 import { GroupData } from './GroupStore'
@@ -9,7 +7,6 @@ import { GroupData } from './GroupStore'
 export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> {
   sizeRatio: number
   offset?: number
-  mapComponent?: RegularMapComponent
 }
 
 export class ModelStore extends Store<ModelData> {
@@ -29,10 +26,6 @@ export class ModelStore extends Store<ModelData> {
     super(`model-${model.id}`, data, observables)
     this.rootStore = rootStore
     this.groupStore = groupStore
-  }
-
-  public boundingBox() {
-    return this.data.mapComponent?.boundingBox()
   }
 
   onUpdate(event: AnyStoreEvent): void {

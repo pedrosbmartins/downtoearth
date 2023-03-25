@@ -6,7 +6,6 @@ import { AnyStoreEvent, Store, StoreData } from './core'
 
 export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
   size: { real: number; rendered: number }
-  mapComponent?: RootMapComponent
 }
 
 export class RootStore extends Store<RootData> {
@@ -23,10 +22,6 @@ export class RootStore extends Store<RootData> {
         rendered: renderedSize
       }
     })
-  }
-
-  public boundingBox() {
-    return this.data.mapComponent?.boundingBox()
   }
 
   public sizeRatio() {

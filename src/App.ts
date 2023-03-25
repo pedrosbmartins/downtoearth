@@ -2,9 +2,8 @@ import * as turf from '@turf/turf'
 import { SizePresets } from './components/dom'
 import { SidebarItem } from './components/dom/SidebarItem'
 import { RegularMapComponent, RootMapComponent } from './components/map'
-import map from './map'
-import { BoundingBox, GroupStore, ModelData, ModelStore, RootStore } from './store'
-import { matchEvent } from './store/core'
+import map, { fitBounds } from './map'
+import { BoundingBox, GroupStore, ModelStore, RootStore } from './store'
 import { Config, Group, Layer, Model, Root } from './types'
 import { $sidebar } from './ui'
 
@@ -42,36 +41,42 @@ export default class App {
     const { label, sizePresets, layer } = root
     const store = new RootStore(root)
     const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
-    const itemComponent = SidebarItem({ label, children: [sizePresetsComponent] }, store)
-    $sidebar.append(itemComponent.dom())
     let mapComponent: RootMapComponent | undefined
+    let onCenter = () => { }
     if (layer) {
       mapComponent = new RootMapComponent('root', store, {
         size: sizePresets.find(sp => sp.default)!.value,
         layerDefinitions: [layer]
       })
-      store.set({ mapComponent })
+      onCenter = () => fitBounds(mapComponent!.boundingBox())
     }
+    const itemComponent = SidebarItem({ label, onCenter, children: [sizePresetsComponent] }, store)
+    $sidebar.append(itemComponent.dom())
     return { store, mapComponent }
   }
 
   private buildGroup(group: Group) {
     const store = new GroupStore(group, this.rootStore)
-    const item = SidebarItem({ label: group.label }, store)
-    $sidebar.append(item.dom())
-    const builtModels = group.models.map(model => this.buildModel(model, store))
-    store.set({ mapComponents: builtModels.map(model => model.mapComponent) })
+    const $container = document.createElement('div')
+    $sidebar.append($container)
+    const builtModels = group.models.map(model => this.buildModel(model, store, $container))
+    const onCenter = () => {
+      const componentsBbox = builtModels.map(model => model.mapComponent.boundingBox())
+      const boundingBox = turf.bbox(turf.featureCollection(componentsBbox.map(bbox => turf.bboxPolygon(bbox)))) as BoundingBox
+      fitBounds(boundingBox)
+    }
+    const item = SidebarItem({ label: group.label, onCenter }, store)
+    $container.prepend(item.dom())
     return { store, builtModels }
   }
 
-  private buildModel(model: Model, groupStore?: GroupStore) {
+  private buildModel(model: Model, groupStore: GroupStore | undefined, $container: Element = $sidebar) {
     const store = new ModelStore(model, this.rootStore, groupStore)
-    const item = SidebarItem({ label: model.label }, store)
-    $sidebar.append(item.dom())
     const mapComponent = new RegularMapComponent(model.id, store, {
       layerDefinitions: model.layers
     })
-    store.set({ mapComponent })
+    const item = SidebarItem({ label: model.label, onCenter: () => fitBounds(mapComponent.boundingBox()) }, store)
+    $container.append(item.dom())
     return { store, mapComponent, layers: model.layers }
   }
 }
