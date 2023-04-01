@@ -16,12 +16,10 @@ export class Circle {
   private definition: CircleLayer
   private sources: Source[]
   private mainSource: Source | undefined
-  private radius: number
   private popup: mapboxgl.Popup | undefined
 
   constructor(private id: string, private props: Props) {
     this.definition = props.definition
-    this.radius = this.props.size / 2
     this.sources = this.getSources()
     this.addSources()
     this.renderLayers()
@@ -92,7 +90,7 @@ export class Circle {
     const sources: Source[] = []
     this.mainSource = new CircleSource(
       this.namespace('main'),
-      () => circle(this.props.center, this.radius),
+      () => circle(this.props.center, this.radius()),
       this.definition
     )
     sources.push(this.mainSource)
@@ -100,7 +98,7 @@ export class Circle {
       sources.push(
         new CircleLabelSource(
           this.namespace('outline-label'),
-          () => circle(this.props.center, 1.05 * this.radius),
+          () => circle(this.props.center, 1.05 * this.radius()),
           { label: this.definition.label! }
         )
       )
@@ -114,6 +112,10 @@ export class Circle {
         map.addLayer(layer)
       })
     })
+  }
+
+  private radius() {
+    return this.props.size / 2
   }
 
   private namespace(value: string) {
