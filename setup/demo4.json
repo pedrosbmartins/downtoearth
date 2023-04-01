@@ -50,6 +50,7 @@
               "id": "2",
               "shape": "circle",
               "visible": true,
+              "popup": { "content": "Popup" },
               "size": { "type": "relative", "real": 2 },
               "offset": { "size": { "type": "relative", "real": 2.2 } },
               "fill": { "color": "blue" }

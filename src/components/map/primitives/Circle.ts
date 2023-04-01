@@ -1,4 +1,5 @@
 import * as turf from '@turf/turf'
+import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
 import map, { circle } from '../../../map'
 import { BoundingBox } from '../../../store'
@@ -15,15 +16,18 @@ export class Circle {
   private definition: CircleLayer
   private sources: Source[]
   private mainSource: Source | undefined
+  private popup: mapboxgl.Popup | undefined
 
   constructor(private id: string, private props: Props) {
     this.definition = props.definition
     this.sources = this.getSources()
     this.addSources()
     this.renderLayers()
+    this.renderPopup()
   }
 
   public show() {
+    this.popup?.addTo(map)
     this.sources.forEach(source => {
       source.layers.forEach(layer => {
         map.setLayoutProperty(layer.id, 'visibility', 'visible')
@@ -32,6 +36,7 @@ export class Circle {
   }
 
   public hide() {
+    this.popup?.remove()
     this.sources.forEach(source => {
       source.layers.forEach(layer => {
         map.setLayoutProperty(layer.id, 'visibility', 'none')
@@ -45,6 +50,7 @@ export class Circle {
 
   public setCenter(center: number[]) {
     this.updateSources({ center })
+    this.renderPopup()
   }
 
   public boundingBox(): BoundingBox {
@@ -53,10 +59,20 @@ export class Circle {
   }
 
   public destroy() {
+    this.popup?.remove()
     this.sources.forEach(source => {
       source.layers.forEach(({ id }) => map.removeLayer(id))
       map.removeSource(source.id)
     })
+  }
+
+  private renderPopup() {
+    if (!this.definition.popup) return
+    this.popup?.remove()
+    this.popup = new mapboxgl.Popup({ closeButton: false })
+      .setLngLat(this.props.center as LngLatLike)
+      .setHTML(this.definition.popup!.content)
+      .addTo(map)
   }
 
   private updateSources(props: Partial<Props>) {
