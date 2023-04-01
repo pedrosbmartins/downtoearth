@@ -74,6 +74,6 @@ export class GroupStore extends Store<GroupData> {
 
   private static calculateCenter(center: number[], offset?: GroupData['offset']) {
     if (!offset) return center
-    return turf.destination(center, offset.size.rendered, offset.bearing).geometry.coordinates
+    return turf.rhumbDestination(center, offset.size.rendered, offset.bearing).geometry.coordinates
   }
 }

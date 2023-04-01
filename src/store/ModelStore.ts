@@ -6,7 +6,6 @@ import { GroupData } from './GroupStore'
 
 export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> {
   sizeRatio: number
-  offset?: number
 }
 
 export class ModelStore extends Store<ModelData> {
