@@ -10,7 +10,10 @@ const map = new mapboxgl.Map({
   style: 'mapbox://styles/pedrosbmartins/ckxorrc2q6hzp15p9b9kojnvj',
   center: INITIAL_CENTER as LngLatLike,
   zoom: 10,
-  container: 'map'
+  container: 'map',
+  projection: {
+    name: 'globe'
+  }
 })
 
 export default map
