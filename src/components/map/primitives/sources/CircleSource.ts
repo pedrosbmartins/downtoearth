@@ -1,4 +1,5 @@
 import { AnyLayer, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
+import { circle } from '../../../../map'
 
 import { Fill, Label, Outline } from '../../../../types'
 import { Source } from './Source'
@@ -10,9 +11,18 @@ interface Props {
   visible: boolean
 }
 
+interface CircleData {
+  center: number[]
+  radius: number
+}
+
 export class CircleSource extends Source {
-  constructor(id: string, data: () => any, props: Props) {
-    super(id, 'geojson', data, CircleSource.layers(id, props))
+  constructor(id: string, dataGetter: () => CircleData, props: Props) {
+    super(id, 'geojson', () => CircleSource.data(dataGetter()), CircleSource.layers(id, props))
+  }
+
+  private static data({ center, radius }: CircleData) {
+    return circle(center, radius)
   }
 
   private static layers(sourceId: string, props: Props): AnyLayer[] {

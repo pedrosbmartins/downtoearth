@@ -90,7 +90,7 @@ export class Circle {
     const sources: Source[] = []
     this.mainSource = new CircleSource(
       this.namespace('main'),
-      () => circle(this.props.center, this.radius()),
+      () => ({ center: this.props.center, radius: this.radius() }),
       this.definition
     )
     sources.push(this.mainSource)
