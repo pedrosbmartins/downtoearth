@@ -80,7 +80,11 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
     if (!ratio) {
       throw new Error(`size ratio not set for relative sized model ${this.id}`)
     }
-    const destination = turf.rhumbDestination(center, offset.size.real * ratio, offset.bearing || 0)
+    const destination = turf.rhumbDestination(
+      center,
+      offset.size.real * ratio,
+      offset.bearing || this.store.groupBearing() || 0
+    )
     return destination.geometry.coordinates
   }
 }

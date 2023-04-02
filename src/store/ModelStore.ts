@@ -56,4 +56,8 @@ export class ModelStore extends Store<ModelData> {
   public rootCenter() {
     return this.rootStore?.get('center')
   }
+
+  public groupBearing() {
+    return this.groupStore?.get('offset')?.bearing
+  }
 }

@@ -11,15 +11,12 @@
       "id": "root",
       "shape": "circle",
       "visible": true,
-      "popup": {
-        "content": "Root"
-      },
       "size": {
         "type": "relative",
         "real": 1
       },
       "fill": {
-        "color": "red"
+        "color": "yellow"
       }
     },
     "sizePresets": [
@@ -52,6 +49,26 @@
       },
       "models": [
         {
+          "id": "1",
+          "label": "Object 1",
+          "visible": true,
+          "layers": [
+            {
+              "id": "1",
+              "shape": "circle",
+              "visible": true,
+              "size": {
+                "type": "relative",
+                "real": 2
+              },
+              "fill": {
+                "color": "red"
+              },
+              "drawLineToRoot": true
+            }
+          ]
+        },
+        {
           "id": "2",
           "label": "Object 2",
           "visible": true,
@@ -60,15 +77,18 @@
               "id": "2",
               "shape": "circle",
               "visible": true,
-              "popup": {
-                "content": "Object"
-              },
               "size": {
                 "type": "relative",
                 "real": 2
               },
               "fill": {
                 "color": "blue"
+              },
+              "offset": {
+                "size": {
+                  "type": "relative",
+                  "real": 2
+                }
               },
               "drawLineToRoot": true
             }
