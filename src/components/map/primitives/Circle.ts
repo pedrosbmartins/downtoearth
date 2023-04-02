@@ -83,34 +83,42 @@ export class Circle {
 
   private buildSources() {
     const sources: Source[] = []
-    this.mainSource = new CircleSource(
+    this.mainSource = this.buildMainSource()
+    sources.push(this.mainSource)
+    if (this.definition.label?.position === 'outline') {
+      sources.push(this.buildOutlineLabelSource())
+    }
+    if (this.definition.drawLineToRoot) {
+      sources.push(this.buildLineToRootSource())
+    }
+    return sources
+  }
+
+  private buildMainSource() {
+    return new CircleSource(
       this.namespace('main'),
       () => ({ center: this.props.center, radius: this.radius() }),
       this.definition
     )
-    sources.push(this.mainSource)
-    if (this.definition.label?.position === 'outline') {
-      sources.push(
-        new CircleLabelSource(
-          this.namespace('outline-label'),
-          () => circle(this.props.center, 1.05 * this.radius()),
-          { label: this.definition.label! }
-        )
-      )
-    }
-    if (this.definition.drawLineToRoot) {
-      sources.push(
-        new LineSource(
-          this.namespace('rootline'),
-          () => ({
-            from: (this.props.rootCenter && this.props.rootCenter()) || INITIAL_CENTER,
-            to: this.props.center
-          }),
-          { visible: this.definition.visible }
-        )
-      )
-    }
-    return sources
+  }
+
+  private buildOutlineLabelSource() {
+    return new CircleLabelSource(
+      this.namespace('outline-label'),
+      () => circle(this.props.center, 1.05 * this.radius()),
+      { label: this.definition.label! }
+    )
+  }
+
+  private buildLineToRootSource() {
+    return new LineSource(
+      this.namespace('rootline'),
+      () => ({
+        from: (this.props.rootCenter && this.props.rootCenter()) || INITIAL_CENTER,
+        to: this.props.center
+      }),
+      { visible: this.definition.visible }
+    )
   }
 
   private radius() {
