@@ -47,7 +47,7 @@
         "bearing": 270,
         "size": {
           "type": "relative",
-          "real": 5000
+          "real": 10
         }
       },
       "models": [
@@ -69,7 +69,8 @@
               },
               "fill": {
                 "color": "blue"
-              }
+              },
+              "drawLineToRoot": true
             }
           ]
         }

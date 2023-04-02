@@ -8,7 +8,12 @@ export abstract class Source {
     private type: 'geojson',
     public data: () => any, // @todo: improve typing
     public layers: AnyLayer[]
-  ) { }
+  ) {
+    map.addSource(id, this.content())
+    layers.forEach(layer => {
+      map.addLayer(layer)
+    })
+  }
 
   public update() {
     const source = this.mapSource()

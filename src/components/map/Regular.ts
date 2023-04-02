@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { isAbsluteSize, isRelativeSize, Layer } from '../../types'
+import { Layer, isAbsluteSize, isRelativeSize } from '../../types'
 import { Circle } from '../map/primitives'
 import { ModelMapComponent, ModelProps } from './Model'
 
@@ -49,7 +49,8 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
     return new Circle(`${this.id}-${layer.id}`, {
       definition: layer,
       size: this.layerSize(layer),
-      center: this.layerCenter(layer)
+      center: this.layerCenter(layer),
+      rootCenter: () => this.store.rootCenter()
     })
   }
 

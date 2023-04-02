@@ -1,15 +1,18 @@
 import * as turf from '@turf/turf'
 import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
+import { INITIAL_CENTER } from '../../../constants'
 import map, { circle } from '../../../map'
 import { BoundingBox } from '../../../store'
 import { CircleLayer } from '../../../types'
 import { CircleLabelSource, CircleSource, Source } from './sources'
+import { LineSource } from './sources/LineSource'
 
 interface Props {
   size: number
   center: number[]
   definition: CircleLayer
+  rootCenter?: () => number[] | undefined
 }
 
 export class Circle {
@@ -20,9 +23,7 @@ export class Circle {
 
   constructor(private id: string, private props: Props) {
     this.definition = props.definition
-    this.sources = this.getSources()
-    this.addSources()
-    this.renderLayers()
+    this.sources = this.buildSources()
     this.renderPopup()
   }
 
@@ -80,13 +81,7 @@ export class Circle {
     this.sources.forEach(source => source.update())
   }
 
-  private addSources() {
-    this.sources.forEach(source => {
-      map.addSource(source.id, source.content())
-    })
-  }
-
-  private getSources() {
+  private buildSources() {
     const sources: Source[] = []
     this.mainSource = new CircleSource(
       this.namespace('main'),
@@ -103,15 +98,19 @@ export class Circle {
         )
       )
     }
+    if (this.definition.drawLineToRoot) {
+      sources.push(
+        new LineSource(
+          this.namespace('rootline'),
+          () => ({
+            from: (this.props.rootCenter && this.props.rootCenter()) || INITIAL_CENTER,
+            to: this.props.center
+          }),
+          { visible: this.definition.visible }
+        )
+      )
+    }
     return sources
-  }
-
-  private renderLayers() {
-    this.sources.forEach(({ layers }) => {
-      layers.forEach(layer => {
-        map.addLayer(layer)
-      })
-    })
   }
 
   private radius() {

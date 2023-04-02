@@ -1,7 +1,15 @@
 import { GroupStore, RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
 import { Model } from '../types'
-import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store, StoreData } from './core'
+import {
+  AnyObservable,
+  AnyStoreEvent,
+  eventField,
+  matchEvent,
+  Observable,
+  Store,
+  StoreData
+} from './core'
 import { GroupData } from './GroupStore'
 
 export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> {
@@ -43,5 +51,9 @@ export class ModelStore extends Store<ModelData> {
           break
       }
     }
+  }
+
+  public rootCenter() {
+    return this.rootStore?.get('center')
   }
 }

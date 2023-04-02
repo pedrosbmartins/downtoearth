@@ -5,10 +5,10 @@ import { Fill, Label, Outline } from '../../../../types'
 import { Source } from './Source'
 
 interface Props {
+  visible: boolean
   fill?: Fill
   outline?: Outline
   label?: Label
-  visible: boolean
 }
 
 interface CircleData {
