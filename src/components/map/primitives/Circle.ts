@@ -20,15 +20,18 @@ export class Circle {
   private sources: Source[]
   private mainSource: Source | undefined
   private popup: mapboxgl.Popup | undefined
+  private visible: boolean
 
   constructor(private id: string, private props: Props) {
     this.definition = props.definition
+    this.visible = this.definition.visible
     this.sources = this.buildSources()
     this.renderPopup()
   }
 
   public show() {
-    this.popup?.addTo(map)
+    this.visible = true
+    this.renderPopup()
     this.sources.forEach(source => {
       source.layers.forEach(layer => {
         map.setLayoutProperty(layer.id, 'visibility', 'visible')
@@ -37,6 +40,7 @@ export class Circle {
   }
 
   public hide() {
+    this.visible = false
     this.popup?.remove()
     this.sources.forEach(source => {
       source.layers.forEach(layer => {
@@ -68,7 +72,7 @@ export class Circle {
   }
 
   private renderPopup() {
-    if (!this.definition.popup) return
+    if (!this.definition.popup || !this.visible) return
     this.popup?.remove()
     this.popup = new mapboxgl.Popup({ closeButton: false })
       .setLngLat(this.props.center as LngLatLike)
