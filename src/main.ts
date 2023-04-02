@@ -1,3 +1,4 @@
+import alphaCentauriJSON from '../setup/alpha-centauri.json'
 import demoJSON from '../setup/demo.json'
 import solarSystemJSON from '../setup/solar-system.json'
 import App from './App'
@@ -6,9 +7,9 @@ import { Config } from './types'
 import { $configDropdown, $configFileSelector } from './ui'
 
 const configs = {
+  alphaCentauri: alphaCentauriJSON as Config,
   solarSystem: solarSystemJSON as Config,
   demo: demoJSON as Config
-  // alphaCentauri: alphaCentauriJSON as Config
 }
 
 const app = new App()
@@ -20,7 +21,7 @@ function initialize(config: Config) {
 }
 
 map.on('load', () => {
-  initialize(configs.demo)
+  initialize(configs.alphaCentauri)
 
   $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     const config = configs[this.value as keyof typeof configs]
