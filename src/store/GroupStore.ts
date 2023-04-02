@@ -3,11 +3,12 @@ import * as turf from '@turf/turf'
 import { RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
 import { Group } from '../types'
-import { AnyStoreEvent, eventField, matchEvent, Observable, Store, StoreData } from './core'
+import { AnyStoreEvent, Observable, Store, StoreData, eventField, matchEvent } from './core'
 
 export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> {
   sizeRatio: number
-  offset?: { size: { real: number; rendered: number }; bearing: number }
+  offset?: { real: number; rendered: number }
+  bearing?: number
 }
 
 export class GroupStore extends Store<GroupData> {
@@ -17,8 +18,9 @@ export class GroupStore extends Store<GroupData> {
     const data: GroupData = {
       type: 'group',
       visible: group.visible || true,
-      center: GroupStore.center(group, rootStore),
+      bearing: group.bearing,
       offset: GroupStore.offset(group, rootStore),
+      center: GroupStore.center(group, rootStore),
       sizeRatio: GroupStore.sizeRatio(rootStore)
     }
     const observables = rootStore ? [new Observable(rootStore, ['size', 'center'])] : []
@@ -27,10 +29,28 @@ export class GroupStore extends Store<GroupData> {
   }
 
   onUpdate(event: AnyStoreEvent): void {
+    if (this.rootStore && matchEvent<GroupData>(this.id, 'group', event)) {
+      if (eventField(event) === 'bearing') {
+        this.set({
+          center: GroupStore.calculateCenter(
+            this.rootStore.get('center'),
+            event.data.bearing,
+            this.data.offset
+          )
+        })
+      }
+    }
+
     if (this.rootStore && matchEvent<RootData>(this.rootStore.id, 'root', event)) {
       switch (eventField(event)) {
         case 'center': {
-          this.set({ center: GroupStore.calculateCenter(event.data.center, this.data.offset) })
+          this.set({
+            center: GroupStore.calculateCenter(
+              event.data.center,
+              this.data.bearing,
+              this.data.offset
+            )
+          })
           break
         }
         case 'size': {
@@ -39,7 +59,13 @@ export class GroupStore extends Store<GroupData> {
 
           if (this.data.offset) {
             this.set({ offset: GroupStore.offset(this.data, this.rootStore) })
-            this.set({ center: GroupStore.calculateCenter(event.data.center, this.data.offset) })
+            this.set({
+              center: GroupStore.calculateCenter(
+                event.data.center,
+                this.data.bearing,
+                this.data.offset
+              )
+            })
           }
 
           break
@@ -48,17 +74,11 @@ export class GroupStore extends Store<GroupData> {
     }
   }
 
-  private static offset(
-    group: { offset?: { bearing: number; size: { real: number } } },
-    rootStore: RootStore | undefined
-  ) {
+  private static offset(group: { offset?: { real: number } }, rootStore: RootStore | undefined) {
     if (!group.offset) return undefined
     return {
-      ...group.offset,
-      size: {
-        real: group.offset.size.real,
-        rendered: group.offset.size.real * GroupStore.sizeRatio(rootStore)
-      }
+      real: group.offset.real,
+      rendered: group.offset.real * GroupStore.sizeRatio(rootStore)
     }
   }
 
@@ -69,11 +89,11 @@ export class GroupStore extends Store<GroupData> {
   private static center(group: Group, rootStore: RootStore | undefined): number[] {
     if (!rootStore) return []
     const offset = GroupStore.offset(group, rootStore)
-    return GroupStore.calculateCenter(rootStore.get('center'), offset)
+    return GroupStore.calculateCenter(rootStore.get('center'), group.bearing, offset)
   }
 
-  private static calculateCenter(center: number[], offset?: GroupData['offset']) {
+  private static calculateCenter(center: number[], bearing?: number, offset?: GroupData['offset']) {
     if (!offset) return center
-    return turf.rhumbDestination(center, offset.size.rendered, offset.bearing).geometry.coordinates
+    return turf.rhumbDestination(center, offset.rendered, bearing || 0).geometry.coordinates
   }
 }

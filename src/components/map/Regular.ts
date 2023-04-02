@@ -69,7 +69,7 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
     return size.real * ratio
   }
 
-  private layerCenter({ offset }: Layer): number[] {
+  private layerCenter({ offset, bearing }: Layer): number[] {
     const center = this.store.get('center')
 
     if (!offset) {
@@ -82,8 +82,8 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
     }
     const destination = turf.rhumbDestination(
       center,
-      offset.size.real * ratio,
-      offset.bearing || this.store.groupBearing() || 0
+      offset.real * ratio,
+      bearing || this.store.groupBearing() || 0
     )
     return destination.geometry.coordinates
   }

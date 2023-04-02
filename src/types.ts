@@ -11,7 +11,6 @@ export interface Model {
   visible: boolean
   icon?: string
   bearingControl?: boolean
-  bearing?: number
 }
 
 export interface Root extends Omit<Model, 'layers'> {
@@ -32,7 +31,8 @@ export interface Group {
   models: Model[]
   visible?: boolean
   bearingControl?: boolean
-  offset?: { size: RelativeSize; bearing: number }
+  bearing?: number
+  offset?: RelativeSize
 }
 
 export interface CircleLayer {
@@ -42,7 +42,8 @@ export interface CircleLayer {
   size: Size
   fill?: Fill
   outline?: Outline
-  offset?: { size: RelativeSize; bearing?: number }
+  offset?: RelativeSize
+  bearing?: number
   label?: Label
   popup?: { content: string }
   drawLineToRoot?: boolean

@@ -40,12 +40,11 @@
       "id": "group",
       "label": "Group",
       "visible": true,
+      "bearingControl": true,
+      "bearing": 270,
       "offset": {
-        "bearing": 270,
-        "size": {
-          "type": "relative",
-          "real": 10
-        }
+        "type": "relative",
+        "real": 10
       },
       "models": [
         {
@@ -85,10 +84,8 @@
                 "color": "blue"
               },
               "offset": {
-                "size": {
-                  "type": "relative",
-                  "real": 2
-                }
+                "type": "relative",
+                "real": 2
               },
               "drawLineToRoot": true
             }

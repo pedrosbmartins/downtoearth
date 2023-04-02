@@ -23,7 +23,7 @@ export class ModelStore extends Store<ModelData> {
   constructor(model: Model, rootStore: RootStore | undefined, groupStore: GroupStore | undefined) {
     const observables: AnyObservable[] = []
     if (rootStore) observables.push(new Observable(rootStore, ['size']))
-    if (groupStore) observables.push(new Observable(groupStore, ['visible', 'center']))
+    if (groupStore) observables.push(new Observable(groupStore, ['visible', 'center', 'bearing']))
     const data: ModelData = {
       type: 'model',
       visible: model.visible,
@@ -49,6 +49,9 @@ export class ModelStore extends Store<ModelData> {
         case 'center':
           this.set({ center: event.data.center })
           break
+        case 'bearing':
+          this.set({ bearing: event.data.bearing })
+          break
       }
     }
   }
@@ -58,6 +61,6 @@ export class ModelStore extends Store<ModelData> {
   }
 
   public groupBearing() {
-    return this.groupStore?.get('offset')?.bearing
+    return this.groupStore?.get('bearing')
   }
 }

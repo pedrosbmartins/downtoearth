@@ -14,6 +14,9 @@ export abstract class Store<D extends AnyStoreData = { type: any }> extends Stor
 
   constructor(public readonly id: string, protected data: D, observables?: AnyObservable[]) {
     super(observables ?? [])
+    Object.keys(data).forEach(field =>
+      this.register(this, field as keyof D, (e: AnyStoreEvent) => this.onUpdate(e))
+    )
   }
 
   public get<K extends keyof D>(field: K): D[K] {

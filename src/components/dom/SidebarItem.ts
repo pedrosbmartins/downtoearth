@@ -1,5 +1,3 @@
-import { fitBounds } from '../../map'
-import { BoundingBox } from '../../store'
 import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
 import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
@@ -9,6 +7,7 @@ type SidebarItemStore = Store<SidebarItemData<string>>
 export interface SidebarItemData<T extends string> extends StoreData<T> {
   visible: boolean
   center: number[]
+  bearing?: number
 }
 
 export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) {
@@ -17,6 +16,7 @@ export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) 
 
 interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   label: string
+  bearingControl?: boolean
   onCenter?: () => void
 }
 
@@ -57,11 +57,25 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
     const CenterButton = Button<SidebarItemData<any>>(this.store, {
       title: 'Center',
       events: ['visible'],
-      onClick: this.props.onCenter ?? (() => { })
+      onClick: this.props.onCenter ?? (() => {})
     })
 
     const $wrapper = document.createElement('div')
     $wrapper.append($label)
+
+    if (this.props.bearingControl) {
+      const $bearingControl = document.createElement<'input'>('input')
+      $bearingControl.setAttribute('type', 'range')
+      $bearingControl.setAttribute('min', '0')
+      $bearingControl.setAttribute('max', '360')
+      $bearingControl.setAttribute('value', '270')
+      $bearingControl.setAttribute('step', '1')
+      $bearingControl.addEventListener('input', event =>
+        this.store.set({ bearing: (event.target as any).value })
+      )
+      $wrapper.append($bearingControl)
+    }
+
     this.props.children?.forEach(child => $wrapper.append(child.dom()))
     $wrapper.append(VisibilityButton.dom(), CenterButton.dom())
 

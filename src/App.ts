@@ -4,7 +4,7 @@ import { SidebarItem } from './components/dom/SidebarItem'
 import { RegularMapComponent, RootMapComponent } from './components/map'
 import map, { fitBounds } from './map'
 import { BoundingBox, GroupStore, ModelStore, RootStore } from './store'
-import { Config, Group, Layer, Model, Root } from './types'
+import { Config, Group, Model, Root } from './types'
 import { $sidebar } from './ui'
 
 export default class App {
@@ -42,7 +42,7 @@ export default class App {
     const store = new RootStore(root)
     const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
     let mapComponent: RootMapComponent | undefined
-    let onCenter = () => { }
+    let onCenter = () => {}
     if (layer) {
       mapComponent = new RootMapComponent('root', store, {
         size: sizePresets.find(sp => sp.default)!.value,
@@ -62,20 +62,32 @@ export default class App {
     const builtModels = group.models.map(model => this.buildModel(model, store, $container))
     const onCenter = () => {
       const componentsBbox = builtModels.map(model => model.mapComponent.boundingBox())
-      const boundingBox = turf.bbox(turf.featureCollection(componentsBbox.map(bbox => turf.bboxPolygon(bbox)))) as BoundingBox
+      const boundingBox = turf.bbox(
+        turf.featureCollection(componentsBbox.map(bbox => turf.bboxPolygon(bbox)))
+      ) as BoundingBox
       fitBounds(boundingBox)
     }
-    const item = SidebarItem({ label: group.label, onCenter }, store)
+    const item = SidebarItem(
+      { label: group.label, bearingControl: group.bearingControl, onCenter },
+      store
+    )
     $container.prepend(item.dom())
     return { store, builtModels }
   }
 
-  private buildModel(model: Model, groupStore: GroupStore | undefined, $container: Element = $sidebar) {
+  private buildModel(
+    model: Model,
+    groupStore: GroupStore | undefined,
+    $container: Element = $sidebar
+  ) {
     const store = new ModelStore(model, this.rootStore, groupStore)
     const mapComponent = new RegularMapComponent(model.id, store, {
       layerDefinitions: model.layers
     })
-    const item = SidebarItem({ label: model.label, onCenter: () => fitBounds(mapComponent.boundingBox()) }, store)
+    const item = SidebarItem(
+      { label: model.label, onCenter: () => fitBounds(mapComponent.boundingBox()) },
+      store
+    )
     $container.append(item.dom())
     return { store, mapComponent, layers: model.layers }
   }
