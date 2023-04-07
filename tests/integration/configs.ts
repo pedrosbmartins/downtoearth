@@ -61,7 +61,8 @@ export const base: Config = {
 export const groupWithOffset: Config = {
   ...base,
   groups: base.groups!.map(group => {
-    group.offset = { size: { type: 'relative', real: 5 }, bearing: 270 }
+    group.bearing = 270
+    group.offset = { type: 'relative', real: 15 }
     return group
   })
 }
