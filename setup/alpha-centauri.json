@@ -12,7 +12,7 @@
       "popup": { "content": "Sun" },
       "fill": { "color": "#fff2d1", "opacity": 1 },
       "outline": { "color": "rgba(0,0,0,0.25)" },
-      "size": { "type": "relative", "real": 0.0046504 }
+      "size": { "type": "relative", "real": 0.0093095 }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001, "default": true },
@@ -32,35 +32,22 @@
         "type": "relative",
         "real": 268521.61
       },
-      "layers": [
-        {
-          "id": "alpha-centauri-system",
-          "shape": "circle",
-          "visible": true,
-          "size": { "type": "relative", "real": 8000 },
-          "offset": { "type": "relative", "real": 0 },
-          "actAsGroupBounds": true
-        }
-      ],
       "models": [
         {
-          "id": "alpha-centauri-a",
-          "label": "α Centauri A",
+          "id": "proxima-centauri",
+          "label": "Proxima Centauri",
           "visible": true,
           "icon": "star",
           "layers": [
             {
-              "id": "alpha-centauri-a",
+              "id": "proxima-centauri",
               "shape": "circle",
               "visible": true,
-              "popup": { "content": "Alpha Centauri A" },
-              "fill": { "color": "#fff0c0" },
+              "popup": { "content": "Proxima Centauri" },
+              "fill": { "color": "#ffc317" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "size": {
-                "type": "relative",
-                "real": 1.138e-2
-              },
-              "offset": { "type": "relative", "real": 13023.4 },
+              "size": { "type": "relative", "real": 0.00143 },
+              "offset": { "type": "relative", "real": 0 },
               "drawLineToRoot": true
             }
           ]
@@ -78,27 +65,30 @@
               "popup": { "content": "Alpha Centauri B" },
               "fill": { "color": "#ffeb93" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "size": { "type": "relative", "real": 8.032e-3 },
+              "size": { "type": "relative", "real": 0.008032 },
               "offset": { "type": "relative", "real": 13000 },
               "drawLineToRoot": true
             }
           ]
         },
         {
-          "id": "proxima-centauri",
-          "label": "Proxima Centauri",
+          "id": "alpha-centauri-a",
+          "label": "α Centauri A",
           "visible": true,
           "icon": "star",
           "layers": [
             {
-              "id": "proxima-centauri",
+              "id": "alpha-centauri-a",
               "shape": "circle",
               "visible": true,
-              "popup": { "content": "Proxima Centauri" },
-              "fill": { "color": "#ffc317" },
+              "popup": { "content": "Alpha Centauri A" },
+              "fill": { "color": "#fff0c0" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "size": { "type": "relative", "real": 0.00143 },
-              "offset": { "type": "relative", "real": 0 },
+              "size": {
+                "type": "relative",
+                "real": 0.0113785
+              },
+              "offset": { "type": "relative", "real": 13023.4 },
               "drawLineToRoot": true
             }
           ]
