@@ -8,6 +8,7 @@ import { $sidebar } from './ui'
 
 export default class App {
   private rootStore: RootStore | undefined
+  private currentLngLat: number[] | undefined
 
   public initialize(config: Config) {
     const { root, groups } = config
@@ -17,7 +18,9 @@ export default class App {
       this.rootStore = store
       rootMapComponent = mapComponent
       map.on('click', event => {
-        this.rootStore?.set({ center: event.lngLat.toArray() })
+        const center = event.lngLat.toArray()
+        this.rootStore?.set({ center })
+        this.currentLngLat = center
       })
     }
     const builtGroups = groups?.map(group => this.buildGroup(group))
@@ -38,7 +41,7 @@ export default class App {
 
   private buildRoot(root: Root) {
     const { label, sizePresets, layer, icon } = root
-    const store = new RootStore(root)
+    const store = new RootStore(root, this.currentLngLat)
     let mapComponent: RootMapComponent | undefined
     let onCenter = () => {}
     if (layer) {
