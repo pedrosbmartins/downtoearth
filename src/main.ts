@@ -21,7 +21,7 @@ function initialize(config: Config) {
 }
 
 map.on('load', () => {
-  initialize(configs.alphaCentauri)
+  initialize(configs.solarSystem)
 
   $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     const { value } = this
