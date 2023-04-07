@@ -1,5 +1,4 @@
 import { SidebarItemData } from '../components/dom/SidebarItem'
-import { RootMapComponent } from '../components/map'
 import { INITIAL_CENTER } from '../constants'
 import { isRelativeSize, Root } from '../types'
 import { AnyStoreEvent, Store, StoreData } from './core'
@@ -29,5 +28,5 @@ export class RootStore extends Store<RootData> {
     return rootRendered / rootReal
   }
 
-  onUpdate(_: AnyStoreEvent) { }
+  onUpdate(_: AnyStoreEvent) {}
 }
