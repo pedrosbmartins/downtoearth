@@ -1,6 +1,9 @@
+import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
 import * as turf from '@turf/turf'
+import mapboxgl, { LngLatLike } from 'mapbox-gl'
 import { SidebarItem, SizePresets } from './components/dom'
 import { RegularMapComponent, RootMapComponent } from './components/map'
+import { MAPBOXGL_ACCESS_TOKEN } from './constants'
 import map, { fitBounds } from './map'
 import { BoundingBox, GroupStore, ModelStore, RootStore } from './store'
 import { Config, Group, Model, Root } from './types'
@@ -19,8 +22,7 @@ export default class App {
       rootMapComponent = mapComponent
       map.on('click', event => {
         const center = event.lngLat.toArray()
-        this.rootStore?.set({ center })
-        this.currentLngLat = center
+        this.setRootCenter(center)
       })
     }
     const builtGroups = groups?.map(group => this.buildGroup(group))
@@ -55,12 +57,12 @@ export default class App {
       <div class="root">
         <div class="items"></div>
         <div class="controls">
-          <!-- <div class="control">
+          <div class="control">
             <span class="label">Position</span>
             <div class="container">
               <div id="geocoder" class="geocoder"></div>
             </div>
-          </div> -->
+          </div>
           <div data-role="size-presets"></div>
         </div>
       </div>
@@ -68,6 +70,22 @@ export default class App {
     const $component = document.createElement('div')
     $component.innerHTML = template
     $sidebar.append($component)
+
+    const geocoderElement = $component.querySelector('#geocoder')!
+    const geocoder = new MapboxGeocoder({
+      accessToken: MAPBOXGL_ACCESS_TOKEN,
+      mapboxgl: mapboxgl,
+      marker: false,
+      flyTo: false,
+      trackProximity: false
+    })
+    geocoder.on('result', async (event: { result: Result }) => {
+      console.log('result')
+      const { center } = event.result
+      map.setCenter(center as LngLatLike)
+      this.setRootCenter(center)
+    })
+    geocoderElement.appendChild(geocoder.onAdd(map))
 
     const $items = $component.querySelector('.items')
     const itemComponent = SidebarItem({ label, icon, onCenter }, store)
@@ -131,5 +149,10 @@ export default class App {
     )
     $container.append(item.dom())
     return { store, mapComponent, layers: model.layers }
+  }
+
+  private setRootCenter(center: number[]) {
+    this.rootStore?.set({ center })
+    this.currentLngLat = center
   }
 }
