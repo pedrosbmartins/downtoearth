@@ -24,16 +24,24 @@ body {
   margin-left: -1px;
 }
 
+#geocoder {
+  width: 100%;
+}
+
 .mapboxgl-ctrl-geocoder {
   background-color: #373737;
   flex: 1;
   font-size: 15px;
   min-width: auto;
   line-height: 20px;
-  width: auto;
+  width: 100%;
 }
 .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--icon {
   display: none;
+}
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl-geocoder .suggestions {
+  box-shadow: none;
 }
 .mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--input {
   color: #fff;
