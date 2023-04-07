@@ -13,15 +13,9 @@ const configs = {
 }
 
 const app = new App()
-let destroy: (() => void) | undefined
-
-function initialize(config: Config) {
-  if (destroy) destroy()
-  destroy = app.initialize(config)
-}
 
 map.on('load', () => {
-  initialize(configs.solarSystem)
+  app.initialize(configs.solarSystem)
 
   $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     const { value } = this
@@ -30,7 +24,7 @@ map.on('load', () => {
     }
     const config = configs[value as keyof typeof configs]
     if (config) {
-      initialize(config)
+      app.initialize(config)
     }
   })
 
@@ -47,6 +41,6 @@ map.on('load', () => {
     }
     const configText = await file.text()
     const config = JSON.parse(configText) as Config
-    initialize(config)
+    app.initialize(config)
   })
 })
