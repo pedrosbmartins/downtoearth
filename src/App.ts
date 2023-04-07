@@ -3,7 +3,7 @@ import * as turf from '@turf/turf'
 import mapboxgl, { LngLatLike } from 'mapbox-gl'
 import { SidebarItem, SizePresets } from './components/dom'
 import { RegularMapComponent, RootMapComponent } from './components/map'
-import { MAPBOXGL_ACCESS_TOKEN } from './constants'
+import { INITIAL_CITY, MAPBOXGL_ACCESS_TOKEN } from './constants'
 import map, { fitBounds } from './map'
 import { BoundingBox, GroupStore, ModelStore, RootStore } from './store'
 import { Config, Group, Model, Root } from './types'
@@ -71,7 +71,7 @@ export default class App {
     $component.innerHTML = template
     $sidebar.append($component)
 
-    const geocoderElement = $component.querySelector('#geocoder')!
+    const $geocoderElement = $component.querySelector('#geocoder')!
     const geocoder = new MapboxGeocoder({
       accessToken: MAPBOXGL_ACCESS_TOKEN,
       mapboxgl: mapboxgl,
@@ -80,12 +80,15 @@ export default class App {
       trackProximity: false
     })
     geocoder.on('result', async (event: { result: Result }) => {
-      console.log('result')
       const { center } = event.result
       map.setCenter(center as LngLatLike)
       this.setRootCenter(center)
     })
-    geocoderElement.appendChild(geocoder.onAdd(map))
+    $geocoderElement.appendChild(geocoder.onAdd(map))
+    const $geocoderInput = $geocoderElement.querySelector<HTMLInputElement>(
+      '.mapboxgl-ctrl-geocoder--input'
+    )!
+    $geocoderInput.value = `${INITIAL_CITY.name}, ${INITIAL_CITY.country}`
 
     const $items = $component.querySelector('.items')
     const itemComponent = SidebarItem({ label, icon, onCenter }, store)
