@@ -24,7 +24,11 @@ map.on('load', () => {
   initialize(configs.alphaCentauri)
 
   $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
-    const config = configs[this.value as keyof typeof configs]
+    const { value } = this
+    if (value === 'from::file') {
+      $configFileSelector.click()
+    }
+    const config = configs[value as keyof typeof configs]
     if (config) {
       initialize(config)
     }

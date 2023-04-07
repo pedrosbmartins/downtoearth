@@ -1,6 +1,5 @@
 import * as turf from '@turf/turf'
-import { SizePresets } from './components/dom'
-import { SidebarItem } from './components/dom/SidebarItem'
+import { SidebarItem, SizePresets } from './components/dom'
 import { RegularMapComponent, RootMapComponent } from './components/map'
 import map, { fitBounds } from './map'
 import { BoundingBox, GroupStore, ModelStore, RootStore } from './store'
@@ -38,9 +37,8 @@ export default class App {
   }
 
   private buildRoot(root: Root) {
-    const { label, sizePresets, layer } = root
+    const { label, sizePresets, layer, icon } = root
     const store = new RootStore(root)
-    const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
     let mapComponent: RootMapComponent | undefined
     let onCenter = () => {}
     if (layer) {
@@ -50,16 +48,49 @@ export default class App {
       })
       onCenter = () => fitBounds(mapComponent!.boundingBox())
     }
-    const itemComponent = SidebarItem({ label, onCenter, children: [sizePresetsComponent] }, store)
-    $sidebar.append(itemComponent.dom())
+    const template = `
+      <div class="root">
+        <div class="items"></div>
+        <div class="controls">
+          <!-- <div class="control">
+            <span class="label">Position</span>
+            <div class="container">
+              <div id="geocoder" class="geocoder"></div>
+            </div>
+          </div> -->
+          <div data-role="size-presets"></div>
+        </div>
+      </div>
+    `
+    const $component = document.createElement('div')
+    $component.innerHTML = template
+    $sidebar.append($component)
+
+    const $items = $component.querySelector('.items')
+    const itemComponent = SidebarItem({ label, icon, onCenter }, store)
+    $items?.append(itemComponent.dom())
+
+    const $sizePresetContainer = $component.querySelector('div[data-role="size-presets"]')
+    const sizePresetsComponent = SizePresets({ presets: sizePresets }, store)
+    $sizePresetContainer!.append(sizePresetsComponent.dom())
+
     return { store, mapComponent }
   }
 
   private buildGroup(group: Group) {
     const store = new GroupStore(group, this.rootStore)
+
+    const template = `
+      <div class="group">
+        <div class="items" data-role="group"></div>
+        <div class="items" data-role="models"></div>
+      </div>
+    `
     const $container = document.createElement('div')
+    $container.innerHTML = template
     $sidebar.append($container)
-    const builtModels = group.models.map(model => this.buildModel(model, store, $container))
+
+    const $groupContainer = $container.querySelector('.items[data-role="group"]')
     const onCenter = () => {
       const componentsBbox = builtModels.map(model => model.mapComponent.boundingBox())
       const boundingBox = turf.bbox(
@@ -67,11 +98,14 @@ export default class App {
       ) as BoundingBox
       fitBounds(boundingBox)
     }
-    const item = SidebarItem(
-      { label: group.label, bearingControl: group.bearingControl, onCenter },
+    const itemComponent = SidebarItem(
+      { label: group.label, alternative: true, bearingControl: group.bearingControl, onCenter },
       store
     )
-    $container.prepend(item.dom())
+    $groupContainer!.append(itemComponent.dom())
+
+    const $modelsContainer = $container.querySelector('.items[data-role="models"]')
+    const builtModels = group.models.map(model => this.buildModel(model, store, $modelsContainer!))
     return { store, builtModels }
   }
 
@@ -85,7 +119,11 @@ export default class App {
       layerDefinitions: model.layers
     })
     const item = SidebarItem(
-      { label: model.label, onCenter: () => fitBounds(mapComponent.boundingBox()) },
+      {
+        label: model.label,
+        icon: model.icon,
+        onCenter: () => fitBounds(mapComponent.boundingBox())
+      },
       store
     )
     $container.append(item.dom())

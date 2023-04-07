@@ -4,7 +4,7 @@ import { AnyStoreData } from '../../store/core/StoreData'
 export interface ComponentProps<E extends HTMLElement, D extends AnyStoreData> {
   events?: Array<keyof D>
   onUpdate?: ($: E, event: AnyStoreEvent) => void
-  children?: Array<DOMComponent<any, any, any, any>>
+  children?: HTMLElement[]
 }
 
 export abstract class DOMComponent<
@@ -14,7 +14,7 @@ export abstract class DOMComponent<
   D extends AnyStoreData
 > extends StoreListener {
   protected storeId: string
-  private $: E
+  protected $: E
 
   constructor(protected store: S, protected props: P) {
     super([{ store, events: props.events ?? [] }])

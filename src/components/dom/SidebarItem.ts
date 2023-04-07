@@ -1,6 +1,6 @@
 import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
-import { Button } from './Button'
 import { ComponentProps, DOMComponent } from './DOMComponent'
+import { SidebarItemControl } from './SidebarItemControl'
 
 type SidebarItemStore = Store<SidebarItemData<string>>
 
@@ -16,6 +16,8 @@ export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) 
 
 interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   label: string
+  icon?: string
+  alternative?: boolean
   bearingControl?: boolean
   onCenter?: () => void
 }
@@ -38,15 +40,49 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
   SidebarItemData<any>
 > {
   render() {
-    const $label = document.createElement('h3')
-    $label.innerText = this.props.label
+    const $container = document.createElement('div')
+    $container.className = 'item'
+    if (this.props.alternative) $container.classList.add('alternative')
+    $container.innerHTML = SidebarItemTemplate(this.props)
 
-    const VisibilityButton = Button<SidebarItemData<any>>(this.store, {
-      title: 'Hide',
+    const $controls = $container.querySelector('.controls')!
+
+    if (this.props.bearingControl) {
+      const $bearingSlider = document.createElement<'input'>('input')
+      $bearingSlider.className = 'bearing-slider'
+      $bearingSlider.setAttribute('type', 'range')
+      $bearingSlider.setAttribute('min', '0')
+      $bearingSlider.setAttribute('max', '360')
+      $bearingSlider.setAttribute('value', '270')
+      $bearingSlider.setAttribute('step', '1')
+      $bearingSlider.addEventListener('input', event =>
+        this.store.set({ bearing: (event.target as any).value })
+      )
+
+      const BearingControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
+        icon: 'bearing',
+        children: [$bearingSlider],
+        onClick: event => {
+          if ((event.target as HTMLElement).tagName !== 'IMG') return
+          if ($bearingSlider.classList.contains('show')) {
+            $bearingSlider.classList.remove('show')
+          } else {
+            $bearingSlider.classList.add('show')
+          }
+        }
+      })
+
+      $controls.append(BearingControl.dom())
+    }
+
+    const VisibilityControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
+      icon: 'hide',
       events: ['visible'],
       onUpdate: ($, event) => {
         if (matchDataEvent(this.storeId, event)) {
-          $.innerText = event.data.visible ? 'Hide' : 'Show'
+          $.innerHTML = `<img alt="center" src="../assets/icons/ui/${
+            event.data.visible ? 'hide' : 'show'
+          }.png" />`
         }
       },
       onClick: () => {
@@ -54,31 +90,37 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       }
     })
 
-    const CenterButton = Button<SidebarItemData<any>>(this.store, {
-      title: 'Center',
-      events: ['visible'],
+    const CenterControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
+      icon: 'center',
       onClick: this.props.onCenter ?? (() => {})
     })
 
-    const $wrapper = document.createElement('div')
-    $wrapper.append($label)
+    $controls.append(CenterControl.dom(), VisibilityControl.dom())
 
-    if (this.props.bearingControl) {
-      const $bearingControl = document.createElement<'input'>('input')
-      $bearingControl.setAttribute('type', 'range')
-      $bearingControl.setAttribute('min', '0')
-      $bearingControl.setAttribute('max', '360')
-      $bearingControl.setAttribute('value', '270')
-      $bearingControl.setAttribute('step', '1')
-      $bearingControl.addEventListener('input', event =>
-        this.store.set({ bearing: (event.target as any).value })
-      )
-      $wrapper.append($bearingControl)
-    }
-
-    this.props.children?.forEach(child => $wrapper.append(child.dom()))
-    $wrapper.append(VisibilityButton.dom(), CenterButton.dom())
-
-    return $wrapper
+    return $container
   }
+}
+
+interface SidebarItemTemplateProps {
+  label: string
+  icon?: string
+  alternative?: boolean
+}
+
+function SidebarItemTemplate({ label, icon, alternative }: SidebarItemTemplateProps) {
+  return `
+    ${icon ? SidebarItemIconTemplate({ label, icon }) : ''}
+    <div class="label">
+      <span>${label}</span>
+    </div>
+    <div class="controls"></div>
+  `
+}
+
+function SidebarItemIconTemplate({ label, icon }: SidebarItemTemplateProps) {
+  return `
+    <div class="icon">
+      <img alt="${label}" src="../assets/icons/astro-objects-outline/${icon}.png" />
+    </div>
+  `
 }
