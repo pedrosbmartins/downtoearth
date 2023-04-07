@@ -110,17 +110,26 @@ interface SidebarItemTemplateProps {
 function SidebarItemTemplate({ label, icon, alternative }: SidebarItemTemplateProps) {
   return `
     ${icon ? SidebarItemIconTemplate({ label, icon }) : ''}
-    <div class="label">
-      <span>${label}</span>
-    </div>
+    ${SidebarItemLabel(label)}
     <div class="controls"></div>
   `
 }
 
+function SidebarItemLabel(text: string) {
+  const $div = document.createElement('div')
+  $div.className = 'label'
+  const $span = document.createElement('span')
+  $span.textContent = text
+  $div.append($span)
+  return $div.outerHTML
+}
+
 function SidebarItemIconTemplate({ label, icon }: SidebarItemTemplateProps) {
-  return `
-    <div class="icon">
-      <img alt="${label}" src="../assets/icons/astro-objects-outline/${icon}.png" />
-    </div>
-  `
+  const $div = document.createElement('div')
+  $div.className = 'icon'
+  const $img = document.createElement('img')
+  $img.setAttribute('alt', label)
+  $img.setAttribute('src', `../assets/icons/astro-objects-outline/${icon}.png`)
+  $div.append($img)
+  return $div.outerHTML
 }
