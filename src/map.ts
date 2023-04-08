@@ -15,6 +15,13 @@ const map = new mapboxgl.Map({
   }
 })
 
+export const geolocate = new mapboxgl.GeolocateControl({
+  positionOptions: { enableHighAccuracy: true },
+  showUserLocation: false
+})
+
+map.addControl(geolocate)
+
 export default map
 
 export function fitBounds(boundingBox: BoundingBox) {
@@ -23,4 +30,13 @@ export function fitBounds(boundingBox: BoundingBox) {
 
 export function circle(center: number[], size: number) {
   return turf.circle(center, size, { steps: 80, units: 'kilometers' })
+}
+
+export interface GeolocateResultEvent {
+  type: 'geolocate'
+  coords: GeolocationCoordinates
+}
+
+export function isGeolocateResultEvent(event: any): event is GeolocateResultEvent {
+  return event.type && event.type === 'geolocate'
 }
