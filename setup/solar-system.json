@@ -12,7 +12,7 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.5 },
       "outline": { "color": "orange" },
-      "size": { "type": "relative", "real": 0.0046504 }
+      "size": { "type": "relative", "real": 0.0093096 }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001 },
