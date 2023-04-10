@@ -76,7 +76,7 @@ export class Circle {
     this.popup?.remove()
     this.popup = new mapboxgl.Popup({ closeButton: false })
       .setLngLat(this.props.center as LngLatLike)
-      .setHTML(this.definition.popup!.content)
+      .setText(this.definition.popup.content)
       .addTo(map)
   }
 
