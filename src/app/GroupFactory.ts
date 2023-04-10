@@ -12,13 +12,9 @@ export class GroupFactory {
   public models: ModelFactory[]
 
   constructor(private definition: Group, private rootStore?: RootStore) {
-    this.store = this.buildStore()
+    this.store = new GroupStore(this.definition, this.rootStore)
     this.$ui = this.buildUI()
     this.models = this.buildModels()
-  }
-
-  private buildStore() {
-    return new GroupStore(this.definition, this.rootStore)
   }
 
   private buildUI() {

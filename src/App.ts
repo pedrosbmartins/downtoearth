@@ -10,26 +10,11 @@ export default class App extends EventTarget {
   private rootMapComponent: RootMapComponent | undefined
   private groups: GroupFactory[] | undefined
   private currentLngLat: number[] | undefined
-  private destroy: () => void = () => {}
 
   public initialize(config: Config) {
     this.destroy()
     this.buildRoot(config)
     this.buildGroups(config)
-
-    this.destroy = () => {
-      $sidebar.innerHTML = ''
-      this.rootStore?.destroy()
-      this.rootStore = undefined
-      this.rootMapComponent?.destroy()
-      this.groups?.forEach(group => {
-        group.store.destroy()
-        group.models.forEach(model => {
-          model.store.destroy()
-          model.mapComponent.destroy()
-        })
-      })
-    }
   }
 
   private buildRoot({ root }: Config) {
@@ -44,5 +29,19 @@ export default class App extends EventTarget {
 
   private buildGroups({ groups }: Config) {
     this.groups = groups?.map(group => new GroupFactory(group, this.rootStore))
+  }
+
+  private destroy() {
+    $sidebar.innerHTML = ''
+    this.rootStore?.destroy()
+    this.rootStore = undefined
+    this.rootMapComponent?.destroy()
+    this.groups?.forEach(group => {
+      group.store.destroy()
+      group.models.forEach(model => {
+        model.store.destroy()
+        model.mapComponent.destroy()
+      })
+    })
   }
 }

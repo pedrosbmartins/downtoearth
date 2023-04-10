@@ -14,13 +14,9 @@ export class ModelFactory {
     private rootStore?: RootStore,
     private groupStore?: GroupStore
   ) {
-    this.store = this.buildStore()
+    this.store = new ModelStore(this.definition, this.rootStore, this.groupStore)
     this.mapComponent = this.buildMapComponent()
     this.buildUI()
-  }
-
-  private buildStore() {
-    return new ModelStore(this.definition, this.rootStore, this.groupStore)
   }
 
   private buildMapComponent() {

@@ -19,7 +19,7 @@ export class RootFactory extends EventTarget {
   constructor(private definition: Root, private currentLngLat?: number[]) {
     super()
 
-    this.store = this.buildStore()
+    this.store = new RootStore(this.definition, this.currentLngLat)
     this.$ui = this.buildUI()
 
     this.buildMapComponent()
@@ -46,10 +46,6 @@ export class RootFactory extends EventTarget {
         this.store.set({ center })
       }
     })
-  }
-
-  private buildStore() {
-    return new RootStore(this.definition, this.currentLngLat)
   }
 
   private buildMapComponent() {
