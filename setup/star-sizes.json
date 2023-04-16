@@ -15,9 +15,9 @@
       "size": { "type": "relative", "real": 0.0093096 }
     },
     "sizePresets": [
+      { "label": "100 m", "value": 0.1 },
       { "label": "1 km", "value": 1, "default": true },
-      { "label": "5 km", "value": 5 },
-      { "label": "10 km", "value": 10 }
+      { "label": "5 km", "value": 5 }
     ]
   },
   "groups": [
