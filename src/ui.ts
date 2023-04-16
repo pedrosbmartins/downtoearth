@@ -1,7 +1,7 @@
 export const $sidebarContainer = document.getElementById('sidebar')!
 export const $sidebar = $sidebarContainer.querySelector('.dynamic-content')!
-export const $configDropdown = document.getElementById('config-dropdown')!
-export const $configFileSelector = document.getElementById('config-file-selector')!
+export const $setupDropdown = document.getElementById('setup-dropdown')!
+export const $setupFileSelector = document.getElementById('setup-file-selector')!
 
 const $sidebarShowButton = document.querySelector('.show-button')!
 $sidebarShowButton.addEventListener('click', () => {

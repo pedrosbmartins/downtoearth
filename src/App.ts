@@ -2,7 +2,7 @@ import { GroupFactory } from './app/GroupFactory'
 import { RootFactory } from './app/RootFactory'
 import { RootMapComponent } from './components/map'
 import { RootStore } from './store'
-import { Config } from './types'
+import { Setup } from './types'
 import { $sidebar } from './ui'
 
 export default class App extends EventTarget {
@@ -11,13 +11,13 @@ export default class App extends EventTarget {
   private groups: GroupFactory[] | undefined
   private currentLngLat: number[] | undefined
 
-  public initialize(config: Config) {
+  public initialize(setup: Setup) {
     this.destroy()
-    this.buildRoot(config)
-    this.buildGroups(config)
+    this.buildRoot(setup)
+    this.buildGroups(setup)
   }
 
-  private buildRoot({ root }: Config) {
+  private buildRoot({ root }: Setup) {
     if (!root) return
     const factory = new RootFactory(root, this.currentLngLat)
     this.rootStore = factory.store
@@ -27,7 +27,7 @@ export default class App extends EventTarget {
     })
   }
 
-  private buildGroups({ groups }: Config) {
+  private buildGroups({ groups }: Setup) {
     this.groups = groups?.map(group => new GroupFactory(group, this.rootStore))
   }
 

@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 
 import { INITIAL_CENTER } from '../../src/constants'
 import { GroupStore, ModelStore, RootStore } from '../../src/store'
-import * as configs from './configs'
+import * as setups from './setups'
 
 jest.mock('../../src/constants')
 
@@ -16,8 +16,8 @@ let groups: Group[] = []
 
 describe('stores', () => {
   beforeEach(() => {
-    rootStore = new RootStore(configs.base.root!)
-    groups = (configs.base.groups || []).map(group => {
+    rootStore = new RootStore(setups.base.root!)
+    groups = (setups.base.groups || []).map(group => {
       const store = new GroupStore(group, rootStore)
       const models = group.models.map(model => new ModelStore(model, rootStore!, store))
       return { store, models }
@@ -58,8 +58,8 @@ describe('stores', () => {
 
   describe('when group has offset', () => {
     beforeEach(() => {
-      rootStore = new RootStore(configs.groupWithOffset.root!)
-      groups = (configs.groupWithOffset.groups || []).map(group => {
+      rootStore = new RootStore(setups.groupWithOffset.root!)
+      groups = (setups.groupWithOffset.groups || []).map(group => {
         const store = new GroupStore(group, rootStore)
         const models = group.models.map(model => new ModelStore(model, rootStore!, store))
         return { store, models }

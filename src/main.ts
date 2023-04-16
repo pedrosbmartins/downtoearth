@@ -5,34 +5,39 @@ import solarSystemJSON from '../setup/solar-system.json'
 import starSizesJSON from '../setup/star-sizes.json'
 import App from './App'
 import map from './map'
-import { Config } from './types'
-import { $configDropdown, $configFileSelector } from './ui'
+import { Setup } from './types'
+import { $setupDropdown, $setupFileSelector } from './ui'
 
-const configs = {
-  alphaCentauri: alphaCentauriJSON as Config,
-  earthSatellites: earthSatellitesJSON as Config,
-  solarSystem: solarSystemJSON as Config,
-  starSizes: starSizesJSON as Config,
-  demo: demoJSON as Config
+const setups = {
+  alphaCentauri: alphaCentauriJSON as Setup,
+  earthSatellites: earthSatellitesJSON as Setup,
+  solarSystem: solarSystemJSON as Setup,
+  starSizes: starSizesJSON as Setup,
+  demo: demoJSON as Setup
 }
 
 const app = new App()
 
 map.on('load', () => {
-  app.initialize(configs.earthSatellites)
+  const initialSetup: keyof typeof setups = 'solarSystem'
+  const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
+  if ($setupOptionElement) {
+    $setupOptionElement.setAttribute('selected', 'true')
+  }
+  app.initialize(setups[initialSetup])
 
-  $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
+  $setupDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     const { value } = this
     if (value === 'from::file') {
-      $configFileSelector.click()
+      $setupFileSelector.click()
     }
-    const config = configs[value as keyof typeof configs]
-    if (config) {
-      app.initialize(config)
+    const setup = setups[value as keyof typeof setups]
+    if (setup) {
+      app.initialize(setup)
     }
   })
 
-  $configFileSelector.addEventListener('change', async function (event) {
+  $setupFileSelector.addEventListener('change', async function (event) {
     const fileList = (<HTMLInputElement>event.target).files
     const file = fileList && fileList[0]
     if (!file) {
@@ -43,8 +48,8 @@ map.on('load', () => {
       console.error(`file type ${file.type} not supported`)
       return
     }
-    const configText = await file.text()
-    const config = JSON.parse(configText) as Config
-    app.initialize(config)
+    const setupText = await file.text()
+    const setup = JSON.parse(setupText) as Setup
+    app.initialize(setup)
   })
 })

@@ -1,4 +1,4 @@
-export interface Config {
+export interface Setup {
   unit?: Unit
   root?: Root
   groups?: Group[]

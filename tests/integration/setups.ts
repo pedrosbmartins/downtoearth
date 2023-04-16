@@ -1,6 +1,6 @@
-import { Config } from '../../src/types'
+import { Setup } from '../../src/types'
 
-export const base: Config = {
+export const base: Setup = {
   unit: { name: 'm', km: 1e-3 },
   root: {
     id: 'root',
@@ -58,7 +58,7 @@ export const base: Config = {
   ]
 }
 
-export const groupWithOffset: Config = {
+export const groupWithOffset: Setup = {
   ...base,
   groups: base.groups!.map(group => {
     group.bearing = 270

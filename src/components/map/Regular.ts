@@ -58,7 +58,7 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
   }
 
   public boundingBox() {
-    return this.layers[0].rendered.boundingBox() // @todo: handle bounding box config
+    return this.layers[0].rendered.boundingBox()
   }
 
   private layerSize({ size }: Layer): number {
