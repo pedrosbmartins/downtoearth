@@ -1,0 +1,136 @@
+{
+  "unit": { "name": "AU", "km": 149597870700 },
+  "root": {
+    "id": "root",
+    "icon": "sun",
+    "label": "Sun",
+    "visible": true,
+    "layer": {
+      "id": "sun",
+      "shape": "circle",
+      "visible": true,
+      "label": { "value": "Sun", "position": "center" },
+      "fill": { "color": "yellow", "opacity": 0.75 },
+      "outline": { "color": "yellow" },
+      "size": { "type": "relative", "real": 0.0093096 }
+    },
+    "sizePresets": [
+      { "label": "1 km", "value": 1, "default": true },
+      { "label": "5 km", "value": 5 },
+      { "label": "10 km", "value": 10 }
+    ]
+  },
+  "groups": [
+    {
+      "id": "stars",
+      "label": "Stars",
+      "visible": true,
+      "bearing": 90,
+      "bearingControl": true,
+      "models": [
+        {
+          "id": "vega",
+          "label": "Vega (α Lyrae)",
+          "visible": true,
+          "icon": "star",
+          "layers": [
+            {
+              "id": "vega",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Vega", "position": "center" },
+              "fill": { "color": "#b9c9ff", "opacity": 0.75 },
+              "offset": { "type": "relative", "real": 0.0159101064 },
+              "size": { "type": "relative", "real": 0.0225106128 }
+            }
+          ]
+        },
+        {
+          "id": "deneb",
+          "label": "Deneb (α Cygni)",
+          "visible": true,
+          "icon": "star",
+          "layers": [
+            {
+              "id": "deneb",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Deneb", "position": "center" },
+              "fill": { "color": "#c7d6ff", "opacity": 0.75 },
+              "offset": { "type": "relative", "real": 0.9720898128 },
+              "size": { "type": "relative", "real": 1.8898488 }
+            }
+          ]
+        },
+        {
+          "id": "antaresA",
+          "label": "Antares A (α Scorpii)",
+          "visible": true,
+          "icon": "star",
+          "layers": [
+            {
+              "id": "antaresA",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Antares A", "position": "center" },
+              "fill": { "color": "#ffca8a", "opacity": 0.75 },
+              "offset": { "type": "relative", "real": 5.0822782128 },
+              "size": { "type": "relative", "real": 6.330528 }
+            }
+          ]
+        },
+        {
+          "id": "betelgeuse",
+          "label": "Betelgeuse (α Orionis)",
+          "visible": true,
+          "icon": "star",
+          "layers": [
+            {
+              "id": "betelgeuse",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Betelgeuse", "position": "center" },
+              "fill": { "color": "#ffca8a", "opacity": 0.75 },
+              "offset": { "type": "relative", "real": 11.8038094128 },
+              "size": { "type": "relative", "real": 7.1125344 }
+            }
+          ]
+        },
+        {
+          "id": "v602carinae",
+          "label": "V602 Carinae",
+          "visible": true,
+          "icon": "star",
+          "layers": [
+            {
+              "id": "v602carinae",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "V602 Carinae", "position": "center" },
+              "fill": { "color": "#ffbb7b", "opacity": 0.75 },
+              "offset": { "type": "relative", "real": 20.2476166128 },
+              "size": { "type": "relative", "real": 9.77508 }
+            }
+          ]
+        },
+        {
+          "id": "vycanismajoris",
+          "label": "VY Canis Majoris",
+          "visible": true,
+          "icon": "star",
+          "layers": [
+            {
+              "id": "vycanismajoris",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "VY Canis Majoris", "position": "center" },
+              "fill": { "color": "#ffbb7b", "opacity": 0.75 },
+              "offset": { "type": "relative", "real": 31.7449726128 },
+              "size": { "type": "relative", "real": 13.219632 }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
