@@ -52,7 +52,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       $bearingSlider.className = 'bearing-slider'
       $bearingSlider.setAttribute('type', 'range')
       $bearingSlider.setAttribute('min', '0')
-      $bearingSlider.setAttribute('max', '360')
+      $bearingSlider.setAttribute('max', '720')
       $bearingSlider.setAttribute('value', '270')
       $bearingSlider.setAttribute('step', '1')
       $bearingSlider.addEventListener('input', event =>

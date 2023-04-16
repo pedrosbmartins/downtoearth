@@ -8,7 +8,7 @@ import { ModelMapComponent, ModelProps } from './Model'
 
 export class RegularMapComponent extends ModelMapComponent<ModelStore> {
   constructor(id: string, store: ModelStore, props: ModelProps) {
-    super(id, store, ['visible', 'center', 'sizeRatio'], props)
+    super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], props)
     this.layers = this.buildLayers()
   }
 
@@ -22,6 +22,9 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
           this.onRootResize()
           break
         case 'center':
+          this.setCenter()
+          break
+        case 'bearing':
           this.setCenter()
           break
       }
@@ -83,7 +86,7 @@ export class RegularMapComponent extends ModelMapComponent<ModelStore> {
     const destination = turf.rhumbDestination(
       center,
       offset.real * ratio,
-      bearing || this.store.groupBearing() || 0
+      bearing || this.store.get('bearing') || this.store.groupBearing() || 0
     )
     return destination.geometry.coordinates
   }
