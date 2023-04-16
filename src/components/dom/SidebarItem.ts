@@ -129,7 +129,7 @@ function SidebarItemIconTemplate({ label, icon }: SidebarItemTemplateProps) {
   $div.className = 'icon'
   const $img = document.createElement('img')
   $img.setAttribute('alt', label)
-  $img.setAttribute('src', `../assets/icons/astro-objects-outline/${icon}.png`)
+  $img.setAttribute('src', `../assets/icons/models/${icon}.png`)
   $div.append($img)
   return $div.outerHTML
 }
