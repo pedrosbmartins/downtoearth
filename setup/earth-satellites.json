@@ -102,7 +102,7 @@
               "visible": true,
               "fill": { "color": "#CF9537" },
               "size": { "type": "relative", "real": 0.02 },
-              "offset": { "type": "relative", "real": 1.8e6 },
+              "offset": { "type": "relative", "real": 1.5e6 },
               "popup": { "content": "James Webb Space Telescope" }
             }
           ]
