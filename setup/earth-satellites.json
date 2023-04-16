@@ -1,0 +1,113 @@
+{
+  "root": {
+    "id": "earth",
+    "icon": "earth",
+    "label": "Earth",
+    "visible": true,
+    "layer": {
+      "id": "earth-fill",
+      "shape": "circle",
+      "visible": true,
+      "label": { "value": "Earth", "position": "center" },
+      "fill": { "color": "#6b93d6", "opacity": 0.5 },
+      "outline": { "color": "#4f4cb0" },
+      "size": { "type": "relative", "real": 12742 }
+    },
+    "sizePresets": [
+      { "label": "10 m", "value": 0.01 },
+      { "label": "1 km", "value": 1, "default": true },
+      { "label": "10 km", "value": 10 }
+    ]
+  },
+  "groups": [
+    {
+      "id": "satellites",
+      "label": "Satellites",
+      "visible": true,
+      "models": [
+        {
+          "id": "iss",
+          "label": "International Space Station",
+          "visible": true,
+          "icon": "iss",
+          "layers": [
+            {
+              "id": "iss-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "International Space Station", "position": "outline" },
+              "outline": { "color": "#291866" },
+              "size": { "type": "relative", "real": 13142 }
+            }
+          ]
+        },
+        {
+          "id": "hubble",
+          "label": "Hubble Space Telescope",
+          "visible": true,
+          "icon": "hubble",
+          "layers": [
+            {
+              "id": "hubble-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Hubble Space Telescope", "position": "outline" },
+              "outline": { "color": "#52606B" },
+              "size": { "type": "relative", "real": 13282 }
+            }
+          ]
+        },
+        {
+          "id": "sputnik",
+          "label": "Sputnik 1 (Спутник-1)",
+          "visible": true,
+          "icon": "sputnik",
+          "layers": [
+            {
+              "id": "sputnik-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Sputnik 1", "position": "outline" },
+              "outline": { "color": "#3F577D" },
+              "size": { "type": "relative", "real": 13681 }
+            }
+          ]
+        },
+        {
+          "id": "moon",
+          "label": "Moon",
+          "visible": true,
+          "icon": "moon",
+          "layers": [
+            {
+              "id": "moon-orbit",
+              "shape": "circle",
+              "visible": true,
+              "label": { "value": "Moon", "position": "outline" },
+              "outline": { "color": "darkgray" },
+              "size": { "type": "relative", "real": 384399 }
+            }
+          ]
+        },
+        {
+          "id": "jwst",
+          "label": "James Webb Space Telescope",
+          "visible": true,
+          "icon": "jwst",
+          "bearingControl": true,
+          "layers": [
+            {
+              "id": "jwst",
+              "shape": "circle",
+              "visible": true,
+              "fill": { "color": "#CF9537" },
+              "size": { "type": "relative", "real": 0.02 },
+              "offset": { "type": "relative", "real": 1.8e6 },
+              "popup": { "content": "James Webb Space Telescope" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

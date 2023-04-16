@@ -1,5 +1,6 @@
 import alphaCentauriJSON from '../setup/alpha-centauri.json'
 import demoJSON from '../setup/demo.json'
+import earthSatellitesJSON from '../setup/earth-satellites.json'
 import solarSystemJSON from '../setup/solar-system.json'
 import starSizesJSON from '../setup/star-sizes.json'
 import App from './App'
@@ -9,6 +10,7 @@ import { $configDropdown, $configFileSelector } from './ui'
 
 const configs = {
   alphaCentauri: alphaCentauriJSON as Config,
+  earthSatellites: earthSatellitesJSON as Config,
   solarSystem: solarSystemJSON as Config,
   starSizes: starSizesJSON as Config,
   demo: demoJSON as Config
@@ -17,7 +19,7 @@ const configs = {
 const app = new App()
 
 map.on('load', () => {
-  app.initialize(configs.starSizes)
+  app.initialize(configs.earthSatellites)
 
   $configDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     const { value } = this
