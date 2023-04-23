@@ -7,9 +7,9 @@ interface Props {
   label: Label
 }
 
-export class CircleLabelSource extends Source {
+export class OutlineLabelSource extends Source {
   constructor(id: string, data: () => any, props: Props) {
-    super(id, 'geojson', data, [CircleLabelSource.layer(id, props)])
+    super(id, 'geojson', data, [OutlineLabelSource.layer(id, props)])
   }
 
   private static layer(sourceId: string, props: Props): SymbolLayer {

@@ -1,8 +1,6 @@
 import { INITIAL_CENTER } from '../../constants'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { Layer } from '../../types'
-import { Circle } from '../map/primitives'
 import { MapComponent, MapLayer, Props } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
@@ -34,11 +32,13 @@ export class RootMapComponent extends MapComponent<RootStore> {
     return this.layer.rendered.boundingBox()
   }
 
-  protected buildLayer(layer: Layer) {
-    return new Circle(`${this.id}-${layer.id}`, {
-      sizeRatio: this.store.sizeRatio(),
-      definition: layer,
-      center: this.store.get('center') ?? INITIAL_CENTER
-    })
+  protected sizeRatio(): number {
+    return this.store.sizeRatio()
+  }
+  protected center(): number[] {
+    return this.store.get('center') ?? INITIAL_CENTER
+  }
+  protected rootCenter() {
+    return () => this.store.get('center')
   }
 }

@@ -32,6 +32,10 @@ export function circle(center: number[], size: number) {
   return turf.circle(center, size, { steps: 80, units: 'kilometers' })
 }
 
+export function ellipse(center: number[], semiMajorAxis: number, semiMinorAxis: number) {
+  return turf.ellipse(center, semiMajorAxis, semiMinorAxis, { steps: 180, units: 'kilometers' })
+}
+
 export interface GeolocateResultEvent {
   type: 'geolocate'
   coords: GeolocationCoordinates

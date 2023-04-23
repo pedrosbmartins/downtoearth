@@ -2,9 +2,8 @@ import * as turf from '@turf/turf'
 
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { Layer, isRelativeSize } from '../../types'
+import { Layer, hasRelativeSize } from '../../types'
 import { MapComponent, Props } from './MapComponent'
-import { Circle } from './primitives'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
   constructor(id: string, store: ModelStore, props: Props) {
@@ -33,27 +32,18 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
 
   protected onRootResize() {
     this.layers.forEach(({ definition, rendered }) => {
-      if (isRelativeSize(definition.size)) {
-        rendered.resize(this.store.get('sizeRatio'))
+      if (hasRelativeSize(definition)) {
+        rendered.resize(this.sizeRatio())
       }
       if (definition.offset) {
-        rendered.setCenter(this.layerCenter(definition))
+        rendered.setCenter(this.center(definition))
       }
     })
   }
 
   protected setCenter() {
     this.layers.forEach(({ definition, rendered }) => {
-      rendered.setCenter(this.layerCenter(definition))
-    })
-  }
-
-  protected buildLayer(layer: Layer) {
-    return new Circle(`${this.id}-${layer.id}`, {
-      definition: layer,
-      sizeRatio: this.store.get('sizeRatio'),
-      center: this.layerCenter(layer),
-      rootCenter: () => this.store.rootCenter()
+      rendered.setCenter(this.center(definition))
     })
   }
 
@@ -61,14 +51,18 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
     return this.layers[0].rendered.boundingBox()
   }
 
-  private layerCenter({ offset, bearing }: Layer): number[] {
+  protected sizeRatio(): number {
+    return this.store.get('sizeRatio')
+  }
+
+  protected center({ offset, bearing }: Layer): number[] {
     const center = this.store.get('center')
 
     if (!offset) {
       return this.store.get('center')
     }
 
-    const ratio = this.store.get('sizeRatio')
+    const ratio = this.sizeRatio()
     if (!ratio) {
       throw new Error(`size ratio not set for relative sized model ${this.id}`)
     }
@@ -78,5 +72,9 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
       bearing || this.store.get('bearing') || this.store.groupBearing() || 0
     )
     return destination.geometry.coordinates
+  }
+
+  protected rootCenter() {
+    return () => this.store.rootCenter()
   }
 }

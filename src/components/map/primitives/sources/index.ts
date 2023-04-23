@@ -1,3 +1,3 @@
-export { Source } from './Source'
 export { CircleSource } from './CircleSource'
-export { CircleLabelSource } from './CircleLabelSource'
+export { OutlineLabelSource } from './OutlineLabelSource'
+export { Source } from './Source'

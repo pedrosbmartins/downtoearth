@@ -16,7 +16,7 @@ export interface Model {
 export interface Root extends Omit<Model, 'layers'> {
   id: 'root'
   sizePresets: SizePreset[]
-  layer: Layer
+  layer: CircleLayer
 }
 
 export interface SizePreset {
@@ -35,11 +35,9 @@ export interface Group {
   offset?: RelativeSize
 }
 
-export interface CircleLayer {
+interface LayerBase {
   id: string
-  shape: 'circle'
   visible: boolean
-  size: Size
   fill?: Fill
   outline?: Outline
   offset?: RelativeSize
@@ -49,7 +47,17 @@ export interface CircleLayer {
   drawLineToRoot?: boolean
 }
 
-export type Layer = CircleLayer
+export interface CircleLayer extends LayerBase {
+  shape: 'circle'
+  size: Size
+}
+
+export interface EllipseLayer extends LayerBase {
+  shape: 'ellipse'
+  axes: { semiMajor: Size; semiMinor: Size }
+}
+
+export type Layer = CircleLayer | EllipseLayer
 
 export type Size = AbsoluteSize | RelativeSize
 
@@ -78,6 +86,13 @@ export interface Label {
 export interface Unit {
   name: string
   km: number
+}
+
+export function hasRelativeSize(layer: Layer) {
+  return (
+    (layer.shape === 'circle' && isRelativeSize(layer.size)) ||
+    (layer.shape === 'ellipse' && isRelativeSize(layer.axes.semiMajor))
+  )
 }
 
 export function isRelativeSize(object: any): object is RelativeSize {
