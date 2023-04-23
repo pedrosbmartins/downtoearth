@@ -1,0 +1,51 @@
+{
+  "unit": { "name": "AU", "km": 149597870700 },
+  "root": {
+    "id": "root",
+    "icon": "sun",
+    "label": "Sun",
+    "visible": true,
+    "layer": {
+      "id": "sun",
+      "shape": "circle",
+      "visible": true,
+      "popup": { "content": "Sun" },
+      "fill": { "color": "yellow", "opacity": 0.5 },
+      "outline": { "color": "orange" },
+      "radius": { "type": "relative", "real": 0.0093096 }
+    },
+    "sizePresets": [
+      { "label": "1 m", "value": 0.001 },
+      { "label": "10 m", "value": 0.01, "default": true },
+      { "label": "100 m", "value": 0.1 }
+    ]
+  },
+  "groups": [
+    {
+      "id": "solar-system",
+      "label": "Solar System",
+      "visible": true,
+      "models": [
+        {
+          "id": "pluto",
+          "label": "Pluto",
+          "visible": true,
+          "icon": "pluto",
+          "layers": [
+            {
+              "id": "pluto-orbit",
+              "shape": "ellipse",
+              "visible": true,
+              "label": { "value": "Pluto", "position": "outline" },
+              "outline": { "color": "#45331D" },
+              "axes": {
+                "semiMajor": { "type": "relative", "real": 39.236 },
+                "semiMinor": { "type": "relative", "real": 38.046 }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

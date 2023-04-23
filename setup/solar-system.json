@@ -12,7 +12,7 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.5 },
       "outline": { "color": "orange" },
-      "diameter": { "type": "relative", "real": 0.0093096 }
+      "radius": { "type": "relative", "real": 0.00465047 }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001 },
@@ -40,7 +40,7 @@
               "visible": true,
               "label": { "value": "Mercury", "position": "outline" },
               "outline": { "color": "Crimson" },
-              "diameter": { "type": "relative", "real": 0.4 }
+              "radius": { "type": "relative", "real": 0.4 }
             }
           ]
         },
@@ -56,7 +56,7 @@
               "visible": true,
               "label": { "value": "Venus", "position": "outline" },
               "outline": { "color": "Chocolate" },
-              "diameter": { "type": "relative", "real": 0.7 }
+              "radius": { "type": "relative", "real": 0.7 }
             }
           ]
         },
@@ -72,7 +72,7 @@
               "visible": true,
               "label": { "value": "Earth", "position": "outline" },
               "outline": { "color": "blue" },
-              "diameter": { "type": "relative", "real": 1.0 },
+              "radius": { "type": "relative", "real": 1.0 },
               "actsAsInitialBounds": true
             }
           ]
@@ -89,7 +89,7 @@
               "visible": true,
               "label": { "value": "Mars", "position": "outline" },
               "outline": { "color": "red" },
-              "diameter": { "type": "relative", "real": 1.5 }
+              "radius": { "type": "relative", "real": 1.5 }
             }
           ]
         },
@@ -105,7 +105,7 @@
               "visible": true,
               "label": { "value": "Asteroid Belt", "position": "outline" },
               "outline": { "color": "gray" },
-              "diameter": { "type": "relative", "real": 2.8 }
+              "radius": { "type": "relative", "real": 2.8 }
             }
           ]
         },
@@ -121,7 +121,7 @@
               "visible": true,
               "label": { "value": "Jupiter", "position": "outline" },
               "outline": { "color": "orange" },
-              "diameter": { "type": "relative", "real": 5.2 }
+              "radius": { "type": "relative", "real": 5.2 }
             }
           ]
         },
@@ -137,7 +137,7 @@
               "visible": true,
               "label": { "value": "Saturn", "position": "outline" },
               "outline": { "color": "DarkGoldenRod" },
-              "diameter": { "type": "relative", "real": 9.6 }
+              "radius": { "type": "relative", "real": 9.6 }
             }
           ]
         },
@@ -153,7 +153,7 @@
               "visible": true,
               "label": { "value": "Uranus", "position": "outline" },
               "outline": { "color": "DarkBlue" },
-              "diameter": { "type": "relative", "real": 19.2 }
+              "radius": { "type": "relative", "real": 19.2 }
             }
           ]
         },
@@ -169,7 +169,7 @@
               "visible": true,
               "label": { "value": "Neptune", "position": "outline" },
               "outline": { "color": "blue" },
-              "diameter": { "type": "relative", "real": 30.0 }
+              "radius": { "type": "relative", "real": 30.0 }
             }
           ]
         }

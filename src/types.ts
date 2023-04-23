@@ -49,7 +49,7 @@ interface LayerBase {
 
 export interface CircleLayer extends LayerBase {
   shape: 'circle'
-  diameter: Size
+  radius: Size
 }
 
 export interface EllipseLayer extends LayerBase {
@@ -90,7 +90,7 @@ export interface Unit {
 
 export function hasRelativeSize(layer: Layer) {
   return (
-    (layer.shape === 'circle' && isRelativeSize(layer.diameter)) ||
+    (layer.shape === 'circle' && isRelativeSize(layer.radius)) ||
     (layer.shape === 'ellipse' && isRelativeSize(layer.axes.semiMajor))
   )
 }

@@ -28,10 +28,10 @@ export class Circle extends Layer<CircleLayer> {
   }
 
   private radius() {
-    if (isAbsluteSize(this.definition.diameter)) {
-      return this.definition.diameter / 2
+    if (isAbsluteSize(this.definition.radius)) {
+      return this.definition.radius
     } else {
-      return (this.props.sizeRatio * this.definition.diameter.real) / 2
+      return this.props.sizeRatio * this.definition.radius.real
     }
   }
 }

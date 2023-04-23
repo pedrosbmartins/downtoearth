@@ -1,6 +1,7 @@
 import alphaCentauriJSON from '../setup/alpha-centauri.json'
 import demoJSON from '../setup/demo.json'
 import earthSatellitesJSON from '../setup/earth-satellites.json'
+import plutoJSON from '../setup/pluto.json'
 import solarSystemJSON from '../setup/solar-system.json'
 import starSizesJSON from '../setup/star-sizes.json'
 import App from './App'
@@ -11,6 +12,7 @@ import { $setupDropdown, $setupFileSelector } from './ui'
 const setups = {
   alphaCentauri: alphaCentauriJSON as Setup,
   earthSatellites: earthSatellitesJSON as Setup,
+  pluto: plutoJSON as Setup,
   solarSystem: solarSystemJSON as Setup,
   starSizes: starSizesJSON as Setup,
   demo: demoJSON as Setup
