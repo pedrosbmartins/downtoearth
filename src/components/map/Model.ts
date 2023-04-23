@@ -1,58 +1,82 @@
-import { AnyStore, StoreListener } from '../../store/core'
-import { Layer } from '../../types'
-import { Circle } from '../map/primitives'
+import * as turf from '@turf/turf'
 
-export interface ModelProps {
-  layerDefinitions: Layer[]
-}
+import { ModelData, ModelStore } from '../../store'
+import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
+import { Layer, isRelativeSize } from '../../types'
+import { MapComponent, Props } from './MapComponent'
+import { Circle } from './primitives'
 
-export interface ModelLayer {
-  rendered: Circle
-  definition: Layer
-}
-
-export abstract class ModelMapComponent<S extends AnyStore> extends StoreListener {
-  protected layers: ModelLayer[] = []
-
-  constructor(
-    protected id: string,
-    protected store: S,
-    events: string[],
-    protected props: ModelProps
-  ) {
-    super([{ store, events }])
+export class ModelMapComponent extends MapComponent<ModelStore> {
+  constructor(id: string, store: ModelStore, props: Props) {
+    super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], props)
+    this.layers = this.buildLayers()
   }
 
-  public destroy() {
-    this.layers.forEach(layer => layer.rendered.destroy())
+  onUpdate(event: AnyStoreEvent) {
+    if (matchEvent<ModelData>(this.store.id, 'model', event)) {
+      switch (eventField(event)) {
+        case 'visible':
+          event.data.visible ? this.show() : this.hide()
+          break
+        case 'sizeRatio':
+          this.onRootResize()
+          break
+        case 'center':
+          this.setCenter()
+          break
+        case 'bearing':
+          this.setCenter()
+          break
+      }
+    }
   }
 
-  protected show() {
-    this.layers.forEach(({ rendered }) => rendered.show())
-  }
-
-  protected hide() {
-    this.layers.forEach(({ rendered }) => rendered.hide())
-  }
-
-  protected resize(value: number) {
-    this.layers.forEach(({ rendered }) => {
-      rendered.resize(value)
+  protected onRootResize() {
+    this.layers.forEach(({ definition, rendered }) => {
+      if (isRelativeSize(definition.size)) {
+        rendered.resize(this.store.get('sizeRatio'))
+      }
+      if (definition.offset) {
+        rendered.setCenter(this.layerCenter(definition))
+      }
     })
   }
 
-  protected setCenter(value: number[]) {
-    this.layers.forEach(({ rendered }) => {
-      rendered.setCenter(value)
+  protected setCenter() {
+    this.layers.forEach(({ definition, rendered }) => {
+      rendered.setCenter(this.layerCenter(definition))
     })
   }
 
-  protected buildLayers() {
-    return this.props.layerDefinitions.map(layer => {
-      const circle = this.buildLayer(layer)
-      return { definition: layer, rendered: circle }
+  protected buildLayer(layer: Layer) {
+    return new Circle(`${this.id}-${layer.id}`, {
+      definition: layer,
+      sizeRatio: this.store.get('sizeRatio'),
+      center: this.layerCenter(layer),
+      rootCenter: () => this.store.rootCenter()
     })
   }
 
-  protected abstract buildLayer(layer: Layer): Circle
+  public boundingBox() {
+    return this.layers[0].rendered.boundingBox()
+  }
+
+  private layerCenter({ offset, bearing }: Layer): number[] {
+    const center = this.store.get('center')
+
+    if (!offset) {
+      return this.store.get('center')
+    }
+
+    const ratio = this.store.get('sizeRatio')
+    if (!ratio) {
+      throw new Error(`size ratio not set for relative sized model ${this.id}`)
+    }
+    const destination = turf.rhumbDestination(
+      center,
+      offset.real * ratio,
+      bearing || this.store.get('bearing') || this.store.groupBearing() || 0
+    )
+    return destination.geometry.coordinates
+  }
 }

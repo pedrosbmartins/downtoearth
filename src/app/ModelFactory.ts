@@ -1,12 +1,12 @@
 import { SidebarItem } from '../components/dom'
-import { RegularMapComponent } from '../components/map'
+import { ModelMapComponent } from '../components/map'
 import { fitBounds } from '../map'
 import { GroupStore, ModelStore, RootStore } from '../store'
 import { Model } from '../types'
 
 export class ModelFactory {
   public store: ModelStore
-  public mapComponent: RegularMapComponent
+  public mapComponent: ModelMapComponent
 
   constructor(
     private definition: Model,
@@ -21,7 +21,7 @@ export class ModelFactory {
 
   private buildMapComponent() {
     const { id, layers } = this.definition
-    return new RegularMapComponent(id, this.store, {
+    return new ModelMapComponent(id, this.store, {
       layerDefinitions: layers
     })
   }

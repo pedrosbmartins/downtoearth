@@ -52,7 +52,6 @@ export class RootFactory extends EventTarget {
     const { sizePresets, layer } = this.definition
     if (layer) {
       this.mapComponent = new RootMapComponent('root', this.store, {
-        size: sizePresets.find(sp => sp.default)!.value,
         layerDefinitions: [layer]
       })
     }

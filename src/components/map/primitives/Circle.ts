@@ -4,12 +4,12 @@ import mapboxgl, { LngLatLike } from 'mapbox-gl'
 import { INITIAL_CENTER } from '../../../constants'
 import map, { circle } from '../../../map'
 import { BoundingBox } from '../../../store'
-import { CircleLayer } from '../../../types'
+import { CircleLayer, isAbsluteSize } from '../../../types'
 import { CircleLabelSource, CircleSource, Source } from './sources'
 import { LineSource } from './sources/LineSource'
 
 interface Props {
-  size: number
+  sizeRatio: number
   center: number[]
   definition: CircleLayer
   rootCenter?: () => number[] | undefined
@@ -49,8 +49,8 @@ export class Circle {
     })
   }
 
-  public resize(size: number) {
-    this.updateSources({ size })
+  public resize(sizeRatio: number) {
+    this.updateSources({ sizeRatio })
   }
 
   public setCenter(center: number[]) {
@@ -126,7 +126,11 @@ export class Circle {
   }
 
   private radius() {
-    return this.props.size / 2
+    if (isAbsluteSize(this.definition.size)) {
+      return this.definition.size
+    } else {
+      return (this.props.sizeRatio * this.definition.size.real) / 2
+    }
   }
 
   private namespace(value: string) {
