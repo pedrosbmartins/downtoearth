@@ -11,7 +11,7 @@
       "id": "root",
       "shape": "circle",
       "visible": true,
-      "size": {
+      "diameter": {
         "type": "relative",
         "real": 1
       },
@@ -56,7 +56,7 @@
               "id": "1",
               "shape": "circle",
               "visible": true,
-              "size": {
+              "diameter": {
                 "type": "relative",
                 "real": 2
               },
@@ -76,7 +76,7 @@
               "id": "2",
               "shape": "circle",
               "visible": true,
-              "size": {
+              "diameter": {
                 "type": "relative",
                 "real": 2
               },

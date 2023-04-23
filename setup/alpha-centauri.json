@@ -12,7 +12,7 @@
       "popup": { "content": "Sun" },
       "fill": { "color": "#fff2d1", "opacity": 1 },
       "outline": { "color": "rgba(0,0,0,0.25)" },
-      "size": { "type": "relative", "real": 0.0093096 }
+      "diameter": { "type": "relative", "real": 0.0093096 }
     },
     "sizePresets": [
       { "label": "1 cm", "value": 0.00001, "default": true },
@@ -46,7 +46,7 @@
               "popup": { "content": "Proxima Centauri" },
               "fill": { "color": "#ffc317" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "size": { "type": "relative", "real": 0.00143 },
+              "diameter": { "type": "relative", "real": 0.00143 },
               "offset": { "type": "relative", "real": 0 },
               "drawLineToRoot": true
             }
@@ -65,7 +65,7 @@
               "popup": { "content": "Alpha Centauri B" },
               "fill": { "color": "#ffeb93" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "size": { "type": "relative", "real": 0.008032 },
+              "diameter": { "type": "relative", "real": 0.008032 },
               "offset": { "type": "relative", "real": 13000 },
               "drawLineToRoot": true
             }
@@ -84,7 +84,7 @@
               "popup": { "content": "Alpha Centauri A" },
               "fill": { "color": "#fff0c0" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "size": {
+              "diameter": {
                 "type": "relative",
                 "real": 0.0113785
               },

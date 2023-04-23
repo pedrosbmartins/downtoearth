@@ -12,7 +12,7 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.75 },
       "outline": { "color": "yellow" },
-      "size": { "type": "relative", "real": 0.0093096 }
+      "diameter": { "type": "relative", "real": 0.0093096 }
     },
     "sizePresets": [
       { "label": "100 m", "value": 0.1 },
@@ -41,7 +41,7 @@
               "label": { "value": "Vega", "position": "center" },
               "fill": { "color": "#b9c9ff", "opacity": 0.75 },
               "offset": { "type": "relative", "real": 0.0159101064 },
-              "size": { "type": "relative", "real": 0.0225106128 }
+              "diameter": { "type": "relative", "real": 0.0225106128 }
             }
           ]
         },
@@ -58,7 +58,7 @@
               "label": { "value": "Deneb", "position": "center" },
               "fill": { "color": "#c7d6ff", "opacity": 0.75 },
               "offset": { "type": "relative", "real": 0.9720898128 },
-              "size": { "type": "relative", "real": 1.8898488 }
+              "diameter": { "type": "relative", "real": 1.8898488 }
             }
           ]
         },
@@ -75,7 +75,7 @@
               "label": { "value": "Antares A", "position": "center" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
               "offset": { "type": "relative", "real": 5.0822782128 },
-              "size": { "type": "relative", "real": 6.330528 }
+              "diameter": { "type": "relative", "real": 6.330528 }
             }
           ]
         },
@@ -92,7 +92,7 @@
               "label": { "value": "Betelgeuse", "position": "center" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
               "offset": { "type": "relative", "real": 11.8038094128 },
-              "size": { "type": "relative", "real": 7.1125344 }
+              "diameter": { "type": "relative", "real": 7.1125344 }
             }
           ]
         },
@@ -109,7 +109,7 @@
               "label": { "value": "V602 Carinae", "position": "center" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
               "offset": { "type": "relative", "real": 20.2476166128 },
-              "size": { "type": "relative", "real": 9.77508 }
+              "diameter": { "type": "relative", "real": 9.77508 }
             }
           ]
         },
@@ -126,7 +126,7 @@
               "label": { "value": "VY Canis Majoris", "position": "center" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
               "offset": { "type": "relative", "real": 31.7449726128 },
-              "size": { "type": "relative", "real": 13.219632 }
+              "diameter": { "type": "relative", "real": 13.219632 }
             }
           ]
         }

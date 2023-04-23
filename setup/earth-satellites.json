@@ -11,7 +11,7 @@
       "label": { "value": "Earth", "position": "center" },
       "fill": { "color": "#6b93d6", "opacity": 0.5 },
       "outline": { "color": "#4f4cb0" },
-      "size": { "type": "relative", "real": 12742 }
+      "diameter": { "type": "relative", "real": 12742 }
     },
     "sizePresets": [
       { "label": "10 m", "value": 0.01 },
@@ -37,7 +37,7 @@
               "visible": true,
               "label": { "value": "International Space Station", "position": "outline" },
               "outline": { "color": "#291866" },
-              "size": { "type": "relative", "real": 13142 }
+              "diameter": { "type": "relative", "real": 13142 }
             }
           ]
         },
@@ -53,7 +53,7 @@
               "visible": true,
               "label": { "value": "Hubble Space Telescope", "position": "outline" },
               "outline": { "color": "#52606B" },
-              "size": { "type": "relative", "real": 13282 }
+              "diameter": { "type": "relative", "real": 13282 }
             }
           ]
         },
@@ -69,7 +69,7 @@
               "visible": true,
               "label": { "value": "Sputnik 1", "position": "outline" },
               "outline": { "color": "#3F577D" },
-              "size": { "type": "relative", "real": 13681 }
+              "diameter": { "type": "relative", "real": 13681 }
             }
           ]
         },
@@ -85,7 +85,7 @@
               "visible": true,
               "label": { "value": "Moon", "position": "outline" },
               "outline": { "color": "darkgray" },
-              "size": { "type": "relative", "real": 384399 }
+              "diameter": { "type": "relative", "real": 384399 }
             }
           ]
         },
@@ -101,7 +101,7 @@
               "shape": "circle",
               "visible": true,
               "fill": { "color": "#CF9537" },
-              "size": { "type": "relative", "real": 0.02 },
+              "diameter": { "type": "relative", "real": 0.02 },
               "offset": { "type": "relative", "real": 1.5e6 },
               "popup": { "content": "James Webb Space Telescope" }
             }

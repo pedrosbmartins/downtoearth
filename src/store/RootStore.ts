@@ -10,7 +10,7 @@ export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
 export class RootStore extends Store<RootData> {
   constructor(definition: Root, center?: number[]) {
     const { visible, layer, sizePresets } = definition
-    const realSize = isRelativeSize(layer.size) ? layer.size.real : layer.size
+    const realSize = isRelativeSize(layer.diameter) ? layer.diameter.real : layer.diameter
     const renderedSize = sizePresets.find(sp => sp.default)!.value
     super('root', {
       type: 'root',
