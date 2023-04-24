@@ -1,21 +1,21 @@
-import alphaCentauriJSON from '../setup/alpha-centauri.json'
-import demoJSON from '../setup/demo.json'
-import earthSatellitesJSON from '../setup/earth-satellites.json'
-import plutoJSON from '../setup/pluto.json'
-import solarSystemJSON from '../setup/solar-system.json'
-import starSizesJSON from '../setup/star-sizes.json'
+import alphaCentauri from '../setup/alphaCentauri.json'
+import demo from '../setup/demo.json'
+import earthSatellites from '../setup/earthSatellites.json'
+import pluto from '../setup/pluto.json'
+import solarSystem from '../setup/solarSystem.json'
+import starSizes from '../setup/starSizes.json'
 import App from './App'
 import map from './map'
 import { Setup } from './types'
 import { $setupDropdown, $setupFileSelector } from './ui'
 
 const setups = {
-  alphaCentauri: alphaCentauriJSON as Setup,
-  earthSatellites: earthSatellitesJSON as Setup,
-  pluto: plutoJSON as Setup,
-  solarSystem: solarSystemJSON as Setup,
-  starSizes: starSizesJSON as Setup,
-  demo: demoJSON as Setup
+  alphaCentauri: alphaCentauri as Setup,
+  earthSatellites: earthSatellites as Setup,
+  pluto: pluto as Setup,
+  solarSystem: solarSystem as Setup,
+  starSizes: starSizes as Setup,
+  demo: demo as Setup
 }
 
 const app = new App()
