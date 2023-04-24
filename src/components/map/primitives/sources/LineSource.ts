@@ -4,6 +4,7 @@ import { Source } from './Source'
 
 interface Props {
   visible: boolean
+  color?: string
 }
 
 interface LineData {
@@ -37,7 +38,7 @@ export class LineSource extends Source<LineData> {
       type: 'line',
       source: sourceId,
       paint: {
-        'line-color': '#555',
+        'line-color': props.color ?? '#555',
         'line-width': 2
       }
     }
