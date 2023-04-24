@@ -61,6 +61,7 @@ export class RootFactory extends EventTarget {
     const { label, sizePresets, icon } = this.definition
 
     const $container = document.createElement('div')
+    $container.className = 'root'
     $container.innerHTML = this.template()
     $sidebar.append($container)
 
@@ -88,17 +89,15 @@ export class RootFactory extends EventTarget {
 
   private template() {
     return `
-      <div class="root">
-        <div class="items"></div>
-        <div class="controls">
-          <div class="control">
-            <span class="label">Position</span>
-            <div class="container">
-              <div id="geocoder" class="geocoder"></div>
-            </div>
+      <div class="items"></div>
+      <div class="controls">
+        <div class="control">
+          <span class="label">Position</span>
+          <div class="container">
+            <div id="geocoder" class="geocoder"></div>
           </div>
-          <div data-role="size-presets"></div>
         </div>
+        <div data-role="size-presets"></div>
       </div>
     `
   }

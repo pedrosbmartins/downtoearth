@@ -4,6 +4,7 @@ import earthSatellites from '../setup/earthSatellites.json'
 import pluto from '../setup/pluto.json'
 import solarSystem from '../setup/solarSystem.json'
 import starSizes from '../setup/starSizes.json'
+import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import App from './App'
 import map from './map'
 import { Setup } from './types'
@@ -15,6 +16,7 @@ const setups = {
   pluto: pluto as Setup,
   solarSystem: solarSystem as Setup,
   starSizes: starSizes as Setup,
+  starSizes_solarSystem: starSizes_solarSystem as Setup,
   demo: demo as Setup
 }
 

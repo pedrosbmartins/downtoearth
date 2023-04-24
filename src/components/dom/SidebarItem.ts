@@ -76,7 +76,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
     }
 
     const VisibilityControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
-      icon: 'hide',
+      icon: this.store.get('visible') ? 'hide' : 'show',
       events: ['visible'],
       onUpdate: ($, event) => {
         if (matchDataEvent(this.storeId, event)) {

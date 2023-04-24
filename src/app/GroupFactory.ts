@@ -18,11 +18,19 @@ export class GroupFactory {
   }
 
   private buildUI() {
-    const $container = document.createElement('div')
-    $container.innerHTML = this.template()
-    $sidebar.append($container)
+    let $wrapper = document.getElementById('group-container')
+    if (!$wrapper) {
+      $wrapper = document.createElement('div')
+      $wrapper.id = 'group-container'
+      $sidebar.append($wrapper)
+    }
 
-    const $groupContainer = $container.querySelector('.items[data-role="group"]')
+    const $group = document.createElement('div')
+    $group.className = 'group'
+    $group.innerHTML = this.template()
+    $wrapper.append($group)
+
+    const $groupContainer = $group.querySelector('.items[data-role="group"]')
     const onCenter = () => {
       const componentsBbox = this.models.map(model => model.mapComponent.boundingBox())
       const boundingBox = turf.bbox(
@@ -36,7 +44,7 @@ export class GroupFactory {
       this.store
     )
     $groupContainer!.append(itemComponent.dom())
-    return $container
+    return $group
   }
 
   private buildModels() {
@@ -48,10 +56,8 @@ export class GroupFactory {
 
   private template() {
     return `
-      <div class="group">
-        <div class="items" data-role="group"></div>
-        <div class="items" data-role="models"></div>
-      </div>
+      <div class="items" data-role="group"></div>
+      <div class="items" data-role="models"></div>
     `
   }
 }
