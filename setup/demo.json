@@ -1,8 +1,5 @@
 {
-  "unit": {
-    "name": "km",
-    "km": 1
-  },
+  "unit": { "name": "km", "km": 1 },
   "root": {
     "id": "root",
     "label": "Root",
@@ -11,28 +8,13 @@
       "id": "root",
       "shape": "circle",
       "visible": true,
-      "diameter": {
-        "type": "relative",
-        "real": 1
-      },
-      "fill": {
-        "color": "yellow"
-      }
+      "radius": { "type": "relative", "real": 1 },
+      "fill": { "color": "yellow" }
     },
     "sizePresets": [
-      {
-        "label": "1",
-        "value": 1,
-        "default": true
-      },
-      {
-        "label": "5",
-        "value": 5
-      },
-      {
-        "label": "10",
-        "value": 10
-      }
+      { "label": "1", "km": 1, "default": true },
+      { "label": "5", "km": 5 },
+      { "label": "10", "km": 10 }
     ]
   },
   "groups": [
@@ -42,10 +24,7 @@
       "visible": true,
       "bearingControl": true,
       "bearing": 270,
-      "offset": {
-        "type": "relative",
-        "real": 10
-      },
+      "offset": { "type": "relative", "real": 10 },
       "models": [
         {
           "id": "1",
@@ -56,13 +35,8 @@
               "id": "1",
               "shape": "circle",
               "visible": true,
-              "diameter": {
-                "type": "relative",
-                "real": 2
-              },
-              "fill": {
-                "color": "red"
-              },
+              "radius": { "type": "relative", "real": 2 },
+              "fill": { "color": "red" },
               "drawLineToRoot": true
             }
           ]
@@ -76,17 +50,9 @@
               "id": "2",
               "shape": "circle",
               "visible": true,
-              "diameter": {
-                "type": "relative",
-                "real": 2
-              },
-              "fill": {
-                "color": "blue"
-              },
-              "offset": {
-                "type": "relative",
-                "real": 2
-              },
+              "radius": { "type": "relative", "real": 2 },
+              "fill": { "color": "blue" },
+              "offset": { "type": "relative", "real": 2 },
               "drawLineToRoot": true
             }
           ]

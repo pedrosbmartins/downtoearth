@@ -11,7 +11,7 @@ export class RootStore extends Store<RootData> {
   constructor(definition: Root, center?: number[]) {
     const { visible, layer, sizePresets } = definition
     const realSize = isRelativeSize(layer.radius) ? layer.radius.real : layer.radius
-    const renderedSize = sizePresets.find(sp => sp.default)!.value
+    const renderedSize = sizePresets.find(sp => sp.default)!.km / 2
     super('root', {
       type: 'root',
       visible,

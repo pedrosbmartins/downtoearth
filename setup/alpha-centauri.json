@@ -12,13 +12,13 @@
       "popup": { "content": "Sun" },
       "fill": { "color": "#fff2d1", "opacity": 1 },
       "outline": { "color": "rgba(0,0,0,0.25)" },
-      "diameter": { "type": "relative", "real": 0.0093096 }
+      "radius": { "type": "relative", "real": 0.00465047 }
     },
     "sizePresets": [
-      { "label": "1 cm", "value": 0.00001, "default": true },
-      { "label": "2 cm", "value": 0.00002 },
-      { "label": "5 cm", "value": 0.00005 },
-      { "label": "10 cm", "value": 0.0001 }
+      { "label": "1 cm", "km": 0.00001, "default": true },
+      { "label": "2 cm", "km": 0.00002 },
+      { "label": "5 cm", "km": 0.00005 },
+      { "label": "10 cm", "km": 0.0001 }
     ]
   },
   "groups": [
@@ -46,7 +46,7 @@
               "popup": { "content": "Proxima Centauri" },
               "fill": { "color": "#ffc317" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "diameter": { "type": "relative", "real": 0.00143 },
+              "radius": { "type": "relative", "real": 0.0007 },
               "offset": { "type": "relative", "real": 0 },
               "drawLineToRoot": true
             }
@@ -65,7 +65,7 @@
               "popup": { "content": "Alpha Centauri B" },
               "fill": { "color": "#ffeb93" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "diameter": { "type": "relative", "real": 0.008032 },
+              "radius": { "type": "relative", "real": 0.004 },
               "offset": { "type": "relative", "real": 13000 },
               "drawLineToRoot": true
             }
@@ -84,10 +84,7 @@
               "popup": { "content": "Alpha Centauri A" },
               "fill": { "color": "#fff0c0" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "diameter": {
-                "type": "relative",
-                "real": 0.0113785
-              },
+              "radius": { "type": "relative", "real": 0.0057 },
               "offset": { "type": "relative", "real": 13023.4 },
               "drawLineToRoot": true
             }

@@ -21,7 +21,7 @@ export interface Root extends Omit<Model, 'layers'> {
 
 export interface SizePreset {
   label: string
-  value: number
+  km: number
   default?: boolean
 }
 

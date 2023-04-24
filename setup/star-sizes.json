@@ -12,12 +12,12 @@
       "label": { "value": "Sun", "position": "center" },
       "fill": { "color": "yellow", "opacity": 0.75 },
       "outline": { "color": "yellow" },
-      "diameter": { "type": "relative", "real": 0.0093096 }
+      "radius": { "type": "relative", "real": 0.00465047 }
     },
     "sizePresets": [
-      { "label": "100 m", "value": 0.1 },
-      { "label": "1 km", "value": 1, "default": true },
-      { "label": "5 km", "value": 5 }
+      { "label": "100 m", "km": 0.1 },
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "5 km", "km": 5 }
     ]
   },
   "groups": [
@@ -40,8 +40,8 @@
               "visible": true,
               "label": { "value": "Vega", "position": "center" },
               "fill": { "color": "#b9c9ff", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 0.0159101064 },
-              "diameter": { "type": "relative", "real": 0.0225106128 }
+              "offset": { "type": "relative", "real": 0.0156345836 },
+              "radius": { "type": "relative", "real": 0.0109841136 }
             }
           ]
         },
@@ -57,8 +57,8 @@
               "visible": true,
               "label": { "value": "Deneb", "position": "center" },
               "fill": { "color": "#c7d6ff", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 0.9720898128 },
-              "diameter": { "type": "relative", "real": 1.8898488 }
+              "offset": { "type": "relative", "real": 0.9715430972 },
+              "radius": { "type": "relative", "real": 0.9449244 }
             }
           ]
         },
@@ -74,8 +74,8 @@
               "visible": true,
               "label": { "value": "Antares A", "position": "center" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 5.0822782128 },
-              "diameter": { "type": "relative", "real": 6.330528 }
+              "offset": { "type": "relative", "real": 5.0817314972 },
+              "radius": { "type": "relative", "real": 3.165264 }
             }
           ]
         },
@@ -91,8 +91,8 @@
               "visible": true,
               "label": { "value": "Betelgeuse", "position": "center" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 11.8038094128 },
-              "diameter": { "type": "relative", "real": 7.1125344 }
+              "offset": { "type": "relative", "real": 11.8032626972 },
+              "radius": { "type": "relative", "real": 3.5562672 }
             }
           ]
         },
@@ -108,8 +108,8 @@
               "visible": true,
               "label": { "value": "V602 Carinae", "position": "center" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 20.2476166128 },
-              "diameter": { "type": "relative", "real": 9.77508 }
+              "offset": { "type": "relative", "real": 20.2470698972 },
+              "radius": { "type": "relative", "real": 4.88754 }
             }
           ]
         },
@@ -125,8 +125,8 @@
               "visible": true,
               "label": { "value": "VY Canis Majoris", "position": "center" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 31.7449726128 },
-              "diameter": { "type": "relative", "real": 13.219632 }
+              "offset": { "type": "relative", "real": 31.7444258972 },
+              "radius": { "type": "relative", "real": 6.609816 }
             }
           ]
         }
