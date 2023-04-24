@@ -2,11 +2,11 @@ import { AnyLayer, GeoJSONSourceRaw } from 'mapbox-gl'
 
 import map from '../../../../map'
 
-export abstract class Source {
+export abstract class Source<D extends {} = {}> {
   constructor(
     public id: string,
     private type: 'geojson',
-    public data: () => any, // @todo: improve typing
+    protected dataGetter: () => D,
     public layers: AnyLayer[]
   ) {
     map.addSource(id, this.content())
@@ -14,6 +14,8 @@ export abstract class Source {
       map.addLayer(layer)
     })
   }
+
+  public abstract data(): GeoJSON.Feature
 
   public update() {
     const source = this.mapSource()

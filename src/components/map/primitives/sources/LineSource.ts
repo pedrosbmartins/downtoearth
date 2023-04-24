@@ -11,15 +11,16 @@ interface LineData {
   to: number[]
 }
 
-export class LineSource extends Source {
+export class LineSource extends Source<LineData> {
   public layer: LineLayer
 
   constructor(id: string, dataGetter: () => LineData, props: Props) {
-    super(id, 'geojson', () => LineSource.data(dataGetter()), [LineSource.layer(id, props)])
+    super(id, 'geojson', dataGetter, [LineSource.layer(id, props)])
     this.layer = this.layers[0] as LineLayer
   }
 
-  private static data({ from, to }: LineData): GeoJSON.Feature {
+  public data(): GeoJSON.Feature {
+    const { from, to } = this.dataGetter()
     return {
       type: 'Feature',
       properties: {},

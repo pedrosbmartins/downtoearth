@@ -1,9 +1,7 @@
 import * as turf from '@turf/turf'
-import { ellipse } from '../../../map'
 import { EllipseLayer, Size, isAbsluteSize } from '../../../types'
 import { Layer } from './Layer'
-import { OutlineLabelSource, Source } from './sources'
-import { EllipseSource } from './sources/EllipseSource'
+import { EllipseOutlineLabelSource, EllipseSource, Source } from './sources'
 
 interface EllipseAxes {
   semiMajor: number
@@ -27,10 +25,9 @@ export class Ellipse extends Layer<EllipseLayer> {
   }
 
   private buildOutlineLabelSource() {
-    const { semiMajor, semiMinor } = this.axes()
-    return new OutlineLabelSource(
+    return new EllipseOutlineLabelSource(
       this.namespace('outline-label'),
-      () => ellipse(this.center(), 1.05 * semiMajor, 1.05 * semiMinor),
+      () => ({ center: this.center(), axes: this.axes() }),
       { label: this.definition.label! }
     )
   }

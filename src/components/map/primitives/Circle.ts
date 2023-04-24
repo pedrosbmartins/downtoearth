@@ -1,7 +1,6 @@
-import { circle } from '../../../map'
 import { CircleLayer, isAbsluteSize } from '../../../types'
 import { Layer } from './Layer'
-import { CircleSource, OutlineLabelSource, Source } from './sources'
+import { CircleOutlineLabelSource, CircleSource, Source } from './sources'
 
 export class Circle extends Layer<CircleLayer> {
   protected buildMainSource() {
@@ -20,9 +19,9 @@ export class Circle extends Layer<CircleLayer> {
   }
 
   private buildOutlineLabelSource() {
-    return new OutlineLabelSource(
+    return new CircleOutlineLabelSource(
       this.namespace('outline-label'),
-      () => circle(this.props.center, 1.05 * this.radius()),
+      () => ({ center: this.props.center, radius: 1.05 * this.radius() }),
       { label: this.definition.label! }
     )
   }
