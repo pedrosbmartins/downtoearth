@@ -38,7 +38,7 @@
               "id": "vega",
               "shape": "circle",
               "visible": true,
-              "label": { "value": "Vega", "position": "center" },
+              "label": { "value": "Vega", "position": "outline" },
               "fill": { "color": "#b9c9ff", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 0.0109841136 }
             }
@@ -54,7 +54,7 @@
               "id": "deneb",
               "shape": "circle",
               "visible": true,
-              "label": { "value": "Deneb", "position": "center" },
+              "label": { "value": "Deneb", "position": "outline" },
               "fill": { "color": "#c7d6ff", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 0.9449244 }
             }
@@ -70,7 +70,7 @@
               "id": "antaresA",
               "shape": "circle",
               "visible": true,
-              "label": { "value": "Antares A", "position": "center" },
+              "label": { "value": "Antares A", "position": "outline" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 3.165264 }
             }
@@ -86,7 +86,7 @@
               "id": "betelgeuse",
               "shape": "circle",
               "visible": true,
-              "label": { "value": "Betelgeuse", "position": "center" },
+              "label": { "value": "Betelgeuse", "position": "outline" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 3.5562672 }
             }
@@ -102,7 +102,7 @@
               "id": "v602carinae",
               "shape": "circle",
               "visible": true,
-              "label": { "value": "V602 Carinae", "position": "center" },
+              "label": { "value": "V602 Carinae", "position": "outline" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 4.88754 }
             }
@@ -118,7 +118,7 @@
               "id": "vycanismajoris",
               "shape": "circle",
               "visible": true,
-              "label": { "value": "VY Canis Majoris", "position": "center" },
+              "label": { "value": "VY Canis Majoris", "position": "outline" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 6.609816 }
             }

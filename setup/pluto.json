@@ -17,7 +17,8 @@
     "sizePresets": [
       { "label": "1 m", "km": 0.001 },
       { "label": "10 m", "km": 0.01, "default": true },
-      { "label": "100 m", "km": 0.1 }
+      { "label": "100 m", "km": 0.1 },
+      { "label": "1 km", "km": 1 }
     ]
   },
   "groups": [
