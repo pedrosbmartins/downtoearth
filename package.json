@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"yarn:tsc:watch\" \"yarn:browserify:watch\" \"live-server --watch=build/bundle.js\"",
+    "dev": "concurrently \"yarn:tsc:watch\" \"yarn:browserify:watch\" \"yarn:serve\"",
     "tsc:watch": "tsc -w",
-    "browserify": "browserify -t browserify-css build/src/main.js -o build/bundle.js",
+    "browserify": "browserify -t browserify-css --full-paths build/src/main.js -o build/bundle.js",
     "browserify:watch": "watchify -t browserify-css build/src/main.js -o build/bundle.js -v",
+    "serve": "live-server --watch=build/bundle.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -19,6 +20,7 @@
     "concurrently": "^7.6.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
+    "live-server": "1.2.1",
     "ts-jest": "^29.0.5",
     "tsc": "^2.0.4",
     "typescript": "^4.9.4",
