@@ -7,7 +7,7 @@
     "tsc:watch": "tsc -w",
     "browserify": "browserify -t browserify-css --full-paths build/src/main.js -o build/bundle.js",
     "browserify:watch": "watchify -t browserify-css build/src/main.js -o build/bundle.js -v",
-    "serve": "live-server --watch=build/bundle.js",
+    "serve": "live-server --watch=build/bundle.js,index.html,assets",
     "test": "jest",
     "test:watch": "jest --watch"
   },

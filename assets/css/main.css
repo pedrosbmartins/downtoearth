@@ -123,6 +123,7 @@ body {
   left: -400px;
 }
 #sidebar .header {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   margin: 0 0 25px 0;
@@ -131,15 +132,32 @@ body {
   max-height: 22px;
 }
 #sidebar .header .hide-button {
-  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
 }
 #sidebar .header .hide-button img {
+  cursor: pointer;
   width: 22px;
   height: 22px;
-  margin-left: -1px;
 }
 #sidebar.hidden .header .hide-button img {
   transform: scale(-1);
+}
+
+#sidebar .header .info {
+  margin-left: 12px;
+}
+#sidebar .header .info a {
+  opacity: 0.5;
+}
+#sidebar .header .info a:hover {
+  opacity: 0.75;
+}
+#sidebar .header .info img {
+  width: 16px;
+  height: 16px;
+  margin-left: -1px;
 }
 
 .show-button {
@@ -160,10 +178,6 @@ body {
   height: 22px;
 }
 
-.group:not(:first-child) {
-  margin-top: 30px;
-}
-
 @media screen and (max-width: 700px) {
   #sidebar {
     width: 350px;
@@ -171,6 +185,11 @@ body {
   #sidebar.hidden {
     left: -350px;
   }
+}
+
+/* Sidebar Groups */
+#sidebar .group:not(:first-child) {
+  margin-top: 30px;
 }
 
 /* Root SidebarItem */
@@ -251,58 +270,58 @@ body {
 }
 
 /* Sidebar Item */
-.item {
+#sidebar .item {
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   cursor: default;
   display: flex;
   padding: 10px 5px;
 }
-.item:last-of-type {
+#sidebar .item:last-of-type {
   border-bottom: 0;
 }
-.item.alternative {
+#sidebar .item.alternative {
   margin-bottom: 15px;
 }
-.item.alternative .label {
+#sidebar .item.alternative .label {
   opacity: 0.4;
 }
-.item .icon {
+#sidebar .item .icon {
   width: 22px;
   height: 22px;
   margin-right: 15px;
 }
-.item .icon img {
+#sidebar .item .icon img {
   height: 100%;
   width: 100%;
 }
-.item .label span {
+#sidebar .item .label span {
   font-weight: 300;
   font-size: 1.8em;
 }
-.item .controls {
+#sidebar .item .controls {
   display: flex;
   flex: 1;
   justify-content: flex-end;
 }
-.item .controls > div {
+#sidebar .item .controls > div {
   margin-right: 10px;
   width: 24px;
   height: 24px;
 }
-.item .controls > div:last-of-type {
+#sidebar .item .controls > div:last-of-type {
   margin-right: 0;
 }
-.item .controls > div img {
+#sidebar .item .controls > div img {
   cursor: pointer;
   opacity: 0.75;
   height: 100%;
   width: 100%;
 }
-.item .controls > div img:hover {
+#sidebar .item .controls > div img:hover {
   opacity: 1;
 }
-.item .controls .bearing-control {
+#sidebar .item .controls .bearing-control {
   background-color: #1d1d1d;
   border-radius: 5px;
   cursor: default;
@@ -312,7 +331,7 @@ body {
   position: absolute;
   z-index: 100;
 }
-.item .controls .bearing-control:hover {
+#sidebar .item .controls .bearing-control:hover {
   cursor: default;
 }
 
@@ -329,6 +348,7 @@ input[type='range'] {
   margin: 5px 0;
   background-color: transparent;
   -webkit-appearance: none;
+  appearance: none;
 }
 input[type='range']:focus {
   outline: none;
