@@ -27,12 +27,13 @@ export class ModelFactory {
   }
 
   private buildUI() {
-    const { label, icon, bearingControl } = this.definition
+    const { label, icon, bearingControl, info } = this.definition
     const item = SidebarItem(
       {
         label,
         icon,
         bearingControl,
+        info,
         onCenter: () => fitBounds(this.mapComponent.boundingBox())
       },
       this.store

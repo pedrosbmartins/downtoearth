@@ -58,7 +58,7 @@ export class RootFactory extends EventTarget {
   }
 
   private buildUI() {
-    const { label, sizePresets, icon } = this.definition
+    const { label, sizePresets, icon, info } = this.definition
 
     const $container = document.createElement('div')
     $container.className = 'root'
@@ -67,7 +67,7 @@ export class RootFactory extends EventTarget {
 
     const onCenter = () => this.mapComponent && fitBounds(this.mapComponent.boundingBox())
     const $items = $container.querySelector('.items')
-    const itemComponent = SidebarItem({ label, icon, onCenter }, this.store)
+    const itemComponent = SidebarItem({ label, icon, info, onCenter }, this.store)
     $items?.append(itemComponent.dom())
 
     const $sizePresetContainer = $container.querySelector('div[data-role="size-presets"]')

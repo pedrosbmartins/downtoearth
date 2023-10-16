@@ -11,6 +11,7 @@ export interface Model {
   visible: boolean
   icon?: string
   bearingControl?: boolean
+  info?: string
 }
 
 export interface Root extends Omit<Model, 'layers'> {
@@ -33,6 +34,7 @@ export interface Group {
   bearingControl?: boolean
   bearing?: number
   offset?: RelativeSize
+  info?: string
 }
 
 interface LayerBase {

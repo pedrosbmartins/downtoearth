@@ -5,6 +5,7 @@
     "icon": "sun",
     "label": "Sun",
     "visible": true,
+    "info": "The Sun is the star at the center of the Solar System. It is a massive, hot ball of plasma, inflated and heated by nuclear fusion reactions at its core.",
     "layer": {
       "id": "sun",
       "shape": "circle",
@@ -27,6 +28,7 @@
       "id": "solar-system",
       "label": "Solar System",
       "visible": true,
+      "info": "The Solar System is the gravitationally bound system of the Sun and the objects that orbit it.",
       "models": [
         {
           "id": "mercury",
@@ -65,6 +67,7 @@
           "label": "Earth",
           "visible": true,
           "icon": "earth",
+          "info": "Earth is the third planet from the Sun and the only astronomical object known to harbor life.",
           "layers": [
             {
               "id": "earth-orbit",

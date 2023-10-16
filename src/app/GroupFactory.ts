@@ -38,9 +38,9 @@ export class GroupFactory {
       ) as BoundingBox
       fitBounds(boundingBox)
     }
-    const { label, bearingControl } = this.definition
+    const { label, bearingControl, info } = this.definition
     const itemComponent = SidebarItem(
-      { label, bearingControl, alternative: true, onCenter },
+      { label, bearingControl, info, alternative: true, onCenter },
       this.store
     )
     $groupContainer!.append(itemComponent.dom())

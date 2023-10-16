@@ -19,6 +19,7 @@ interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
   icon?: string
   alternative?: boolean
   bearingControl?: boolean
+  info?: string
   onCenter?: () => void
 }
 
@@ -46,6 +47,16 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
     $container.innerHTML = SidebarItemTemplate(this.props)
 
     const $controls = $container.querySelector('.controls')!
+
+    if (this.props.info) {
+      const InfoControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
+        icon: 'info',
+        onClick: () => {
+          alert(this.props.info)
+        }
+      })
+      $controls.append(InfoControl.dom())
+    }
 
     if (this.props.bearingControl) {
       const $bearingSlider = document.createElement<'input'>('input')
