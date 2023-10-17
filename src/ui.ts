@@ -1,5 +1,5 @@
 export const $sidebarContainer = document.getElementById('sidebar')!
-export const $sidebar = $sidebarContainer.querySelector('.dynamic-content')!
+export const $sidebar = $sidebarContainer.querySelector('.dynamic-content-container')!
 export const $setupDropdown = document.getElementById('setup-dropdown')!
 export const $setupFileSelector = document.getElementById('setup-file-selector')!
 
