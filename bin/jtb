@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+tr -d '\n[:blank:]' | base64 -w 0 | tr '/+' '_-' | tr -d '='

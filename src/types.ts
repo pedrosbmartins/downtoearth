@@ -1,4 +1,5 @@
 export interface Setup {
+  title: string
   unit?: Unit
   root?: Root
   groups?: Group[]
