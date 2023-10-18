@@ -28,10 +28,7 @@ const setups = {
 
 const app = new App()
 
-const urlDataMatch = window.location.search.match(/data=(.+)/)
-const urlData = urlDataMatch ? urlDataMatch[1] : undefined
-const urlDataContent = urlData ? Buffer.from(urlData, 'base64').toString() : undefined
-const setupFromURL = urlDataContent ? (JSON.parse(urlDataContent) as Setup) : undefined
+const setupFromURL = tryParseSetupFromURL()
 
 map.on('load', () => {
   const initialSetup: keyof typeof setups = 'solarSystem'
@@ -44,9 +41,7 @@ map.on('load', () => {
 
   if (setupFromURL) {
     try {
-      $setupFromURLOption.style.display = 'block'
-      $setupFromURLOption.setAttribute('selected', 'true')
-      $setupFromURLOption.innerText = setupFromURL.title
+      initializeSetupFromURL(setupFromURL)
       setup = setupFromURL
     } catch (error) {
       console.error('error parsing setup from URL.', error)
@@ -86,3 +81,17 @@ map.on('load', () => {
     app.initialize(setup)
   })
 })
+
+function tryParseSetupFromURL() {
+  const urlDataMatch = window.location.search.match(/data=(.+)/)
+  const urlData = urlDataMatch && urlDataMatch[1]
+  const urlDataContent = urlData && Buffer.from(urlData, 'base64').toString()
+  if (!urlDataContent) return
+  return JSON.parse(urlDataContent) as Setup
+}
+
+function initializeSetupFromURL(setup: Setup) {
+  $setupFromURLOption.style.display = 'block'
+  $setupFromURLOption.setAttribute('selected', 'true')
+  $setupFromURLOption.innerText = setup.title
+}
