@@ -21,3 +21,17 @@ $sidebarHideButton.addEventListener('click', () => {
   $sidebarContainer.classList.add('hidden')
   $sidebarShowButton.classList.add('sidebar-hidden')
 })
+
+export const $modelInfoPanel = document.getElementById('model-info-panel')!
+$modelInfoPanel.addEventListener('click', () => {
+  $modelInfoPanel.classList.add('hidden')
+})
+
+const $modelInfoPanelTitle = $modelInfoPanel.querySelector<HTMLHeadElement>('.content h2')!
+const $modelInfoPanelContent = $modelInfoPanel.querySelector<HTMLParagraphElement>('.content p')!
+
+export function showModelInfoPanel(title: string, content: string) {
+  $modelInfoPanel.classList.remove('hidden')
+  $modelInfoPanelTitle.innerText = title
+  $modelInfoPanelContent.innerText = content
+}

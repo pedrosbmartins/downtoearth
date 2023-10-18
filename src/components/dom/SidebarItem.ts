@@ -1,4 +1,5 @@
 import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
+import { showModelInfoPanel } from '../../ui'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 import { SidebarItemControl } from './SidebarItemControl'
 
@@ -52,7 +53,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       const InfoControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
         icon: 'info',
         onClick: () => {
-          alert(this.props.info)
+          showModelInfoPanel(this.props.label, this.props.info!)
         }
       })
       $controls.append(InfoControl.dom())

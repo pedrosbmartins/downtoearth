@@ -67,7 +67,7 @@
           "label": "Earth",
           "visible": true,
           "icon": "earth",
-          "info": "Earth is the third planet from the Sun and the only astronomical object known to harbor life.",
+          "info": "The Earth is the third planet from the Sun and the only astronomical object known to harbor life.",
           "layers": [
             {
               "id": "earth-orbit",
