@@ -1,4 +1,5 @@
 {
+  "$schema": "./schema.json",
   "title": "Demo",
   "unit": { "name": "km", "km": 1 },
   "root": {

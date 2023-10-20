@@ -9,7 +9,8 @@
     "browserify:watch": "watchify -t browserify-css build/src/main.js -o build/bundle.js -v",
     "serve": "live-server --watch=build/bundle.js,index.html,assets",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "schema": "bin/setup-schema"
   },
   "devDependencies": {
     "@types/jest": "^29.2.6",

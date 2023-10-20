@@ -1,4 +1,6 @@
 {
+  "$schema": "./schema.json",
+  "title": "Star Sizes vs Solar System",
   "unit": { "name": "AU", "km": 149597870700 },
   "root": {
     "id": "root",
@@ -175,8 +177,7 @@
               "visible": true,
               "label": { "value": "Earth", "position": "outline" },
               "outline": { "color": "blue" },
-              "radius": { "type": "relative", "real": 1.0 },
-              "actsAsInitialBounds": true
+              "radius": { "type": "relative", "real": 1.0 }
             }
           ]
         },

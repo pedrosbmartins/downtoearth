@@ -1,4 +1,6 @@
 {
+  "$schema": "./schema.json",
+  "title": "Alpha Centauri",
   "unit": { "name": "AU", "km": 149597870700 },
   "root": {
     "id": "root",

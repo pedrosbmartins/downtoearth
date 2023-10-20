@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Transforms JSON (or any text file) into an URL-safe base64 string, after removing all whitespace.
+#
+# USAGE
+#   down-to-url path/to/file.json
+#   cat path/to/file.json | down-to-url
+
+INPUT_FILE="${1:-/dev/stdin}"
+
+cat $INPUT_FILE | tr -d '\n[:blank:]' | base64 -w 0 | tr '/+' '_-' | tr -d '=' | xargs echo

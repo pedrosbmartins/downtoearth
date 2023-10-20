@@ -3,6 +3,7 @@ export interface Setup {
   unit?: Unit
   root?: Root
   groups?: Group[]
+  $schema?: string
 }
 
 export interface Model {
