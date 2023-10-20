@@ -97,7 +97,7 @@ A `model` is simply an individual object that can be visualized. It has a `label
 
 Currently, the only implemented shapes are Circles and Ellipses.
 
-The JSON schema is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/master/src/types.ts). It can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/master/setup/schema.json).
+The JSON schema is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/main/src/types.ts). It can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/main/setup/schema.json).
 
 ### Example
 
