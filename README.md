@@ -24,18 +24,22 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <li><a href="#about">About</a></li>
     <li>
-      <a href="#about-the-project">About</a>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#custom-visualizations">Custom visualizations</a></li>
+        <li><a href="#sharing">Sharing</a></li>
+      </ul>
     </li>
+    <li><a href="#schema">Schema</a></li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#development">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -51,9 +55,9 @@
 
 > And if it was 1 m in diameter, where would Earth's orbit be?
 
-This type of thought experiment can lead to interesting personal insights about astronomical scales. It's an amazing exercise to scale down the universe and map these unfathomable distances to those of your own geographical context, of which you have better intuition.
+This thought experiment can lead to interesting personal insights about astronomical scales. It's an amazing exercise to scale down the universe and map these unfathomable distances to those of your own geographical context, of which you have better intuition.
 
-In order to bring these thought experiments to live and allow others to use their own geographical intuition, the **downtoearth** project was born.
+To bring these thought experiments to life and allow others to use their own geographical intuition, the **downtoearth** project was born.
 
 It is a simple interactive visualization tool built around a purpose-built JSON schema, that can be used to plot astronomical objects and their distances (or anything else of interest) scaled down and overlaid anywhere on the Earth's surface.
 
@@ -66,18 +70,13 @@ The **downtoearth** project aims for simplicity.
 - **Client-side only**: no back-end or API calls
 - **Minimal dependencies**: no use of full-blown JS frameworks
 
-...
-
-- Setup typing/schema
-- URL sharing
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 
 To start exploring, simply go to the [official **downtoearth** page](https://pedrosbmartins.github.io/downtoearth) and select one of the pre-built visualizations in the dropdown.
 
-By default, the map is centered on a random city. If you wish, you may click the icon in the top-right corner to use your current location. Otherwise, simply navigate the map manually and click anywhere to re-center the visualization.
+By default, the map is centered on a random city. If you wish, you may click the icon in the top-right corner to use your current location. Otherwise, manually navigate the map and click anywhere to re-center the visualization.
 
 ### Custom visualizations
 
@@ -93,7 +92,7 @@ The **downtoearth** visualizations are built with a custom JSON schema. You can 
 
 A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and may have a `root` model (its main object for centralization and scaling) and multiple `groups` of models.
 
-A `model` is simply an individual object that can be visualized. It has a `label` and one or more `layers`, which define shapes with properties such as a fill and an outline.
+A `model` is simply an individual object that can be visualized. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline.
 
 Currently, the only implemented shapes are Circles and Ellipses.
 
@@ -179,7 +178,7 @@ A basic example with a root and a group of two objects. The group is positioned 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Getting Started
+## Development
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
