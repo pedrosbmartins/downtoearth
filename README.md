@@ -180,6 +180,8 @@ A basic example with a root and a group of two objects. The group is positioned 
 
 ## Development
 
+[TODO]
+
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
@@ -238,10 +240,6 @@ Pedro Martins - pedrosbarbosamartins@gmail.com
 
 ## Acknowledgments
 
-[TODO] [icons!]
-
-- []()
-- []()
-- []()
+- [Space Icon Pack](https://www.flaticon.com/packs/space-84)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
