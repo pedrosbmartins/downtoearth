@@ -74,7 +74,7 @@ The **downtoearth** project aims for simplicity.
 
 ## Usage
 
-To start exploring, simply go to the [official **downtoearth** page](https://pedrosbmartins.github.io/downtoearth) and select one of the pre-built visualizations in the dropdown.
+To start exploring, go to the [official **downtoearth** page](https://pedrosbmartins.github.io/downtoearth) and select one of the pre-built visualizations in the dropdown.
 
 By default, the map is centered on a random city. If you wish, you may click the icon in the top-right corner to use your current location. Otherwise, manually navigate the map and click anywhere to re-center the visualization.
 
@@ -84,7 +84,7 @@ The **downtoearth** visualizations are built with a custom JSON schema. You can 
 
 ### Sharing
 
-[TODO]
+To share your current visualization and location, click on the **share button** next to the logo. It will display a shareable link (and also copy it to your clipboard, if your browser supports that).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -92,7 +92,7 @@ The **downtoearth** visualizations are built with a custom JSON schema. You can 
 
 A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and may have a `root` model (its main object for centralization and scaling) and multiple `groups` of models.
 
-A `model` is simply an individual object that can be visualized. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline.
+A `model` represents an individual object that can be visualized and interacted with. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline.
 
 Currently, the only implemented shapes are Circles and Ellipses.
 
@@ -212,16 +212,14 @@ This is an example of how to list things you need to use the software and how to
 
 ## Contributing
 
-[TODO]
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions are **greatly appreciated**!
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also open an issue with the tag "enhancement".
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+2. Create your Feature Branch (`git checkout -b feature/new-feature`)
+3. Commit your Changes (`git commit -m 'Add some files'`)
+4. Push to the Branch (`git push origin feature/new-feature`)
 5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
