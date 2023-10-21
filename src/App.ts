@@ -10,26 +10,31 @@ export default class App extends EventTarget {
   private rootStore: RootStore | undefined
   private rootMapComponent: RootMapComponent | undefined
   private groups: GroupFactory[] | undefined
-  private currentLngLat: number[] | undefined
-
-  public initialize(setup: Setup) {
-    this._setup = setup
-    this.destroy()
-    this.buildRoot(setup)
-    this.buildGroups(setup)
-  }
+  private _currentLngLat: number[] | undefined
 
   get setup() {
     return this._setup
   }
 
+  get currentLngLat() {
+    return this._currentLngLat
+  }
+
+  public initialize(setup: Setup, center?: number[]) {
+    this._setup = setup
+    this._currentLngLat = center
+    this.destroy()
+    this.buildRoot(setup)
+    this.buildGroups(setup)
+  }
+
   private buildRoot({ root }: Setup) {
     if (!root) return
-    const factory = new RootFactory(root, this.currentLngLat)
+    const factory = new RootFactory(root, this._currentLngLat)
     this.rootStore = factory.store
     this.rootMapComponent = factory.mapComponent
     this.rootStore.register(this, 'center', () => {
-      this.currentLngLat = this.rootStore?.get('center')
+      this._currentLngLat = this.rootStore?.get('center')
     })
   }
 

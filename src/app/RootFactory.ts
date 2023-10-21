@@ -23,7 +23,7 @@ export class RootFactory extends EventTarget {
     this.$ui = this.buildUI()
 
     this.buildMapComponent()
-    this.buildGeocoder()
+    this.buildGeocoder(currentLngLat)
 
     this.store.register(this, 'center', async () => {
       if (this.$geocoderInput) {
@@ -77,14 +77,18 @@ export class RootFactory extends EventTarget {
     return $container
   }
 
-  private buildGeocoder() {
+  private async buildGeocoder(currentLngLat: number[] | undefined) {
     const { $geocoderInput } = buildGeocoder(this.$ui, async (event: { result: Result }) => {
       const { center } = event.result
       map.setCenter(center as LngLatLike)
       this.store.set({ center })
     })
     this.$geocoderInput = $geocoderInput
-    $geocoderInput.value = `${INITIAL_CITY.name}, ${INITIAL_CITY.country}`
+    let locationText = `${INITIAL_CITY.name}, ${INITIAL_CITY.country}`
+    if (currentLngLat) {
+      locationText = (await reverseGeocoding(currentLngLat)) ?? ''
+    }
+    $geocoderInput.value = locationText
   }
 
   private template() {

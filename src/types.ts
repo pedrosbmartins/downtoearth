@@ -1,3 +1,8 @@
+export interface ShareableSetup {
+  setup: Setup
+  center: number[]
+}
+
 export interface Setup {
   title: string
   unit?: Unit
