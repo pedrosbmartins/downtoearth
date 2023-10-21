@@ -25,12 +25,11 @@ const setups = {
   solarSystem: solarSystem as Setup,
   starSizes: starSizes as Setup,
   starSizes_solarSystem: starSizes_solarSystem as Setup,
-  demo: demo as Setup
+  demo: demo as Setup,
+  fromURL: tryParseSetupFromURL()
 }
 
 const app = new App()
-
-const setupFromURL = tryParseSetupFromURL()
 
 map.on('load', () => {
   const initialSetup: keyof typeof setups = 'solarSystem'
@@ -41,12 +40,12 @@ map.on('load', () => {
 
   let setup: Setup = setups[initialSetup]
 
-  if (setupFromURL) {
+  if (setups.fromURL) {
     try {
-      initializeSetupFromURL(setupFromURL)
-      setup = setupFromURL
+      activateUIForSetupFromURL(setups.fromURL.title)
+      setup = setups.fromURL
     } catch (error) {
-      console.error('error parsing setup from URL.', error)
+      console.error('Error parsing setup from URL.', error)
     }
   }
 
@@ -59,7 +58,7 @@ map.on('load', () => {
         $setupFileSelector.click()
         break
       case SETUP_FROM_URL_VALUE:
-        if (setupFromURL) app.initialize(setupFromURL)
+        if (setups.fromURL) app.initialize(setups.fromURL)
         break
       default:
         const setup = setups[value as keyof typeof setups]
@@ -113,8 +112,8 @@ function tryParseSetupFromURL() {
   return JSON.parse(urlDataContent) as Setup
 }
 
-function initializeSetupFromURL(setup: Setup) {
+function activateUIForSetupFromURL(title: string) {
   $setupFromURLOption.style.display = 'block'
   $setupFromURLOption.setAttribute('selected', 'true')
-  $setupFromURLOption.innerText = setup.title
+  $setupFromURLOption.innerText = title
 }
