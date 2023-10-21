@@ -6,6 +6,10 @@ body {
   margin: 0;
 }
 
+a {
+  color: #fff;
+}
+
 .mapboxgl-popup-content {
   background-color: #2d2d2d;
   border-radius: 15px;
@@ -131,27 +135,33 @@ body {
 #sidebar .header .logo img {
   max-height: 22px;
 }
-#sidebar .header .hide-button {
+#sidebar .header #hide-button {
   display: flex;
   justify-content: flex-end;
   flex: 1;
 }
-#sidebar .header .hide-button img {
+#sidebar .header #hide-button img {
   cursor: pointer;
   width: 22px;
   height: 22px;
 }
-#sidebar.hidden .header .hide-button img {
+#sidebar.hidden .header #hide-button img {
   transform: scale(-1);
 }
 
 #sidebar .header .info {
+  display: flex;
+  gap: 8px;
   margin-left: 12px;
+  width: 100%;
 }
-#sidebar .header .info a {
+#sidebar .header .info a,
+#sidebar .header .info div {
+  cursor: pointer;
   opacity: 0.5;
 }
-#sidebar .header .info a:hover {
+#sidebar .header .info a:hover,
+#sidebar .header .info div:hover {
   opacity: 0.75;
 }
 #sidebar .header .info img {
@@ -160,7 +170,7 @@ body {
   margin-left: -1px;
 }
 
-.show-button {
+#show-button {
   cursor: pointer;
   opacity: 0;
   padding: 10px;
@@ -170,10 +180,10 @@ body {
   transition: opacity 1s 0.8s;
   z-index: 10;
 }
-.show-button.sidebar-hidden {
+#show-button.sidebar-hidden {
   opacity: 1;
 }
-.show-button img {
+#show-button img {
   width: 22px;
   height: 22px;
 }
@@ -193,50 +203,50 @@ body {
 }
 
 /* Root SidebarItem */
-.root {
+#sidebar .root {
   margin-bottom: 30px;
 }
 
-.root > .item {
+#sidebar .root > .item {
   margin-bottom: 15px;
 }
 
-.root > .controls {
+#sidebar .root > .controls {
   display: flex;
   flex-direction: column;
 }
-.root > .controls .control {
+#sidebar .root > .controls .control {
   align-items: center;
   display: flex;
   margin-bottom: 15px;
 }
-.root > .controls .control:last-of-type {
+#sidebar .root > .controls .control:last-of-type {
   margin-bottom: 0;
 }
-.root > .controls .control .label {
+#sidebar .root > .controls .control .label {
   color: #bbb;
   font-size: 1.2em;
   width: 100px;
 }
 @media screen and (max-width: 700px) {
-  .root > .controls .control .label {
+  #sidebar .root > .controls .control .label {
     width: 80px;
   }
 }
-.root > .controls .control .container {
+#sidebar .root > .controls .control .container {
   background-color: #373737;
   border-radius: 5px;
   display: flex;
   flex: 1;
   height: 35px;
 }
-.root > .controls .control .container .selector {
+#sidebar .root > .controls .control .container .selector {
   align-items: center;
   display: flex;
   flex: 1;
   justify-content: space-between;
 }
-.root > .controls .control .container .selector .selector-item {
+#sidebar .root > .controls .control .container .selector .selector-item {
   align-items: center;
   align-self: stretch;
   border-radius: 5px;
@@ -245,26 +255,26 @@ body {
   flex: 1;
   text-align: center;
 }
-.root > .controls .control .container .selector .selector-item:last-of-type span {
+#sidebar .root > .controls .control .container .selector .selector-item:last-of-type span {
   border: 0;
 }
-.root > .controls .control .container .selector .selector-item:hover {
+#sidebar .root > .controls .control .container .selector .selector-item:hover {
   background-color: rgba(255, 255, 255, 0.025);
 }
-.root > .controls .control .container .selector .selector-item span {
+#sidebar .root > .controls .control .container .selector .selector-item span {
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.4);
   flex: 1;
   font-weight: 600;
 }
-.root > .controls .control .container .selector .selector-item.selected {
+#sidebar .root > .controls .control .container .selector .selector-item.selected {
   background-color: #fff;
 }
-.root > .controls .control .container .selector .selector-item.selected span {
+#sidebar .root > .controls .control .container .selector .selector-item.selected span {
   color: #000;
 }
 @media screen and (max-width: 700px) {
-  .root > .controls .control .container .selector .selector-item {
+  #sidebar .root > .controls .control .container .selector .selector-item {
     font-size: 0.8em;
   }
 }
@@ -425,8 +435,6 @@ input[type='range']:focus::-ms-fill-lower {
 input[type='range']:focus::-ms-fill-upper {
   background: #0d0d0d;
 }
-/*TODO: Use one of the selectors from https://stackoverflow.com/a/20541859/7077589 and figure out
-how to remove the virtical space around the range input in IE*/
 @supports (-ms-ime-align: auto) {
   /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
   input[type='range'] {
@@ -435,26 +443,31 @@ how to remove the virtical space around the range input in IE*/
   }
 }
 
-#model-info-panel {
-  z-index: 100;
-  background-color: rgba(0,0,0,0.75);
+#dialog-modal {
+  background-color: rgba(0, 0, 0, 0.9);
   width: 100vw;
   height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 100;
 }
 
-#model-info-panel.hidden {
+#dialog-modal.hidden {
   display: none;
 }
 
-#model-info-panel .content {
+#dialog-modal .content {
   background-color: #090909;
   cursor: default;
-  color: #aaa;
+  color: #bbb;
   margin: 25vh auto 0 auto;
   padding: 20px 50px;
   font-size: 1.2em;
   width: 300px;
+}
+
+#dialog-modal .content h2 {
+  color: #fff;
+  font-weight: 300;
 }

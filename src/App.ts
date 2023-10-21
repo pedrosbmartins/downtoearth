@@ -6,15 +6,21 @@ import { Setup } from './types'
 import { $sidebar } from './ui'
 
 export default class App extends EventTarget {
+  private _setup: Setup | undefined
   private rootStore: RootStore | undefined
   private rootMapComponent: RootMapComponent | undefined
   private groups: GroupFactory[] | undefined
   private currentLngLat: number[] | undefined
 
   public initialize(setup: Setup) {
+    this._setup = setup
     this.destroy()
     this.buildRoot(setup)
     this.buildGroups(setup)
+  }
+
+  get setup() {
+    return this._setup
   }
 
   private buildRoot({ root }: Setup) {

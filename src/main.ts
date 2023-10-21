@@ -12,8 +12,10 @@ import {
   $setupDropdown,
   $setupFileSelector,
   $setupFromURLOption,
+  $shareButton,
   SETUP_FROM_FILE_VALUE,
-  SETUP_FROM_URL_VALUE
+  SETUP_FROM_URL_VALUE,
+  showDialog
 } from './ui'
 
 const setups = {
@@ -79,6 +81,27 @@ map.on('load', () => {
     const setupText = await file.text()
     const setup = JSON.parse(setupText) as Setup
     app.initialize(setup)
+  })
+
+  $shareButton.addEventListener('click', async () => {
+    const { setup } = app
+    if (!setup) {
+      alert('Could not generate a shareable link: no visualization loaded.')
+      return
+    }
+    const setupJSON = JSON.stringify(app.setup)
+    const setupEncoded = Buffer.from(setupJSON).toString('base64')
+    const setupEncodedURLSafe = setupEncoded.replace('/', '_').replace('+', '-').replace('=', '')
+    const { origin, pathname } = window.location
+    const link = `${origin}${pathname}?data=${setupEncodedURLSafe}`
+    let dialogContent = `This is a <a href="${link}">shareable link</a> to your current visualization.`
+    try {
+      await window.navigator.clipboard.writeText(link)
+      dialogContent += '<br /><br />It has been automatically copied to your clipboard.'
+    } catch (e) {
+      console.error('Could not write shareable link to clipboard.', e)
+    }
+    showDialog('Sharing', { type: 'html', value: dialogContent })
   })
 })
 

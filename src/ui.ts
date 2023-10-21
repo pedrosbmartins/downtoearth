@@ -10,28 +10,39 @@ export const $setupFromURLOption = $setupDropdown.querySelector<HTMLInputElement
   `option[value='${SETUP_FROM_URL_VALUE}']`
 )!
 
-const $sidebarShowButton = document.querySelector('.show-button')!
+const $sidebarShowButton = document.getElementById('show-button')!
 $sidebarShowButton.addEventListener('click', () => {
   $sidebarContainer.classList.remove('hidden')
   $sidebarShowButton.classList.remove('sidebar-hidden')
 })
 
-const $sidebarHideButton = $sidebarContainer.querySelector('.hide-button')!
+const $sidebarHideButton = document.getElementById('hide-button')!
 $sidebarHideButton.addEventListener('click', () => {
   $sidebarContainer.classList.add('hidden')
   $sidebarShowButton.classList.add('sidebar-hidden')
 })
 
-export const $modelInfoPanel = document.getElementById('model-info-panel')!
-$modelInfoPanel.addEventListener('click', () => {
-  $modelInfoPanel.classList.add('hidden')
+export const $dialogModal = document.getElementById('dialog-modal')!
+$dialogModal.addEventListener('click', () => {
+  $dialogModal.classList.add('hidden')
 })
 
-const $modelInfoPanelTitle = $modelInfoPanel.querySelector<HTMLHeadElement>('.content h2')!
-const $modelInfoPanelContent = $modelInfoPanel.querySelector<HTMLParagraphElement>('.content p')!
+const $dialogModalTitle = $dialogModal.querySelector<HTMLHeadElement>('.content h2')!
+const $dialogModalContent = $dialogModal.querySelector<HTMLParagraphElement>('.content p')!
 
-export function showModelInfoPanel(title: string, content: string) {
-  $modelInfoPanel.classList.remove('hidden')
-  $modelInfoPanelTitle.innerText = title
-  $modelInfoPanelContent.innerText = content
+interface DialogContent {
+  type: 'text' | 'html'
+  value: string
 }
+
+export function showDialog(title: string, content: DialogContent) {
+  $dialogModal.classList.remove('hidden')
+  $dialogModalTitle.innerText = title
+  if (content.type === 'html') {
+    $dialogModalContent.innerHTML = content.value
+  } else {
+    $dialogModalContent.innerText = content.value
+  }
+}
+
+export const $shareButton = document.getElementById('share-button')!
