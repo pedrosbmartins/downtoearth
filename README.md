@@ -226,8 +226,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ## License
 
-[TODO]
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
