@@ -1,5 +1,3 @@
-<a name="readme-top"></a>
-
 <br />
 <div align="center">
   <a href="https://github.com/pedrosbmartins/downtoearth">
@@ -33,17 +31,9 @@
       </ul>
     </li>
     <li><a href="#schema">Schema</a></li>
-    <li>
-      <a href="#development">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#development">Development</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#credits">Credits</a></li>
   </ol>
 </details>
 
@@ -68,11 +58,9 @@ The **downtoearth** project aims for simplicity.
 - **Client-side only**: no back-end or API calls
 - **Minimal dependencies**: no use of full-blown JS frameworks
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## Usage
 
-To start exploring, go to the [official **downtoearth** page](https://pedrosbmartins.github.io/downtoearth) and select one of the pre-built visualizations in the dropdown.
+To start exploring, go to the [project page](https://pedrosbmartins.github.io/downtoearth) and select one of the pre-built visualizations in the dropdown.
 
 By default, the map is centered on a random city. If you wish, you may click the icon in the top-right corner to use your current location. Otherwise, search for a location or manually navigate the map then click anywhere to re-center the visualization.
 
@@ -84,17 +72,15 @@ The **downtoearth** visualizations are built with a custom JSON schema. You can 
 
 To share your current visualization and location, click on the **share button** next to the logo. It will display a shareable link (and also copy it to your clipboard, if your browser supports that).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## Schema
+
+The JSON schema can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/main/setup/schema.json). It is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/main/src/types.ts).
 
 A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and may have a `root` model (its main object for centralization and scaling) and multiple `groups` of models.
 
 A `model` represents an individual object that can be visualized and interacted with. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline to be rendered on the map.
 
 Currently, the only implemented shapes are Circles and Ellipses.
-
-The JSON schema can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/main/setup/schema.json). It is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/main/src/types.ts).
 
 ### Examples
 
@@ -176,8 +162,6 @@ Here is a simple example with a root and a group of two objects. The group is po
 
 </details>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## Development
 
 To begin local development:
@@ -187,30 +171,10 @@ To begin local development:
 
 The last step runs both `tsc` and `browserify` in watch mode, and also spins up a `live-server` instance on http://localhost:8080 by default.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Contributing
-
-Contributions are **greatly appreciated**!
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also open an issue with the label "enhancement".
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b new-feature`)
-3. Commit your Changes (`git commit -m 'Implements new feature'`)
-4. Push to the Branch (`git push origin new-feature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Acknowledgments
+## Credits
 
 - [Space Icon Pack](https://www.flaticon.com/packs/space-84)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
