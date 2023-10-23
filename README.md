@@ -57,16 +57,14 @@
 
 This thought experiment can lead to interesting personal insights about astronomical scales. It's an amazing exercise to scale down the universe and map these unfathomable distances to those of your own geographical context, of which you have better intuition.
 
-To bring these thought experiments to life and allow others to use their own geographical intuition, the **downtoearth** project was born.
-
-It is a simple interactive visualization tool built around a purpose-built JSON schema, that can be used to plot astronomical objects and their distances (or anything else of interest) scaled down and overlaid anywhere on the Earth's surface.
+**downtoearth** is a simple interactive visualization tool built to bring these thought experiments to life and allow others to use their own geographical intuition. Created around a purpose-built JSON schema, it can be used to plot astronomical objects and their distances (or anything else of interest, really!) scaled down and overlaid anywhere on the Earth's surface.
 
 ### Objectives
 
 The **downtoearth** project aims for simplicity.
 
-- **Customizable**: custom visualizations can be built in a domain-specific JSON schema and then loaded from a local file
-- **Shareable visualizations**: a URL parameter allows custom visualization sharing
+- **Customizable**: custom visualizations can be built and loaded from a local JSON file
+- **Shareable visualizations**: a URL parameter allows sharing of custom visualizations
 - **Client-side only**: no back-end or API calls
 - **Minimal dependencies**: no use of full-blown JS frameworks
 
@@ -76,7 +74,7 @@ The **downtoearth** project aims for simplicity.
 
 To start exploring, go to the [official **downtoearth** page](https://pedrosbmartins.github.io/downtoearth) and select one of the pre-built visualizations in the dropdown.
 
-By default, the map is centered on a random city. If you wish, you may click the icon in the top-right corner to use your current location. Otherwise, manually navigate the map and click anywhere to re-center the visualization.
+By default, the map is centered on a random city. If you wish, you may click the icon in the top-right corner to use your current location. Otherwise, search for a location or manually navigate the map then click anywhere to re-center the visualization.
 
 ### Custom visualizations
 
@@ -92,19 +90,21 @@ To share your current visualization and location, click on the **share button** 
 
 A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and may have a `root` model (its main object for centralization and scaling) and multiple `groups` of models.
 
-A `model` represents an individual object that can be visualized and interacted with. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline.
+A `model` represents an individual object that can be visualized and interacted with. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline to be rendered on the map.
 
 Currently, the only implemented shapes are Circles and Ellipses.
 
-The JSON schema is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/main/src/types.ts). It can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/main/setup/schema.json).
+The JSON schema can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/main/setup/schema.json). It is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/main/src/types.ts).
 
-### Example
+### Examples
 
-A basic example with a root and a group of two objects. The group is positioned with an offset and the objects are sized relative to the root.
+All the pre-built visualizations can be found in the `/setup` directory.
+
+Here is a simple example with a root and a group of two objects. The group is positioned with an offset and the objects are sized relative to the root.
 
 <details>
 
-<summary>Setup JSON</summary>
+<summary>Example Setup JSON</summary>
 
 ```json
 {
@@ -180,35 +180,12 @@ A basic example with a root and a group of two objects. The group is positioned 
 
 ## Development
 
-[TODO]
+To begin local development:
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+1. `yarn install`
+2. `yarn start`
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/pedrosbmartins/downtoearth.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API'
-   ```
+The last step runs both `tsc` and `browserify` in watch mode, and also spins up a `live-server` instance on http://localhost:8080 by default.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -216,12 +193,12 @@ This is an example of how to list things you need to use the software and how to
 
 Contributions are **greatly appreciated**!
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also open an issue with the tag "enhancement".
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also open an issue with the label "enhancement".
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/new-feature`)
-3. Commit your Changes (`git commit -m 'Add some files'`)
-4. Push to the Branch (`git push origin feature/new-feature`)
+2. Create your Feature Branch (`git checkout -b new-feature`)
+3. Commit your Changes (`git commit -m 'Implements new feature'`)
+4. Push to the Branch (`git push origin new-feature`)
 5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -229,12 +206,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Contact
-
-Pedro Martins - pedrosbarbosamartins@gmail.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
