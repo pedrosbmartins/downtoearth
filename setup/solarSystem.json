@@ -8,15 +8,17 @@
     "label": "Sun",
     "visible": true,
     "info": "The Sun is the star at the center of the Solar System. It is a massive, hot ball of plasma, inflated and heated by nuclear fusion reactions at its core.",
-    "layer": {
-      "id": "sun",
-      "shape": "circle",
-      "visible": true,
-      "label": { "value": "Sun", "position": "center" },
-      "fill": { "color": "yellow", "opacity": 0.5 },
-      "outline": { "color": "orange" },
-      "radius": { "type": "relative", "real": 0.00465047 }
-    },
+    "layers": [
+      {
+        "id": "sun",
+        "shape": "circle",
+        "visible": true,
+        "label": { "value": "Sun", "position": "center" },
+        "fill": { "color": "yellow", "opacity": 0.5 },
+        "outline": { "color": "orange" },
+        "radius": { "type": "relative", "real": 0.00465047 }
+      }
+    ],
     "sizePresets": [
       { "label": "1 cm", "km": 0.00001 },
       { "label": "1 m", "km": 0.001 },
@@ -25,7 +27,7 @@
       { "label": "1 km", "km": 1 }
     ]
   },
-  "groups": [
+  "models": [
     {
       "id": "solar-system",
       "label": "Solar System",

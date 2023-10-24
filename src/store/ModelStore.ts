@@ -54,7 +54,6 @@ export class ModelStore extends Store<ModelData> {
     if (!matchEvent<RootData>(this.rootStore.id, 'root', event)) return
     switch (eventField(event)) {
       case 'size':
-        console.log(event, this.rootStore.sizeRatio())
         this.set({ sizeRatio: this.rootStore.sizeRatio() })
         break
       case 'center':

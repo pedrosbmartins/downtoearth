@@ -7,15 +7,17 @@
     "icon": "sun",
     "label": "Sun",
     "visible": true,
-    "layer": {
-      "id": "sun",
-      "shape": "circle",
-      "visible": true,
-      "popup": { "content": "Sun" },
-      "fill": { "color": "yellow", "opacity": 0.5 },
-      "outline": { "color": "orange" },
-      "radius": { "type": "relative", "real": 0.0093096 }
-    },
+    "layers": [
+      {
+        "id": "sun",
+        "shape": "circle",
+        "visible": true,
+        "popup": { "content": "Sun" },
+        "fill": { "color": "yellow", "opacity": 0.5 },
+        "outline": { "color": "orange" },
+        "radius": { "type": "relative", "real": 0.0093096 }
+      }
+    ],
     "sizePresets": [
       { "label": "1 m", "km": 0.001 },
       { "label": "10 m", "km": 0.01, "default": true },
@@ -23,7 +25,7 @@
       { "label": "1 km", "km": 1 }
     ]
   },
-  "groups": [
+  "models": [
     {
       "id": "solar-system",
       "label": "Solar System",

@@ -7,15 +7,17 @@
     "icon": "sun",
     "label": "Sun",
     "visible": true,
-    "layer": {
-      "id": "sun",
-      "shape": "circle",
-      "visible": true,
-      "popup": { "content": "Sun" },
-      "fill": { "color": "#fff2d1", "opacity": 1 },
-      "outline": { "color": "rgba(0,0,0,0.25)" },
-      "radius": { "type": "relative", "real": 0.00465047 }
-    },
+    "layers": [
+      {
+        "id": "sun",
+        "shape": "circle",
+        "visible": true,
+        "popup": { "content": "Sun" },
+        "fill": { "color": "#fff2d1", "opacity": 1 },
+        "outline": { "color": "rgba(0,0,0,0.25)" },
+        "radius": { "type": "relative", "real": 0.00465047 }
+      }
+    ],
     "sizePresets": [
       { "label": "1 cm", "km": 0.00001, "default": true },
       { "label": "2 cm", "km": 0.00002 },
@@ -23,7 +25,7 @@
       { "label": "10 cm", "km": 0.0001 }
     ]
   },
-  "groups": [
+  "models": [
     {
       "id": "alpha-centauri",
       "label": "α Centauri",

@@ -17,6 +17,11 @@ export class GroupFactory {
     this.models = this.buildModels()
   }
 
+  public destroy() {
+    this.store.destroy()
+    this.models.forEach(model => model.destroy())
+  }
+
   private buildUI() {
     const $group = document.createElement('div')
     $group.className = 'group'

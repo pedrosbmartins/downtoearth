@@ -1,18 +1,15 @@
 import { GroupFactory } from './app/GroupFactory'
 import { ModelFactory } from './app/ModelFactory'
 import { RootFactory } from './app/RootFactory'
-import { RootMapComponent } from './components/map'
-import { RootStore } from './store'
 import { Setup, isGroup } from './types'
 import { $sidebar } from './ui'
 
 export default class App extends EventTarget {
   private _setup: Setup | undefined
-  private rootStore: RootStore | undefined
-  private rootMapComponent: RootMapComponent | undefined
-  private groups: GroupFactory[] | undefined
-  private models: ModelFactory[] | undefined
   private _currentLngLat: number[] | undefined
+
+  private root: RootFactory | undefined
+  private models: Array<GroupFactory | ModelFactory> | undefined
 
   get setup() {
     return this._setup
@@ -23,46 +20,36 @@ export default class App extends EventTarget {
   }
 
   public initialize(setup: Setup, center?: number[]) {
-    this._setup = setup
-    this._currentLngLat = center
     this.destroy()
     this.buildRoot(setup)
     this.buildModels(setup)
+    this._setup = setup
+    this._currentLngLat = center
   }
 
   private buildRoot({ root }: Setup) {
     if (!root) return
-    const factory = new RootFactory(root, this._currentLngLat)
-    this.rootStore = factory.store
-    this.rootMapComponent = factory.mapComponent
-    this.rootStore.register(this, 'center', () => {
-      this._currentLngLat = this.rootStore?.get('center')
+    this.root = new RootFactory(root, this._currentLngLat)
+    this.root.store.register(this, 'center', () => {
+      this._currentLngLat = this.root?.store.get('center')
     })
   }
 
   private buildModels({ models }: Setup) {
-    models?.map(model => {
+    this.models = models?.map(model => {
       if (isGroup(model)) {
-        return new GroupFactory(model, this.rootStore)
+        return new GroupFactory(model, this.root?.store)
       } else {
-        return new ModelFactory(model, $sidebar, this.rootStore)
+        return new ModelFactory(model, $sidebar, this.root?.store)
       }
     })
-    // @todo: proper save models for destroy method
-    // this.groups = groups?.map(group => new GroupFactory(group, this.rootStore))
   }
 
   private destroy() {
     $sidebar.innerHTML = ''
-    this.rootStore?.destroy()
-    this.rootStore = undefined
-    this.rootMapComponent?.destroy()
-    this.groups?.forEach(group => {
-      group.store.destroy()
-      group.models.forEach(model => {
-        model.store.destroy()
-        model.mapComponent.destroy()
-      })
-    })
+    this.root?.destroy()
+    this.root = undefined
+    this.models?.forEach(model => model.destroy())
+    this.models = undefined
   }
 }

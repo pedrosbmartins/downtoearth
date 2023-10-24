@@ -7,15 +7,17 @@
     "icon": "sun",
     "label": "Sun",
     "visible": true,
-    "layer": {
-      "id": "sun",
-      "shape": "circle",
-      "visible": true,
-      "label": { "value": "Sun", "position": "center" },
-      "fill": { "color": "yellow", "opacity": 0.75 },
-      "outline": { "color": "yellow" },
-      "radius": { "type": "relative", "real": 0.00465047 }
-    },
+    "layers": [
+      {
+        "id": "sun",
+        "shape": "circle",
+        "visible": true,
+        "label": { "value": "Sun", "position": "center" },
+        "fill": { "color": "yellow", "opacity": 0.75 },
+        "outline": { "color": "yellow" },
+        "radius": { "type": "relative", "real": 0.00465047 }
+      }
+    ],
     "sizePresets": [
       { "label": "1 cm", "km": 0.00001 },
       { "label": "1 m", "km": 0.001 },
@@ -24,7 +26,7 @@
       { "label": "1 km", "km": 1 }
     ]
   },
-  "groups": [
+  "models": [
     {
       "id": "stars",
       "label": "Stars",

@@ -6,22 +6,24 @@
     "icon": "earth",
     "label": "Earth",
     "visible": true,
-    "layer": {
-      "id": "earth-fill",
-      "shape": "circle",
-      "visible": true,
-      "label": { "value": "Earth", "position": "center" },
-      "fill": { "color": "#6b93d6", "opacity": 0.5 },
-      "outline": { "color": "#4f4cb0" },
-      "radius": { "type": "relative", "real": 6371 }
-    },
+    "layers": [
+      {
+        "id": "earth-fill",
+        "shape": "circle",
+        "visible": true,
+        "label": { "value": "Earth", "position": "center" },
+        "fill": { "color": "#6b93d6", "opacity": 0.5 },
+        "outline": { "color": "#4f4cb0" },
+        "radius": { "type": "relative", "real": 6371 }
+      }
+    ],
     "sizePresets": [
       { "label": "10 m", "km": 0.01 },
       { "label": "1 km", "km": 1, "default": true },
       { "label": "10 km", "km": 10 }
     ]
   },
-  "groups": [
+  "models": [
     {
       "id": "satellites",
       "label": "Satellites",

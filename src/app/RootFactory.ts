@@ -48,6 +48,11 @@ export class RootFactory extends EventTarget {
     })
   }
 
+  public destroy() {
+    this.store.destroy()
+    this.mapComponent?.destroy()
+  }
+
   private buildMapComponent() {
     const { layers } = this.definition
     if (layers) {

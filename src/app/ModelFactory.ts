@@ -19,6 +19,11 @@ export class ModelFactory {
     this.buildUI()
   }
 
+  public destroy() {
+    this.store.destroy()
+    this.mapComponent.destroy()
+  }
+
   private buildMapComponent() {
     const { id, layers, visible } = this.definition
     return new ModelMapComponent(id, this.store, {

@@ -101,7 +101,7 @@ Here is a simple example with a root and a group of two objects. The group is po
     "id": "root",
     "label": "Root",
     "visible": true,
-    "layer": {
+    "layers": [{
       "id": "root",
       "shape": "circle",
       "visible": true,
@@ -114,7 +114,7 @@ Here is a simple example with a root and a group of two objects. The group is po
       { "label": "1000 km", "km": 1000 }
     ]
   },
-  "groups": [
+  "models": [
     {
       "id": "group",
       "label": "Group",
