@@ -76,9 +76,9 @@ To share your current visualization and location, click on the **share button** 
 
 The JSON schema can be accessed in [setup/schema.json](https://github.com/pedrosbmartins/downtoearth/blob/main/setup/schema.json). It is generated automatically from the TypeScript types defined in [src/types.ts](https://github.com/pedrosbmartins/downtoearth/blob/main/src/types.ts).
 
-A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and may have a `root` model (its main object for centralization and scaling) and multiple `groups` of models.
+A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and `root` model (its main object for centralization and scaling), and may have multiple additional `models`.
 
-A `model` represents an individual object that can be visualized and interacted with. It has a `label` and one or more `layers`, which define shapes with properties such as fill and outline to be rendered on the map.
+A `model` represents an individual object that can be visualized and interacted with. Models can be positioned and sized relative to the root. They have a `label` and one or more `layers`, which define shapes to be rendered on the map. Shapes have properties such as `fill` and `outline`.
 
 Currently, the only implemented shapes are Circles and Ellipses.
 
@@ -101,13 +101,15 @@ Here is a simple example with a root and a group of two objects. The group is po
     "id": "root",
     "label": "Root",
     "visible": true,
-    "layers": [{
-      "id": "root",
-      "shape": "circle",
-      "visible": true,
-      "radius": { "type": "relative", "real": 1 },
-      "fill": { "color": "yellow" }
-    },
+    "layers": [
+      {
+        "id": "root",
+        "shape": "circle",
+        "visible": true,
+        "radius": { "type": "relative", "real": 1 },
+        "fill": { "color": "yellow" }
+      }
+    ],
     "sizePresets": [
       { "label": "1 km", "km": 1, "default": true },
       { "label": "100 km", "km": 100 },
