@@ -27,10 +27,11 @@ class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props
     if (!sizePresets) return $wrapper
     const $container = document.createElement('div')
     $container.className = 'container'
-    sizePresets.forEach(preset => {
+    let defaultIndex = sizePresets.findIndex(sp => sp.default)
+    sizePresets.forEach((preset, index) => {
       const PresetButton = SizePresetSelector<RootData>(store, {
         label: preset.label,
-        selected: preset.default,
+        selected: index === defaultIndex || (defaultIndex === -1 && index === 0),
         events: ['size'],
         onUpdate: ($, event) => {
           if (matchEvent<RootData>(this.storeId, 'root', event)) {

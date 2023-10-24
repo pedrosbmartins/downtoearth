@@ -12,7 +12,7 @@ export class RootStore extends Store<RootData> {
     const { visible, layers, sizePresets } = definition
     const layer = layers[0] // @todo: handle multiple layers
     const realSize = isRelativeSize(layer.radius) ? layer.radius.real : layer.radius
-    const renderedSize = sizePresets.find(sp => sp.default)!.km / 2
+    const renderedSize = (sizePresets.find(sp => sp.default) ?? sizePresets[0]).km / 2
     super('root', {
       type: 'root',
       visible: visible ?? true,
