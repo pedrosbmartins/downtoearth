@@ -59,7 +59,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
     const center = this.store.get('center')
 
     if (!offset) {
-      return this.store.get('center')
+      return center
     }
 
     const ratio = this.sizeRatio()

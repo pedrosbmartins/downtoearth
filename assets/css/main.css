@@ -197,9 +197,9 @@ a {
   }
 }
 
-/* Sidebar Groups */
+/* Sidebar Single/Group Models */
 #sidebar .group:not(:first-child) {
-  margin-top: 30px;
+  margin: 20px 0 20px 0;
 }
 
 /* Root SidebarItem */
@@ -289,9 +289,6 @@ a {
 }
 #sidebar .item:last-of-type {
   border-bottom: 0;
-}
-#sidebar .item.alternative {
-  margin-bottom: 15px;
 }
 #sidebar .item.alternative .label {
   opacity: 0.4;

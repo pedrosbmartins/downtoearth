@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 
 import { RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
-import { Group } from '../types'
+import { GroupModel } from '../types'
 import { AnyStoreEvent, Observable, Store, StoreData, eventField, matchEvent } from './core'
 
 export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> {
@@ -14,7 +14,7 @@ export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> 
 export class GroupStore extends Store<GroupData> {
   private rootStore: RootStore | undefined
 
-  constructor(group: Group, rootStore: RootStore | undefined) {
+  constructor(group: GroupModel, rootStore: RootStore | undefined) {
     const data: GroupData = {
       type: 'group',
       visible: group.visible || true,
@@ -86,7 +86,7 @@ export class GroupStore extends Store<GroupData> {
     return rootStore?.sizeRatio() ?? 1.0
   }
 
-  private static center(group: Group, rootStore: RootStore | undefined): number[] {
+  private static center(group: GroupModel, rootStore: RootStore | undefined): number[] {
     if (!rootStore) return []
     const offset = GroupStore.offset(group, rootStore)
     return GroupStore.calculateCenter(rootStore.get('center'), group.bearing, offset)

@@ -55,8 +55,7 @@
       "required": [
         "id",
         "radius",
-        "shape",
-        "visible"
+        "shape"
       ],
       "type": "object"
     },
@@ -123,8 +122,7 @@
       "required": [
         "axes",
         "id",
-        "shape",
-        "visible"
+        "shape"
       ],
       "type": "object"
     },
@@ -143,7 +141,7 @@
       ],
       "type": "object"
     },
-    "Group": {
+    "GroupModel": {
       "additionalProperties": false,
       "properties": {
         "bearing": {
@@ -163,7 +161,7 @@
         },
         "models": {
           "items": {
-            "$ref": "#/definitions/Model"
+            "$ref": "#/definitions/SingleModel"
           },
           "type": "array"
         },
@@ -212,40 +210,14 @@
       ]
     },
     "Model": {
-      "additionalProperties": false,
-      "properties": {
-        "bearingControl": {
-          "type": "boolean"
+      "anyOf": [
+        {
+          "$ref": "#/definitions/GroupModel"
         },
-        "icon": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        },
-        "info": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "layers": {
-          "items": {
-            "$ref": "#/definitions/Layer"
-          },
-          "type": "array"
-        },
-        "visible": {
-          "type": "boolean"
+        {
+          "$ref": "#/definitions/SingleModel"
         }
-      },
-      "required": [
-        "id",
-        "label",
-        "layers",
-        "visible"
-      ],
-      "type": "object"
+      ]
     },
     "Outline": {
       "additionalProperties": false,
@@ -305,8 +277,11 @@
         "label": {
           "type": "string"
         },
-        "layer": {
-          "$ref": "#/definitions/CircleLayer"
+        "layers": {
+          "items": {
+            "$ref": "#/definitions/CircleLayer"
+          },
+          "type": "array"
         },
         "sizePresets": {
           "items": {
@@ -321,9 +296,8 @@
       "required": [
         "id",
         "label",
-        "layer",
-        "sizePresets",
-        "visible"
+        "layers",
+        "sizePresets"
       ],
       "type": "object"
     },
@@ -333,9 +307,9 @@
         "$schema": {
           "type": "string"
         },
-        "groups": {
+        "models": {
           "items": {
-            "$ref": "#/definitions/Group"
+            "$ref": "#/definitions/Model"
           },
           "type": "array"
         },
@@ -350,7 +324,43 @@
         }
       },
       "required": [
-        "title"
+        "title",
+        "root"
+      ],
+      "type": "object"
+    },
+    "SingleModel": {
+      "additionalProperties": false,
+      "properties": {
+        "bearingControl": {
+          "type": "boolean"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "layers": {
+          "items": {
+            "$ref": "#/definitions/Layer"
+          },
+          "type": "array"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "layers"
       ],
       "type": "object"
     },

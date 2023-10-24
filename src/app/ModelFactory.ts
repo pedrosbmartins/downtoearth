@@ -2,14 +2,14 @@ import { SidebarItem } from '../components/dom'
 import { ModelMapComponent } from '../components/map'
 import { fitBounds } from '../map'
 import { GroupStore, ModelStore, RootStore } from '../store'
-import { Model } from '../types'
+import { SingleModel } from '../types'
 
 export class ModelFactory {
   public store: ModelStore
   public mapComponent: ModelMapComponent
 
   constructor(
-    private definition: Model,
+    private definition: SingleModel,
     private $container: HTMLElement,
     private rootStore?: RootStore,
     private groupStore?: GroupStore
@@ -38,6 +38,12 @@ export class ModelFactory {
       },
       this.store
     )
-    this.$container.append(item.dom())
+    let $element = item.dom()
+    if (this.groupStore === undefined) {
+      $element = document.createElement('div')
+      $element.className = 'single-model'
+      $element.append(item.dom())
+    }
+    this.$container.append($element)
   }
 }

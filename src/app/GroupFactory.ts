@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 import { SidebarItem } from '../components/dom'
 import { fitBounds } from '../map'
 import { BoundingBox, GroupStore, RootStore } from '../store'
-import { Group } from '../types'
+import { GroupModel } from '../types'
 import { $sidebar } from '../ui'
 import { ModelFactory } from './ModelFactory'
 
@@ -11,24 +11,17 @@ export class GroupFactory {
   public $ui: HTMLElement
   public models: ModelFactory[]
 
-  constructor(private definition: Group, private rootStore?: RootStore) {
+  constructor(private definition: GroupModel, private rootStore?: RootStore) {
     this.store = new GroupStore(this.definition, this.rootStore)
     this.$ui = this.buildUI()
     this.models = this.buildModels()
   }
 
   private buildUI() {
-    let $wrapper = document.getElementById('group-container')
-    if (!$wrapper) {
-      $wrapper = document.createElement('div')
-      $wrapper.id = 'group-container'
-      $sidebar.append($wrapper)
-    }
-
     const $group = document.createElement('div')
     $group.className = 'group'
     $group.innerHTML = this.template()
-    $wrapper.append($group)
+    $sidebar.append($group)
 
     const $groupContainer = $group.querySelector('.items[data-role="group"]')
     const onCenter = () => {

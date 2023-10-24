@@ -2,6 +2,7 @@ import * as turf from '@turf/turf'
 
 import { INITIAL_CENTER } from '../../src/constants'
 import { GroupStore, ModelStore, RootStore } from '../../src/store'
+import { isGroup } from '../../src/types'
 import * as setups from './setups'
 
 jest.mock('../../src/constants')
@@ -17,7 +18,7 @@ let groups: Group[] = []
 describe('stores', () => {
   beforeEach(() => {
     rootStore = new RootStore(setups.base.root!)
-    groups = (setups.base.groups || []).map(group => {
+    groups = (setups.base.models || []).filter(isGroup).map(group => {
       const store = new GroupStore(group, rootStore)
       const models = group.models.map(model => new ModelStore(model, rootStore!, store))
       return { store, models }
@@ -29,7 +30,9 @@ describe('stores', () => {
   })
 
   it('propagates root size ratio change to all group and model stores', () => {
-    rootStore!.set({ size: { rendered: 10, real: rootStore!.get('size').real } })
+    // 10 is diameter but rendered size represents radius, hence the division by 2
+    // @todo: simplify diameter/radius mess
+    rootStore!.set({ size: { rendered: 10 / 2, real: rootStore!.get('size').real } })
     const groupRatio = groups[0].store.get('sizeRatio')
     const modelRatios = groups[0].models.map(m => m.get('sizeRatio'))
     expect(groupRatio).toEqual(10 / 5)
@@ -59,7 +62,7 @@ describe('stores', () => {
   describe('when group has offset', () => {
     beforeEach(() => {
       rootStore = new RootStore(setups.groupWithOffset.root!)
-      groups = (setups.groupWithOffset.groups || []).map(group => {
+      groups = (setups.groupWithOffset.models || []).filter(isGroup).map(group => {
         const store = new GroupStore(group, rootStore)
         const models = group.models.map(model => new ModelStore(model, rootStore!, store))
         return { store, models }
@@ -80,7 +83,9 @@ describe('stores', () => {
     })
 
     it('updates group center with offset when root size ratio changes', () => {
-      rootStore!.set({ size: { rendered: 10, real: rootStore!.get('size').real } })
+      // 10 is diameter but rendered size represents radius, hence the division by 2
+      // @todo: simplify diameter/radius mess
+      rootStore!.set({ size: { rendered: 10 / 2, real: rootStore!.get('size').real } })
       const groupCenter = turf.rhumbDestination(INITIAL_CENTER, 15 * (10 / 5), 270).geometry
         .coordinates
       expect(groups[0].store.get('center')).toEqual(groupCenter)

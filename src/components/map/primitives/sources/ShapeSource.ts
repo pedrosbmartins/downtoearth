@@ -4,7 +4,7 @@ import { Fill, Label, Outline } from '../../../../types'
 import { Source } from './Source'
 
 interface ShapeProps {
-  visible: boolean
+  visible?: boolean
   fill?: Fill
   outline?: Outline
   label?: Label
@@ -30,7 +30,9 @@ export abstract class ShapeSource<D extends {}> extends Source<D> {
         id: `${sourceId}-fill`,
         type: 'fill',
         source: sourceId,
-        layout: { visibility: props.visible ? 'visible' : 'none' },
+        layout: {
+          visibility: props.visible ?? true ? 'visible' : 'none'
+        },
         paint: {
           'fill-color': props.fill.color,
           'fill-opacity': props.fill.opacity ?? 0.5

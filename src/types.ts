@@ -6,25 +6,36 @@ export interface ShareableSetup {
 export interface Setup {
   title: string
   unit?: Unit
-  root?: Root
-  groups?: Group[]
+  root: Root
+  models?: Model[]
   $schema?: string
 }
 
-export interface Model {
+export interface BaseModel {
   id: string
   label: string
-  layers: Layer[]
-  visible: boolean
-  icon?: string
+  visible?: boolean
   bearingControl?: boolean
   info?: string
 }
 
-export interface Root extends Omit<Model, 'layers'> {
+export interface GroupModel extends BaseModel {
+  models: SingleModel[]
+  bearing?: number
+  offset?: RelativeSize
+}
+
+export interface SingleModel extends BaseModel {
+  layers: Layer[]
+  icon?: string
+}
+
+export type Model = GroupModel | SingleModel
+
+export interface Root extends SingleModel {
   id: 'root'
   sizePresets: SizePreset[]
-  layer: CircleLayer
+  layers: CircleLayer[]
 }
 
 export interface SizePreset {
@@ -33,20 +44,9 @@ export interface SizePreset {
   default?: boolean
 }
 
-export interface Group {
-  id: string
-  label: string
-  models: Model[]
-  visible?: boolean
-  bearingControl?: boolean
-  bearing?: number
-  offset?: RelativeSize
-  info?: string
-}
-
 interface LayerBase {
   id: string
-  visible: boolean
+  visible?: boolean
   fill?: Fill
   outline?: Outline
   offset?: RelativeSize
@@ -110,4 +110,8 @@ export function isRelativeSize(object: any): object is RelativeSize {
 
 export function isAbsluteSize(object: any): object is AbsoluteSize {
   return object !== undefined && typeof object === 'number'
+}
+
+export function isGroup(object: any): object is GroupModel {
+  return object !== undefined && object.models !== undefined
 }

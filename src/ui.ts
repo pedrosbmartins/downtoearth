@@ -2,7 +2,9 @@ export const SETUP_FROM_FILE_VALUE = 'from::file'
 export const SETUP_FROM_URL_VALUE = 'from::url'
 
 export const $sidebarContainer = document.getElementById('sidebar')!
-export const $sidebar = $sidebarContainer.querySelector('.dynamic-content-container')!
+export const $sidebar = $sidebarContainer.querySelector<HTMLDivElement>(
+  '.dynamic-content-container'
+)!
 export const $setupDropdown = document.getElementById('setup-dropdown')!
 export const $setupFileSelector = document.getElementById('setup-file-selector')!
 

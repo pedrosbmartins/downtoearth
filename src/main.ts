@@ -1,11 +1,5 @@
 import { LngLatLike } from 'mapbox-gl'
-import alphaCentauri from '../setup/alphaCentauri.json'
 import demo from '../setup/demo.json'
-import earthSatellites from '../setup/earthSatellites.json'
-import pluto from '../setup/pluto.json'
-import solarSystem from '../setup/solarSystem.json'
-import starSizes from '../setup/starSizes.json'
-import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import App from './App'
 import { INITIAL_CENTER } from './constants'
 import map from './map'
@@ -21,12 +15,13 @@ import {
 } from './ui'
 
 const setups = {
-  alphaCentauri: alphaCentauri as Setup,
-  earthSatellites: earthSatellites as Setup,
-  pluto: pluto as Setup,
-  solarSystem: solarSystem as Setup,
-  starSizes: starSizes as Setup,
-  starSizes_solarSystem: starSizes_solarSystem as Setup,
+  // @todo: format other setups to new schema
+  // alphaCentauri: alphaCentauri as Setup,
+  // earthSatellites: earthSatellites as Setup,
+  // pluto: pluto as Setup,
+  // solarSystem: solarSystem as Setup,
+  // starSizes: starSizes as Setup,
+  // starSizes_solarSystem: starSizes_solarSystem as Setup,
   demo: demo as Setup
 }
 
@@ -34,7 +29,7 @@ const app = new App()
 const setupFromURL = tryParseSetupFromURL()
 
 map.on('load', () => {
-  const initialSetup: keyof typeof setups = 'solarSystem'
+  const initialSetup: keyof typeof setups = 'demo'
   const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
   if ($setupOptionElement) {
     $setupOptionElement.setAttribute('selected', 'true')

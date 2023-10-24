@@ -1,8 +1,9 @@
 import { GroupFactory } from './app/GroupFactory'
+import { ModelFactory } from './app/ModelFactory'
 import { RootFactory } from './app/RootFactory'
 import { RootMapComponent } from './components/map'
 import { RootStore } from './store'
-import { Setup } from './types'
+import { Setup, isGroup } from './types'
 import { $sidebar } from './ui'
 
 export default class App extends EventTarget {
@@ -10,6 +11,7 @@ export default class App extends EventTarget {
   private rootStore: RootStore | undefined
   private rootMapComponent: RootMapComponent | undefined
   private groups: GroupFactory[] | undefined
+  private models: ModelFactory[] | undefined
   private _currentLngLat: number[] | undefined
 
   get setup() {
@@ -25,7 +27,7 @@ export default class App extends EventTarget {
     this._currentLngLat = center
     this.destroy()
     this.buildRoot(setup)
-    this.buildGroups(setup)
+    this.buildModels(setup)
   }
 
   private buildRoot({ root }: Setup) {
@@ -38,8 +40,16 @@ export default class App extends EventTarget {
     })
   }
 
-  private buildGroups({ groups }: Setup) {
-    this.groups = groups?.map(group => new GroupFactory(group, this.rootStore))
+  private buildModels({ models }: Setup) {
+    models?.map(model => {
+      if (isGroup(model)) {
+        return new GroupFactory(model, this.rootStore)
+      } else {
+        return new ModelFactory(model, $sidebar, this.rootStore)
+      }
+    })
+    // @todo: proper save models for destroy method
+    // this.groups = groups?.map(group => new GroupFactory(group, this.rootStore))
   }
 
   private destroy() {

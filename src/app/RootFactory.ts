@@ -49,10 +49,10 @@ export class RootFactory extends EventTarget {
   }
 
   private buildMapComponent() {
-    const { layer } = this.definition
-    if (layer) {
+    const { layers } = this.definition
+    if (layers) {
       this.mapComponent = new RootMapComponent('root', this.store, {
-        layerDefinitions: [layer]
+        layerDefinitions: [layers[0]] // @todo: handle multiple layers
       })
     }
   }

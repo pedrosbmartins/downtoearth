@@ -6,58 +6,45 @@
     "id": "root",
     "label": "Root",
     "visible": true,
-    "layer": {
-      "id": "root",
-      "shape": "circle",
-      "visible": true,
-      "radius": { "type": "relative", "real": 1 },
-      "fill": { "color": "yellow" }
-    },
+    "layers": [
+      {
+        "id": "root",
+        "shape": "circle",
+        "visible": true,
+        "radius": { "type": "relative", "real": 5 },
+        "fill": { "color": "green" }
+      }
+    ],
     "sizePresets": [
       { "label": "1 km", "km": 1, "default": true },
-      { "label": "100 km", "km": 100 },
-      { "label": "1000 km", "km": 1000 }
+      { "label": "10 km", "km": 10 },
+      { "label": "100 km", "km": 100 }
     ]
   },
-  "groups": [
+  "models": [
     {
-      "id": "group",
-      "label": "Group",
-      "visible": true,
-      "bearingControl": true,
-      "bearing": 270,
-      "offset": { "type": "relative", "real": 10 },
-      "models": [
+      "id": "object-1",
+      "label": "Object 1",
+      "layers": [
         {
           "id": "1",
-          "label": "Object 1",
-          "visible": true,
-          "layers": [
-            {
-              "id": "1",
-              "shape": "circle",
-              "visible": true,
-              "radius": { "type": "relative", "real": 2 },
-              "fill": { "color": "red" },
-              "drawLineToRoot": true
-            }
-          ]
+          "shape": "circle",
+          "radius": { "type": "relative", "real": 10 },
+          "outline": { "color": "red", "width": 3 }
         },
         {
           "id": "2",
-          "label": "Object 2",
-          "visible": true,
-          "layers": [
-            {
-              "id": "2",
-              "shape": "circle",
-              "visible": true,
-              "radius": { "type": "relative", "real": 2 },
-              "fill": { "color": "blue" },
-              "offset": { "type": "relative", "real": 2 },
-              "drawLineToRoot": true
-            }
-          ]
+          "shape": "circle",
+          "radius": { "type": "relative", "real": 5 },
+          "fill": { "color": "blue" },
+          "offset": { "type": "relative", "real": 10 }
+        },
+        {
+          "id": "3",
+          "shape": "circle",
+          "radius": { "type": "relative", "real": 5 },
+          "fill": { "color": "blue" },
+          "offset": { "type": "relative", "real": -10 }
         }
       ]
     }

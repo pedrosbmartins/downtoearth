@@ -24,7 +24,7 @@ export abstract class Layer<D extends LayerDefinition> {
 
   constructor(protected id: string, protected props: Props<D>) {
     this.definition = props.definition
-    this.visible = this.definition.visible
+    this.visible = this.definition.visible ?? true
     this.sources = this.buildSources()
     this.renderPopup()
   }
@@ -109,7 +109,7 @@ export abstract class Layer<D extends LayerDefinition> {
         from: (this.props.rootCenter && this.props.rootCenter()) || INITIAL_CENTER,
         to: this.props.center
       }),
-      { visible: this.definition.visible }
+      { visible: this.definition.visible ?? true }
     )
   }
 
