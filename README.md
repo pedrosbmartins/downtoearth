@@ -94,25 +94,21 @@ Here is a simple example with a root and a group of two objects. The group is po
 
 ```json
 {
-  "$schema": "./schema.json",
   "title": "Example",
-  "unit": { "name": "km", "km": 1 },
   "root": {
     "id": "root",
     "label": "Root",
-    "visible": true,
     "layers": [
       {
-        "id": "root",
+        "id": "1",
         "shape": "circle",
-        "visible": true,
-        "radius": { "type": "relative", "real": 1 },
+        "radius": { "type": "relative", "real": 0.5 },
         "fill": { "color": "yellow" }
       }
     ],
     "sizePresets": [
-      { "label": "1 km", "km": 1, "default": true },
-      { "label": "100 km", "km": 100 },
+      { "label": "1 km", "km": 1 },
+      { "label": "100 km", "km": 100, "default": true },
       { "label": "1000 km", "km": 1000 }
     ]
   },
@@ -120,20 +116,17 @@ Here is a simple example with a root and a group of two objects. The group is po
     {
       "id": "group",
       "label": "Group",
-      "visible": true,
       "bearingControl": true,
       "bearing": 270,
       "offset": { "type": "relative", "real": 10 },
       "models": [
         {
-          "id": "1",
+          "id": "object-1",
           "label": "Object 1",
-          "visible": true,
           "layers": [
             {
               "id": "1",
               "shape": "circle",
-              "visible": true,
               "radius": { "type": "relative", "real": 2 },
               "fill": { "color": "red" },
               "drawLineToRoot": true
@@ -141,14 +134,12 @@ Here is a simple example with a root and a group of two objects. The group is po
           ]
         },
         {
-          "id": "2",
+          "id": "object-22",
           "label": "Object 2",
-          "visible": true,
           "layers": [
             {
               "id": "2",
               "shape": "circle",
-              "visible": true,
               "radius": { "type": "relative", "real": 2 },
               "fill": { "color": "blue" },
               "offset": { "type": "relative", "real": 2 },
