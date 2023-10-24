@@ -3,6 +3,7 @@ import * as turf from '@turf/turf'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { Layer, hasRelativeSize } from '../../types'
+import { mergeBoundingBoxes } from '../../utils'
 import { MapComponent, Props } from './MapComponent'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
@@ -48,7 +49,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
   }
 
   public boundingBox() {
-    return this.layers[0].rendered.boundingBox()
+    return mergeBoundingBoxes(this.layers.map(layer => layer.rendered.boundingBox()))
   }
 
   protected sizeRatio(): number {

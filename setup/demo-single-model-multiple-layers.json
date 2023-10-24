@@ -8,27 +8,16 @@
     "visible": true,
     "layers": [
       {
-        "id": "1",
+        "id": "root",
         "shape": "circle",
         "visible": true,
-        "radius": { "type": "relative", "real": 10 },
-        "offset": { "type": "relative", "real": -8 },
-        "bearing": 90,
+        "radius": { "type": "relative", "real": 5 },
         "fill": { "color": "green" }
-      },
-      {
-        "id": "2",
-        "shape": "circle",
-        "visible": true,
-        "radius": { "type": "relative", "real": 10 },
-        "offset": { "type": "relative", "real": 8 },
-        "bearing": 90,
-        "fill": { "color": "red" }
       }
     ],
     "sizePresets": [
-      { "label": "1 km", "km": 1 },
-      { "label": "10 km", "km": 10, "default": true },
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "10 km", "km": 10 },
       { "label": "100 km", "km": 100 }
     ]
   },

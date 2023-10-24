@@ -1,9 +1,9 @@
-import * as turf from '@turf/turf'
 import { SidebarItem } from '../components/dom'
 import { fitBounds } from '../map'
-import { BoundingBox, GroupStore, RootStore } from '../store'
+import { GroupStore, RootStore } from '../store'
 import { GroupModel } from '../types'
 import { $sidebar } from '../ui'
+import { mergeBoundingBoxes } from '../utils'
 import { ModelFactory } from './ModelFactory'
 
 export class GroupFactory {
@@ -31,9 +31,7 @@ export class GroupFactory {
     const $groupContainer = $group.querySelector('.items[data-role="group"]')
     const onCenter = () => {
       const componentsBbox = this.models.map(model => model.mapComponent.boundingBox())
-      const boundingBox = turf.bbox(
-        turf.featureCollection(componentsBbox.map(bbox => turf.bboxPolygon(bbox)))
-      ) as BoundingBox
+      const boundingBox = mergeBoundingBoxes(componentsBbox)
       fitBounds(boundingBox)
     }
     const { label, bearingControl, info } = this.definition

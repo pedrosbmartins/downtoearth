@@ -57,7 +57,7 @@ export class RootFactory extends EventTarget {
     const { layers } = this.definition
     if (layers) {
       this.mapComponent = new RootMapComponent('root', this.store, {
-        layerDefinitions: [layers[0]] // @todo: handle multiple layers
+        layerDefinitions: layers
       })
     }
   }

@@ -1,15 +1,16 @@
+import * as turf from '@turf/turf'
+
 import { INITIAL_CENTER } from '../../constants'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { MapComponent, MapLayer, Props } from './MapComponent'
+import { Layer } from '../../types'
+import { mergeBoundingBoxes } from '../../utils'
+import { MapComponent, Props } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
-  private layer: MapLayer
-
   constructor(id: string, store: RootStore, props: Props) {
     super(id, store, ['visible', 'size', 'center'], props)
     this.layers = this.buildLayers()
-    this.layer = this.layers[0]
   }
 
   onUpdate(event: AnyStoreEvent) {
@@ -29,14 +30,30 @@ export class RootMapComponent extends MapComponent<RootStore> {
   }
 
   public boundingBox() {
-    return this.layer.rendered.boundingBox()
+    return mergeBoundingBoxes(this.layers.map(layer => layer.rendered.boundingBox()))
+  }
+
+  protected center({ offset, bearing }: Layer): number[] {
+    const center = this.store.get('center') ?? INITIAL_CENTER
+
+    if (!offset) {
+      return center
+    }
+
+    const ratio = this.sizeRatio()
+    if (!ratio) {
+      throw new Error(`size ratio not set for root model`)
+    }
+    const destination = turf.rhumbDestination(
+      center,
+      offset.real * ratio,
+      bearing || this.store.get('bearing') || 0
+    )
+    return destination.geometry.coordinates
   }
 
   protected sizeRatio(): number {
     return this.store.sizeRatio()
-  }
-  protected center(): number[] {
-    return this.store.get('center') ?? INITIAL_CENTER
   }
   protected rootCenter() {
     return () => this.store.get('center')

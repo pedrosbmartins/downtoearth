@@ -31,33 +31,5 @@
       { "label": "10 km", "km": 10, "default": true },
       { "label": "100 km", "km": 100 }
     ]
-  },
-  "models": [
-    {
-      "id": "object-1",
-      "label": "Object 1",
-      "layers": [
-        {
-          "id": "1",
-          "shape": "circle",
-          "radius": { "type": "relative", "real": 10 },
-          "outline": { "color": "red", "width": 3 }
-        },
-        {
-          "id": "2",
-          "shape": "circle",
-          "radius": { "type": "relative", "real": 5 },
-          "fill": { "color": "blue" },
-          "offset": { "type": "relative", "real": 10 }
-        },
-        {
-          "id": "3",
-          "shape": "circle",
-          "radius": { "type": "relative", "real": 5 },
-          "fill": { "color": "blue" },
-          "offset": { "type": "relative", "real": -10 }
-        }
-      ]
-    }
-  ]
+  }
 }
