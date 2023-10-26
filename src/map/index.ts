@@ -4,8 +4,8 @@ import { BoundingBox, LngLat } from '../types'
 export type EventHandler<T = void> = (a: T) => void
 export type ClickEventHandler = EventHandler<{ lngLat: LngLat }>
 
-export abstract class Map {
-  protected accessToken: string | undefined
+export abstract class BaseMap {
+  protected layers: BaseMapLayer[] = []
 
   constructor(protected center: LngLat) {}
 
@@ -16,7 +16,7 @@ export abstract class Map {
   public abstract onClick(handler: ClickEventHandler): void
 }
 
-export abstract class MapLayer {
+export abstract class BaseMapLayer {
   public abstract show(): void
   public abstract hide(): void
 }

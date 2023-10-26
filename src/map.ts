@@ -10,7 +10,7 @@ export const geolocate = new mapboxgl.GeolocateControl({
   showUserLocation: false
 })
 
-const map = new MapBoxGL(INITIAL_CENTER, { accessToken: MAPBOXGL_ACCESS_TOKEN })
+const map = new MapBoxGL.Map(INITIAL_CENTER, { accessToken: MAPBOXGL_ACCESS_TOKEN })
 map.instance.addControl(geolocate)
 
 export default map
