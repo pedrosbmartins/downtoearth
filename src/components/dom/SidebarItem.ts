@@ -1,4 +1,5 @@
 import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
+import { LngLat } from '../../types'
 import { showDialog } from '../../ui'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 import { SidebarItemControl } from './SidebarItemControl'
@@ -7,7 +8,7 @@ type SidebarItemStore = Store<SidebarItemData<string>>
 
 export interface SidebarItemData<T extends string> extends StoreData<T> {
   visible: boolean
-  center: number[]
+  center: LngLat
   bearing?: number
 }
 

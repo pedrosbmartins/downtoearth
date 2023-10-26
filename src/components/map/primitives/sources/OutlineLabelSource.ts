@@ -1,7 +1,8 @@
 import { SymbolLayer } from 'mapbox-gl'
 
 import { circle, ellipse } from '../../../../map'
-import { Label } from '../../../../types'
+import { Label } from '../../../../setups'
+import { LngLat } from '../../../../types'
 import { Source } from './Source'
 
 interface Props {
@@ -31,7 +32,7 @@ abstract class OutlineLabelSource<D extends {}> extends Source<D> {
 }
 
 interface CircleData {
-  center: number[]
+  center: LngLat
   radius: number
 }
 
@@ -43,7 +44,7 @@ export class CircleOutlineLabelSource extends OutlineLabelSource<CircleData> {
 }
 
 interface EllipseData {
-  center: number[]
+  center: LngLat
   axes: { semiMajor: number; semiMinor: number }
 }
 

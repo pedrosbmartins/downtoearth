@@ -2,4 +2,4 @@
 #
 # Generates JSON schema from Setup typescript definition.
 
-npx ts-json-schema-generator --path 'src/types.ts' --type 'Setup' > setup/schema.json
+npx ts-json-schema-generator --path 'src/setups/index.ts' --type 'Setup' > setup/schema.json

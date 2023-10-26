@@ -1,5 +1,6 @@
+import { CircleLayer, EllipseLayer, Layer as LayerDefinition } from '../../setups'
 import { AnyStore, StoreListener } from '../../store/core'
-import { CircleLayer, EllipseLayer, Layer as LayerDefinition } from '../../types'
+import { LngLat } from '../../types'
 import { Circle, Ellipse, Layer } from './primitives'
 
 export interface Props {
@@ -36,7 +37,7 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
     })
   }
 
-  protected setCenter(value: number[]) {
+  protected setCenter(value: LngLat) {
     this.layers.forEach(({ rendered }) => {
       rendered.setCenter(value)
     })
@@ -77,6 +78,6 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
   }
 
   protected abstract sizeRatio(): number
-  protected abstract center(definition: LayerDefinition): number[]
-  protected abstract rootCenter(): () => number[] | undefined
+  protected abstract center(definition: LayerDefinition): LngLat
+  protected abstract rootCenter(): () => LngLat | undefined
 }

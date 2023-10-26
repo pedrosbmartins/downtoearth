@@ -1,4 +1,4 @@
-import { CircleLayer, isAbsluteSize } from '../../../types'
+import { CircleLayer, isAbsluteSize } from '../../../setups'
 import { Layer } from './Layer'
 import { CircleOutlineLabelSource, CircleSource, Source } from './sources'
 

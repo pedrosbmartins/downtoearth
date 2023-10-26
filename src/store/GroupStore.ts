@@ -2,7 +2,10 @@ import * as turf from '@turf/turf'
 
 import { RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
-import { GroupModel } from '../types'
+import { INITIAL_CENTER } from '../constants'
+import { GroupModel } from '../setups'
+import { LngLat } from '../types'
+import { toLngLat } from '../utils'
 import { AnyStoreEvent, Observable, Store, StoreData, eventField, matchEvent } from './core'
 
 export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> {
@@ -86,14 +89,15 @@ export class GroupStore extends Store<GroupData> {
     return rootStore?.sizeRatio() ?? 1.0
   }
 
-  private static center(group: GroupModel, rootStore: RootStore | undefined): number[] {
-    if (!rootStore) return []
+  private static center(group: GroupModel, rootStore: RootStore | undefined): LngLat {
+    if (!rootStore) return INITIAL_CENTER
     const offset = GroupStore.offset(group, rootStore)
     return GroupStore.calculateCenter(rootStore.get('center'), group.bearing, offset)
   }
 
-  private static calculateCenter(center: number[], bearing?: number, offset?: GroupData['offset']) {
+  private static calculateCenter(center: LngLat, bearing?: number, offset?: GroupData['offset']) {
     if (!offset) return center
-    return turf.rhumbDestination(center, offset.rendered, bearing || 0).geometry.coordinates
+    const destination = turf.rhumbDestination(center, offset.rendered, bearing || 0)
+    return toLngLat(destination.geometry.coordinates)
   }
 }

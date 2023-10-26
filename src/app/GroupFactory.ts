@@ -1,7 +1,7 @@
 import { SidebarItem } from '../components/dom'
 import { fitBounds } from '../map'
+import { GroupModel } from '../setups'
 import { GroupStore, RootStore } from '../store'
-import { GroupModel } from '../types'
 import { $sidebar } from '../ui'
 import { mergeBoundingBoxes } from '../utils'
 import { ModelFactory } from './ModelFactory'

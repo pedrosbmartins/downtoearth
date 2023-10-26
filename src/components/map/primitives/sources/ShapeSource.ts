@@ -1,6 +1,6 @@
 import { AnyLayer, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
 
-import { Fill, Label, Outline } from '../../../../types'
+import { Fill, Label, Outline } from '../../../../setups'
 import { Source } from './Source'
 
 interface ShapeProps {

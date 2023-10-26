@@ -1,6 +1,7 @@
 import { GroupStore, RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
-import { SingleModel } from '../types'
+import { INITIAL_CENTER } from '../constants'
+import { SingleModel } from '../setups'
 import {
   AnyObservable,
   AnyStoreEvent,
@@ -37,7 +38,7 @@ export class ModelStore extends Store<ModelData> {
       type: 'model',
       visible: model.visible ?? true,
       sizeRatio: rootStore?.sizeRatio() ?? 1.0,
-      center: groupStore?.get('center') ?? rootStore?.get('center') ?? []
+      center: groupStore?.get('center') ?? rootStore?.get('center') ?? INITIAL_CENTER
     }
     super(`model-${model.id}`, data, observables)
     this.rootStore = rootStore

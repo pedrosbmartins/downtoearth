@@ -1,8 +1,8 @@
 import { SidebarItem } from '../components/dom'
 import { ModelMapComponent } from '../components/map'
 import { fitBounds } from '../map'
+import { SingleModel } from '../setups'
 import { GroupStore, ModelStore, RootStore } from '../store'
-import { SingleModel } from '../types'
 
 export class ModelFactory {
   public store: ModelStore

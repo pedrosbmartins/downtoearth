@@ -1,10 +1,11 @@
 import * as turf from '@turf/turf'
 
 import { INITIAL_CENTER } from '../../constants'
+import { Layer } from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { Layer } from '../../types'
-import { mergeBoundingBoxes } from '../../utils'
+import { LngLat } from '../../types'
+import { mergeBoundingBoxes, toLngLat } from '../../utils'
 import { MapComponent, Props } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
@@ -33,7 +34,7 @@ export class RootMapComponent extends MapComponent<RootStore> {
     return mergeBoundingBoxes(this.layers.map(layer => layer.rendered.boundingBox()))
   }
 
-  protected center({ offset, bearing }: Layer): number[] {
+  protected center({ offset, bearing }: Layer): LngLat {
     const center = this.store.get('center') ?? INITIAL_CENTER
 
     if (!offset) {
@@ -49,7 +50,7 @@ export class RootMapComponent extends MapComponent<RootStore> {
       offset.real * ratio,
       bearing || this.store.get('bearing') || 0
     )
-    return destination.geometry.coordinates
+    return toLngLat(destination.geometry.coordinates)
   }
 
   protected sizeRatio(): number {

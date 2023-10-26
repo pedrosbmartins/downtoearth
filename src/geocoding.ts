@@ -2,6 +2,7 @@ import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
 import mapboxgl from 'mapbox-gl'
 import { MAPBOXGL_ACCESS_TOKEN } from './constants'
 import map from './map'
+import { LngLat } from './types'
 
 const MAPBOXGL_GEOCODER_INPUT_CLASS = '.mapboxgl-ctrl-geocoder--input'
 
@@ -17,7 +18,7 @@ export function buildGeocoder($container: HTMLElement, onResult?: ResultEventHan
   })
   if (onResult) geocoder.on('result', onResult)
   const $geocoderElement = $container.querySelector<HTMLElement>('#geocoder')!
-  $geocoderElement.appendChild(geocoder.onAdd(map))
+  $geocoderElement.appendChild(geocoder.onAdd(map.instance))
   const $geocoderInput = extractInputElement($geocoderElement)
   return { geocoder, $geocoderElement, $geocoderInput }
 }
@@ -26,7 +27,7 @@ function extractInputElement($geocoderElement: HTMLElement) {
   return $geocoderElement.querySelector<HTMLInputElement>(MAPBOXGL_GEOCODER_INPUT_CLASS)!
 }
 
-export async function reverseGeocoding(lngLat: number[]) {
+export async function reverseGeocoding(lngLat: LngLat) {
   try {
     const [lng, lat] = lngLat
     const response = await fetch(

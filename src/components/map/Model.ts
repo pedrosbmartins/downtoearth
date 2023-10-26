@@ -1,9 +1,10 @@
 import * as turf from '@turf/turf'
 
+import { Layer, hasRelativeSize } from '../../setups'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { Layer, hasRelativeSize } from '../../types'
-import { mergeBoundingBoxes } from '../../utils'
+import { LngLat } from '../../types'
+import { mergeBoundingBoxes, toLngLat } from '../../utils'
 import { MapComponent, Props } from './MapComponent'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
@@ -56,7 +57,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
     return this.store.get('sizeRatio')
   }
 
-  protected center({ offset, bearing }: Layer): number[] {
+  protected center({ offset, bearing }: Layer): LngLat {
     const center = this.store.get('center')
 
     if (!offset) {
@@ -72,7 +73,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
       offset.real * ratio,
       bearing || this.store.get('bearing') || this.store.groupBearing() || 0
     )
-    return destination.geometry.coordinates
+    return toLngLat(destination.geometry.coordinates)
   }
 
   protected rootCenter() {

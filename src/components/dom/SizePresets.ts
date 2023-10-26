@@ -1,6 +1,6 @@
+import { SizePreset } from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { matchEvent } from '../../store/core'
-import { SizePreset } from '../../types'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 import { SizePresetSelector } from './SizePresetSelector'
 

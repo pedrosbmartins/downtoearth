@@ -1,9 +1,10 @@
 import { ellipse } from '../../../../map'
+import { LngLat } from '../../../../types'
 
 import { ShapeSource } from './ShapeSource'
 
 interface EllipseData {
-  center: number[]
+  center: LngLat
   axes: { semiMajor: number; semiMinor: number }
 }
 

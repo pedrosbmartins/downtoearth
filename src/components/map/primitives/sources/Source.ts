@@ -9,9 +9,9 @@ export abstract class Source<D extends {} = {}> {
     protected dataGetter: () => D,
     public layers: AnyLayer[]
   ) {
-    map.addSource(id, this.content())
+    map.instance.addSource(id, this.content())
     layers.forEach(layer => {
-      map.addLayer(layer)
+      map.instance.addLayer(layer)
     })
   }
 
@@ -31,6 +31,6 @@ export abstract class Source<D extends {} = {}> {
   }
 
   private mapSource() {
-    return map.getSource(this.id)
+    return map.instance.getSource(this.id)
   }
 }

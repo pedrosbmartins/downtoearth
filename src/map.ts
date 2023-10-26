@@ -1,38 +1,29 @@
 import * as turf from '@turf/turf'
-import mapboxgl, { LngLatLike } from 'mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 
 import { INITIAL_CENTER, MAPBOXGL_ACCESS_TOKEN } from './constants'
-import { BoundingBox } from './store'
-
-const map = new mapboxgl.Map({
-  accessToken: MAPBOXGL_ACCESS_TOKEN,
-  style: 'mapbox://styles/pedrosbmartins/ckxorrc2q6hzp15p9b9kojnvj',
-  center: INITIAL_CENTER as LngLatLike,
-  zoom: 10,
-  container: 'map',
-  projection: {
-    name: 'globe'
-  }
-})
+import { MapBoxGL } from './map/mapboxgl'
+import { BoundingBox, LngLat } from './types'
 
 export const geolocate = new mapboxgl.GeolocateControl({
   positionOptions: { enableHighAccuracy: true },
   showUserLocation: false
 })
 
-map.addControl(geolocate)
+const map = new MapBoxGL(INITIAL_CENTER, { accessToken: MAPBOXGL_ACCESS_TOKEN })
+map.instance.addControl(geolocate)
 
 export default map
 
-export function fitBounds(boundingBox: BoundingBox) {
-  map.fitBounds(boundingBox, { padding: 20 })
+export function fitBounds(bbox: BoundingBox) {
+  map.flyTo(bbox)
 }
 
-export function circle(center: number[], size: number) {
+export function circle(center: LngLat, size: number) {
   return turf.circle(center, size, { steps: 80, units: 'kilometers' })
 }
 
-export function ellipse(center: number[], semiMajorAxis: number, semiMinorAxis: number) {
+export function ellipse(center: LngLat, semiMajorAxis: number, semiMinorAxis: number) {
   return turf.ellipse(center, semiMajorAxis, semiMinorAxis, { steps: 180, units: 'kilometers' })
 }
 

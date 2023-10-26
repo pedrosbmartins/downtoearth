@@ -1,13 +1,14 @@
 import { Result } from '@mapbox/mapbox-gl-geocoder'
-import { LngLatLike } from 'mapbox-gl'
 import { SidebarItem, SizePresets } from '../components/dom'
 import { RootMapComponent } from '../components/map'
 import { INITIAL_CITY } from '../constants'
 import { buildGeocoder, reverseGeocoding } from '../geocoding'
 import map, { fitBounds, geolocate, isGeolocateResultEvent } from '../map'
+import { Root } from '../setups'
 import { RootStore } from '../store'
-import { Root } from '../types'
+import { LngLat } from '../types'
 import { $sidebar } from '../ui'
+import { toLngLat } from '../utils'
 
 export class RootFactory extends EventTarget {
   public store: RootStore
@@ -16,7 +17,7 @@ export class RootFactory extends EventTarget {
   private $ui: HTMLElement
   private $geocoderInput: HTMLInputElement | undefined
 
-  constructor(private definition: Root, private currentLngLat?: number[]) {
+  constructor(private definition: Root, private currentLngLat?: LngLat) {
     super()
 
     this.store = new RootStore(this.definition, this.currentLngLat)
@@ -34,15 +35,14 @@ export class RootFactory extends EventTarget {
       }
     })
 
-    map.on('click', event => {
-      const center = event.lngLat.toArray()
-      this.store.set({ center })
+    map.onClick(({ lngLat }) => {
+      this.store.set({ center: lngLat })
     })
 
     geolocate.on('geolocate', (event: any) => {
       if (isGeolocateResultEvent(event)) {
         const { longitude, latitude } = event.coords
-        const center = [longitude, latitude]
+        const center = [longitude, latitude] as LngLat
         this.store.set({ center })
       }
     })
@@ -82,10 +82,10 @@ export class RootFactory extends EventTarget {
     return $container
   }
 
-  private async buildGeocoder(currentLngLat: number[] | undefined) {
+  private async buildGeocoder(currentLngLat: LngLat | undefined) {
     const { $geocoderInput } = buildGeocoder(this.$ui, async (event: { result: Result }) => {
-      const { center } = event.result
-      map.setCenter(center as LngLatLike)
+      const center = toLngLat(event.result.center)
+      map.setCenter(center)
       this.store.set({ center })
     })
     this.$geocoderInput = $geocoderInput

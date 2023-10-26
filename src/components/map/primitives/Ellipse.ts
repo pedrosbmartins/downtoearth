@@ -1,5 +1,6 @@
 import * as turf from '@turf/turf'
-import { EllipseLayer, Size, isAbsluteSize } from '../../../types'
+import { EllipseLayer, Size, isAbsluteSize } from '../../../setups'
+import { toLngLat } from '../../../utils'
 import { Layer } from './Layer'
 import { EllipseOutlineLabelSource, EllipseSource, Source } from './sources'
 
@@ -49,7 +50,7 @@ export class Ellipse extends Layer<EllipseLayer> {
     const { center } = this.props
     const focusDistance = Ellipse.focus(this.axes())
     const destination = turf.rhumbDestination(center, focusDistance, 270)
-    return destination.geometry.coordinates
+    return toLngLat(destination.geometry.coordinates)
   }
 
   static eccentricity({ semiMajor, semiMinor }: EllipseAxes) {

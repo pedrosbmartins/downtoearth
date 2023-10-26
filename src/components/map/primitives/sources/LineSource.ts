@@ -1,5 +1,6 @@
 import { LineLayer } from 'mapbox-gl'
 
+import { LngLat } from '../../../../types'
 import { Source } from './Source'
 
 interface Props {
@@ -8,8 +9,8 @@ interface Props {
 }
 
 interface LineData {
-  from: number[]
-  to: number[]
+  from: LngLat
+  to: LngLat
 }
 
 export class LineSource extends Source<LineData> {

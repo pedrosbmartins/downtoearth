@@ -3,16 +3,16 @@ import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
 import { INITIAL_CENTER } from '../../../constants'
 import map from '../../../map'
-import { BoundingBox } from '../../../store'
-import { Layer as LayerDefinition } from '../../../types'
+import { Layer as LayerDefinition } from '../../../setups'
+import { BoundingBox, LngLat } from '../../../types'
 import { Source } from './sources'
 import { LineSource } from './sources/LineSource'
 
 interface Props<D extends LayerDefinition> {
   sizeRatio: number
-  center: number[]
+  center: LngLat
   definition: D
-  rootCenter?: () => number[] | undefined
+  rootCenter?: () => LngLat | undefined
 }
 
 export abstract class Layer<D extends LayerDefinition> {
@@ -34,7 +34,7 @@ export abstract class Layer<D extends LayerDefinition> {
     this.renderPopup()
     this.sources.forEach(source => {
       source.layers.forEach(layer => {
-        map.setLayoutProperty(layer.id, 'visibility', 'visible')
+        map.instance.setLayoutProperty(layer.id, 'visibility', 'visible')
       })
     })
   }
@@ -44,7 +44,7 @@ export abstract class Layer<D extends LayerDefinition> {
     this.popup?.remove()
     this.sources.forEach(source => {
       source.layers.forEach(layer => {
-        map.setLayoutProperty(layer.id, 'visibility', 'none')
+        map.instance.setLayoutProperty(layer.id, 'visibility', 'none')
       })
     })
   }
@@ -53,7 +53,7 @@ export abstract class Layer<D extends LayerDefinition> {
     this.updateSources({ sizeRatio })
   }
 
-  public setCenter(center: number[]) {
+  public setCenter(center: LngLat) {
     this.updateSources({ center })
     this.renderPopup()
   }
@@ -66,8 +66,8 @@ export abstract class Layer<D extends LayerDefinition> {
   public destroy() {
     this.popup?.remove()
     this.sources.forEach(source => {
-      source.layers.forEach(({ id }) => map.removeLayer(id))
-      map.removeSource(source.id)
+      source.layers.forEach(({ id }) => map.instance.removeLayer(id))
+      map.instance.removeSource(source.id)
     })
   }
 
@@ -77,7 +77,7 @@ export abstract class Layer<D extends LayerDefinition> {
     this.popup = new mapboxgl.Popup({ closeButton: false })
       .setLngLat(this.props.center as LngLatLike)
       .setText(this.definition.popup.content)
-      .addTo(map)
+      .addTo(map.instance)
   }
 
   private updateSources(props: Partial<Props<D>>) {

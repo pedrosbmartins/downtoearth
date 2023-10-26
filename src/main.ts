@@ -1,4 +1,3 @@
-import { LngLatLike } from 'mapbox-gl'
 import alphaCentauri from '../setup/alphaCentauri.json'
 import demo from '../setup/demo.json'
 import earthSatellites from '../setup/earthSatellites.json'
@@ -9,7 +8,8 @@ import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import App from './App'
 import { INITIAL_CENTER } from './constants'
 import map from './map'
-import { Setup, ShareableSetup } from './types'
+import { Setup, ShareableSetup } from './setups'
+import { LngLat } from './types'
 import {
   $setupDropdown,
   $setupFileSelector,
@@ -33,7 +33,7 @@ const setups = {
 const app = new App()
 const setupFromURL = tryParseSetupFromURL()
 
-map.on('load', () => {
+map.onLoad(() => {
   const initialSetup: keyof typeof setups = 'solarSystem'
   const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
   if ($setupOptionElement) {
@@ -41,7 +41,7 @@ map.on('load', () => {
   }
 
   let setup: Setup = setups[initialSetup]
-  let center: number[] | undefined
+  let center: LngLat | undefined
 
   if (setupFromURL) {
     try {
@@ -111,8 +111,8 @@ function activateUIForSetupFromURL(title: string) {
   $setupFromURLOption.innerText = title
 }
 
-function activateMapForSetupFromURL(center: number[]) {
-  map.setCenter(center as LngLatLike)
+function activateMapForSetupFromURL(center: LngLat) {
+  map.setCenter(center)
 }
 
 function generateShareableLink() {

@@ -1,9 +1,10 @@
 import { circle } from '../../../../map'
+import { LngLat } from '../../../../types'
 
 import { ShapeSource } from './ShapeSource'
 
 interface CircleData {
-  center: number[]
+  center: LngLat
   radius: number
 }
 

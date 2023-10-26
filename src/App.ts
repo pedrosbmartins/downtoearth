@@ -1,12 +1,13 @@
 import { GroupFactory } from './app/GroupFactory'
 import { ModelFactory } from './app/ModelFactory'
 import { RootFactory } from './app/RootFactory'
-import { Setup, isGroup } from './types'
+import { Setup, isGroup } from './setups'
+import { LngLat } from './types'
 import { $sidebar } from './ui'
 
 export default class App extends EventTarget {
   private _setup: Setup | undefined
-  private _currentLngLat: number[] | undefined
+  private _currentLngLat: LngLat | undefined
 
   private root: RootFactory | undefined
   private models: Array<GroupFactory | ModelFactory> | undefined
@@ -19,7 +20,7 @@ export default class App extends EventTarget {
     return this._currentLngLat
   }
 
-  public initialize(setup: Setup, center?: number[]) {
+  public initialize(setup: Setup, center?: LngLat) {
     this.destroy()
     this.buildRoot(setup)
     this.buildModels(setup)
