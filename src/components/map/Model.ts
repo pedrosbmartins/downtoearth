@@ -1,16 +1,15 @@
 import * as turf from '@turf/turf'
 
-import { Layer, hasRelativeSize } from '../../setups'
+import { Layer } from '../../setups'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { LngLat } from '../../types'
-import { mergeBoundingBoxes, toLngLat } from '../../utils'
+import { toLngLat } from '../../utils'
 import { MapComponent, Props } from './MapComponent'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
   constructor(id: string, store: ModelStore, props: Props) {
     super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], props)
-    this.layers = this.buildLayers()
   }
 
   onUpdate(event: AnyStoreEvent) {
@@ -20,38 +19,28 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
           event.data.visible ? this.show() : this.hide()
           break
         case 'sizeRatio':
-          this.onRootResize()
+          this.resize(event.data.sizeRatio)
           break
         case 'center':
-          this.setCenter()
+          this.setCenter(event.data.center)
           break
         case 'bearing':
-          this.setCenter()
+          this.setCenter(event.data.center)
           break
       }
     }
   }
 
-  protected onRootResize() {
-    this.layers.forEach(({ definition, rendered }) => {
-      if (hasRelativeSize(definition)) {
-        rendered.resize(this.sizeRatio())
-      }
-      if (definition.offset) {
-        rendered.setCenter(this.center(definition))
-      }
-    })
-  }
-
-  protected setCenter() {
-    this.layers.forEach(({ definition, rendered }) => {
-      rendered.setCenter(this.center(definition))
-    })
-  }
-
-  public boundingBox() {
-    return mergeBoundingBoxes(this.layers.map(layer => layer.rendered.boundingBox()))
-  }
+  // protected onRootResize() {
+  //   this.features.forEach(({ definition, rendered }) => {
+  //     if (hasRelativeSize(definition)) {
+  //       rendered.resize(this.sizeRatio())
+  //     }
+  //     if (definition.offset) {
+  //       rendered.setCenter(this.center(definition))
+  //     }
+  //   })
+  // }
 
   protected sizeRatio(): number {
     return this.store.get('sizeRatio')

@@ -1,80 +1,87 @@
+import * as turf from '@turf/turf'
+import map from '../../map'
+import { CircleFeature, Feature } from '../../map/index'
 import { CircleLayer, EllipseLayer, Layer as LayerDefinition } from '../../setups'
 import { AnyStore, StoreListener } from '../../store/core'
-import { LngLat } from '../../types'
-import { Circle, Ellipse, Layer } from './primitives'
+import { BoundingBox, LngLat } from '../../types'
+import { mergeBoundingBoxes } from '../../utils'
 
 export interface Props {
   layerDefinitions: LayerDefinition[]
 }
 
-export interface MapLayer {
-  rendered: Layer<LayerDefinition>
-  definition: LayerDefinition
-}
-
 export abstract class MapComponent<S extends AnyStore> extends StoreListener {
-  protected layers: MapLayer[] = []
+  protected features: Feature[] = []
 
   constructor(protected id: string, protected store: S, events: string[], protected props: Props) {
     super([{ store, events }])
+    this.features = this.props.layerDefinitions.map(definition => this.buildFeature(definition))
   }
 
   public destroy() {
-    this.layers.forEach(layer => layer.rendered.destroy())
+    this.features.forEach(feature => feature.remove())
   }
 
   protected show() {
-    this.layers.forEach(({ rendered }) => rendered.show())
+    this.features.forEach(features => features.show())
   }
 
   protected hide() {
-    this.layers.forEach(({ rendered }) => rendered.hide())
+    this.features.forEach(feature => feature.hide())
   }
 
-  protected resize(ratio: number) {
-    this.layers.forEach(({ rendered }) => {
-      rendered.resize(ratio)
+  protected resize(sizeRatio: number) {
+    this.features.forEach(feature => {
+      feature.update({ sizeRatio })
     })
   }
 
-  protected setCenter(value: LngLat) {
-    this.layers.forEach(({ rendered }) => {
-      rendered.setCenter(value)
+  protected setCenter(center: LngLat) {
+    this.features.forEach(feature => {
+      feature.update({ center })
     })
   }
 
-  protected buildLayers() {
-    return this.props.layerDefinitions.map(definition => {
-      return { definition, rendered: this.buildLayer(definition) }
-    })
-  }
-
-  private buildLayer(definition: LayerDefinition) {
+  private buildFeature(definition: LayerDefinition) {
     switch (definition.shape) {
       case 'circle':
         return this.buildCircle(definition)
-      case 'ellipse':
-        return this.buildEllipse(definition)
+      default:
+        throw new Error('...')
+      // case 'ellipse':
+      //   return this.buildEllipse(definition)
     }
   }
 
   private buildCircle(definition: CircleLayer) {
-    return new Circle(`${this.id}-${definition.id}`, { definition, ...this.layerProps(definition) })
+    return new CircleFeature(
+      definition,
+      {
+        center: this.center(definition),
+        sizeRatio: this.sizeRatio()
+      },
+      map
+    )
   }
 
   private buildEllipse(definition: EllipseLayer) {
-    return new Ellipse(`${this.id}-${definition.id}`, {
-      definition,
-      ...this.layerProps(definition)
-    })
+    // return new Ellipse(`${this.id}-${definition.id}`, {
+    //   definition,
+    //   ...this.layerProps(definition)
+    // })
   }
 
-  private layerProps(definition: LayerDefinition) {
-    return {
-      sizeRatio: this.sizeRatio(),
-      center: this.center(definition),
-      rootCenter: this.rootCenter()
-    }
+  // private layerProps(definition: LayerDefinition) {
+  //   return {
+  //     sizeRatio: this.sizeRatio(),
+  //     center: this.center(definition),
+  //     rootCenter: this.rootCenter()
+  //   }
+  // }
+
+  public boundingBox(): BoundingBox {
+    const featureBboxes = this.features.map(feature => turf.bbox(feature.data()) as BoundingBox)
+    return mergeBoundingBoxes(featureBboxes)
   }
 
   protected abstract sizeRatio(): number

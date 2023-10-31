@@ -1,4 +1,4 @@
-import { Setup, isGroup } from '../../src/types'
+import { Setup, isGroup } from '../../src/setups'
 
 export const base: Setup = {
   title: 'Test',
@@ -11,7 +11,6 @@ export const base: Setup = {
       {
         id: 'root',
         shape: 'circle',
-        visible: true,
         radius: { type: 'relative', real: 2.5 },
         fill: { color: '#fff2d1' }
       }
@@ -36,7 +35,6 @@ export const base: Setup = {
             {
               id: '1',
               shape: 'circle',
-              visible: true,
               radius: { type: 'relative', real: 5 },
               fill: { color: '#fff0c0' }
             }
@@ -50,7 +48,6 @@ export const base: Setup = {
             {
               id: '2',
               shape: 'circle',
-              visible: true,
               radius: { type: 'relative', real: 7.5 },
               fill: { color: '#ffeb93' }
             }

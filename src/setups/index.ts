@@ -46,9 +46,8 @@ export interface SizePreset {
   default?: boolean
 }
 
-interface LayerBase {
+export interface LayerBase {
   id: string
-  visible?: boolean
   fill?: Fill
   outline?: Outline
   offset?: RelativeSize

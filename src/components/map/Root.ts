@@ -5,13 +5,12 @@ import { Layer } from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { LngLat } from '../../types'
-import { mergeBoundingBoxes, toLngLat } from '../../utils'
+import { toLngLat } from '../../utils'
 import { MapComponent, Props } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
   constructor(id: string, store: RootStore, props: Props) {
     super(id, store, ['visible', 'size', 'center'], props)
-    this.layers = this.buildLayers()
   }
 
   onUpdate(event: AnyStoreEvent) {
@@ -28,10 +27,6 @@ export class RootMapComponent extends MapComponent<RootStore> {
           break
       }
     }
-  }
-
-  public boundingBox() {
-    return mergeBoundingBoxes(this.layers.map(layer => layer.rendered.boundingBox()))
   }
 
   protected center({ offset, bearing }: Layer): LngLat {
