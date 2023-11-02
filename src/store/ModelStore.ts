@@ -18,14 +18,10 @@ export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> 
 }
 
 export class ModelStore extends Store<ModelData> {
-  private rootStore: RootStore | undefined
+  private rootStore: RootStore
   private groupStore: GroupStore | undefined
 
-  constructor(
-    model: SingleModel,
-    rootStore: RootStore | undefined,
-    groupStore: GroupStore | undefined
-  ) {
+  constructor(model: SingleModel, rootStore: RootStore, groupStore: GroupStore | undefined) {
     const observables: AnyObservable[] = []
     const rootObservables: Array<keyof RootData> = ['size']
     if (groupStore) {
@@ -33,7 +29,7 @@ export class ModelStore extends Store<ModelData> {
     } else {
       rootObservables.push('center')
     }
-    if (rootStore) observables.push(new Observable(rootStore, rootObservables))
+    observables.push(new Observable(rootStore, rootObservables))
     const data: ModelData = {
       type: 'model',
       visible: model.visible ?? true,
@@ -51,7 +47,6 @@ export class ModelStore extends Store<ModelData> {
   }
 
   private matchRootEvent(event: AnyStoreEvent) {
-    if (!this.rootStore) return
     if (!matchEvent<RootData>(this.rootStore.id, 'root', event)) return
     switch (eventField(event)) {
       case 'size':
@@ -80,7 +75,7 @@ export class ModelStore extends Store<ModelData> {
   }
 
   public rootCenter() {
-    return this.rootStore?.get('center')
+    return this.rootStore.get('center')
   }
 
   public groupBearing() {

@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 import mapboxgl, { LngLatLike } from 'mapbox-gl'
 
 import { INITIAL_CENTER } from '../../../constants'
-import map from '../../../map'
+import map from '../../../mapConfig'
 import { Layer as LayerDefinition } from '../../../setups'
 import { BoundingBox, LngLat } from '../../../types'
 import { Source } from './sources'

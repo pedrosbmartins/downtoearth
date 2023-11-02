@@ -1,5 +1,5 @@
 import { SidebarItem } from '../components/dom'
-import { fitBounds } from '../map'
+import { fitBounds } from '../mapConfig'
 import { GroupModel } from '../setups'
 import { GroupStore, RootStore } from '../store'
 import { $sidebar } from '../ui'
@@ -11,7 +11,7 @@ export class GroupFactory {
   public $ui: HTMLElement
   public models: ModelFactory[]
 
-  constructor(private definition: GroupModel, private rootStore?: RootStore) {
+  constructor(private definition: GroupModel, private rootStore: RootStore) {
     this.store = new GroupStore(this.definition, this.rootStore)
     this.$ui = this.buildUI()
     this.models = this.buildModels()

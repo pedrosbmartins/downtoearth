@@ -1,42 +1,9 @@
 import * as turf from '@turf/turf'
-import { BaseMap } from '.'
-import { circle, ellipse } from '../map'
-import { CircleLayer, EllipseLayer, Layer, Size, isAbsluteSize } from '../setups'
-import { LngLat } from '../types'
-import { toLngLat } from '../utils'
-
-export interface FeatureState {
-  sizeRatio: number
-  center: LngLat
-}
-
-export abstract class Feature<S extends FeatureState = FeatureState, L extends Layer = Layer> {
-  public id: string
-
-  constructor(public layerDefinition: L, protected state: S, protected mapInstance: BaseMap) {
-    this.id = layerDefinition.id
-    this.mapInstance.addFeature(this.id, this)
-  }
-
-  public update(input: Partial<S>) {
-    this.state = { ...this.state, ...input }
-    this.mapInstance.updateFeature(this.id, this.data())
-  }
-
-  public remove() {
-    this.mapInstance.removeFeature(this.id)
-  }
-
-  public show() {
-    this.mapInstance.showFeature(this.id)
-  }
-
-  public hide() {
-    this.mapInstance.hideFeature(this.id)
-  }
-
-  public abstract data(): GeoJSON.Feature
-}
+import { BaseMap } from '../../../map'
+import { circle, ellipse } from '../../../mapConfig'
+import { CircleLayer, EllipseLayer, Size, isAbsluteSize } from '../../../setups'
+import { toLngLat } from '../../../utils'
+import { Feature, FeatureState } from './Feature'
 
 export class CircleFeature extends Feature<FeatureState, CircleLayer> {
   constructor(layerDefinition: CircleLayer, state: FeatureState, mapInstance: BaseMap) {

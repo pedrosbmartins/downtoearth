@@ -1,10 +1,10 @@
 import * as turf from '@turf/turf'
-import map from '../../map'
-import { CircleFeature, EllipseFeature, Feature } from '../../map/features'
-import { CircleLayer, EllipseLayer, Layer as LayerDefinition } from '../../setups'
+import map from '../../mapConfig'
+import { CircleLayer, EllipseLayer, Layer, Layer as LayerDefinition } from '../../setups'
 import { AnyStore, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
 import { mergeBoundingBoxes } from '../../utils'
+import { CircleFeature, EllipseFeature, Feature, LineFeature } from './features'
 
 export interface Props {
   layerDefinitions: LayerDefinition[]
@@ -15,7 +15,9 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
 
   constructor(protected id: string, protected store: S, events: string[], protected props: Props) {
     super([{ store, events }])
-    this.features = this.props.layerDefinitions.map(definition => this.buildFeature(definition))
+    this.features = this.props.layerDefinitions
+      .map(definition => this.buildFeatures(definition))
+      .flat()
   }
 
   public destroy() {
@@ -38,39 +40,34 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
 
   protected setCenter(center: LngLat) {
     this.features.forEach(feature => {
-      feature.update({ center })
+      feature.update({ center, rootCenter: this.rootCenter() })
     })
   }
 
-  private buildFeature(definition: LayerDefinition) {
-    switch (definition.shape) {
-      case 'circle':
-        return this.buildCircle(definition)
-      case 'ellipse':
-        return this.buildEllipse(definition)
+  private buildFeatures(definition: LayerDefinition) {
+    const isCircle = definition.shape === 'circle'
+    const shape = isCircle ? this.buildCircle(definition) : this.buildEllipse(definition)
+    const features: Feature[] = [shape]
+    if (definition.drawLineToRoot) {
+      features.push(new LineFeature(definition, this.featureState(definition), map))
     }
+    return features
   }
 
   private buildCircle(definition: CircleLayer) {
-    return new CircleFeature(
-      definition,
-      {
-        center: this.center(definition),
-        sizeRatio: this.sizeRatio()
-      },
-      map
-    )
+    return new CircleFeature(definition, this.featureState(definition), map)
   }
 
   private buildEllipse(definition: EllipseLayer) {
-    return new EllipseFeature(
-      definition,
-      {
-        center: this.center(definition),
-        sizeRatio: this.sizeRatio()
-      },
-      map
-    )
+    return new EllipseFeature(definition, this.featureState(definition), map)
+  }
+
+  private featureState(layer: Layer) {
+    return {
+      center: this.center(layer),
+      rootCenter: this.rootCenter(),
+      sizeRatio: this.sizeRatio()
+    }
   }
 
   public boundingBox(): BoundingBox {
@@ -80,5 +77,5 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
 
   protected abstract sizeRatio(): number
   protected abstract center(definition: LayerDefinition): LngLat
-  protected abstract rootCenter(): () => LngLat | undefined
+  protected abstract rootCenter(): LngLat
 }

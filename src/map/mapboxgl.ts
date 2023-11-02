@@ -1,10 +1,10 @@
-import mapboxgl, { AnyLayer, FillLayer, GeoJSONSourceRaw, LineLayer, SymbolLayer } from 'mapbox-gl'
+import mapboxgl, { AnyLayer, AnySourceData, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
 
 import { BaseMap, ClickEventHandler, EventHandler } from '.'
+import { Feature, LineFeature } from '../components/map/features'
 import { Layer } from '../setups'
 import { BoundingBox, LngLat } from '../types'
 import { toLngLat } from '../utils'
-import { Feature } from './features'
 
 interface Props {
   accessToken: string
@@ -29,15 +29,25 @@ export class Map extends BaseMap {
 
   public addFeature(id: string, feature: Feature, options?: { visible?: boolean }) {
     this.features[id] = { sourceIds: [], layerIds: [] }
-    const { sources, layers } = Shape.build(id, feature)
-    sources.forEach(source => {
-      this.instance.addSource(source.id, source.content)
-      this.features[id].sourceIds.push(source.id)
-    })
+    const { source, layers } = this.buildResources(id, feature, options)
+    this.instance.addSource(source.id, source.content)
+    this.features[id].sourceIds.push(source.id)
     layers.forEach(layer => {
       this.instance.addLayer(layer)
       this.features[id].layerIds.push(layer.id)
     })
+  }
+
+  public buildResources(
+    id: string,
+    feature: Feature,
+    options?: { visible?: boolean }
+  ): MapResources {
+    if (feature instanceof LineFeature) {
+      return LineToRoot.build(id, feature, options)
+    } else {
+      return Shape.build(id, feature, options)
+    }
   }
 
   public updateFeature(id: string, data: GeoJSON.Feature) {
@@ -89,24 +99,27 @@ export class Map extends BaseMap {
   }
 }
 
-interface ShapeMapResources {
-  sources: { id: string; content: GeoJSONSourceRaw }[]
-  layers: Array<AnyLayer & { id: string }>
+interface FeatureSource {
+  id: string
+  content: AnySourceData
+}
+
+type FeatureLayer = AnyLayer & { id: string }
+
+interface MapResources {
+  source: FeatureSource
+  layers: FeatureLayer[]
 }
 
 type ShapeProps = Layer & { visible?: boolean }
 
 class Shape {
-  public static build(
-    id: string,
-    feature: Feature,
-    options?: { visible?: boolean }
-  ): ShapeMapResources {
+  public static build(id: string, feature: Feature, options?: { visible?: boolean }): MapResources {
     const props: ShapeProps = { ...feature.layerDefinition, ...options }
-    const mainSourceId = `${id}-main`
+    const sourceId = `${id}-main`
     return {
-      sources: [{ id: mainSourceId, content: { type: 'geojson' as const, data: feature.data() } }],
-      layers: Shape.layers(mainSourceId, props)
+      source: { id: sourceId, content: { type: 'geojson' as const, data: feature.data() } },
+      layers: Shape.layers(sourceId, props)
     }
   }
 
@@ -192,5 +205,27 @@ class Shape {
         }
       }
     ]
+  }
+}
+
+class LineToRoot {
+  public static build(id: string, feature: Feature, options?: { visible?: boolean }): MapResources {
+    const sourceId = `${id}-rootline`
+    return {
+      source: { id: sourceId, content: { type: 'geojson' as const, data: feature.data() } },
+      layers: [LineToRoot.layer(sourceId)]
+    }
+  }
+
+  public static layer(sourceId: string): LineLayer {
+    return {
+      id: sourceId,
+      type: 'line',
+      source: sourceId,
+      paint: {
+        'line-color': '#555',
+        'line-width': 2
+      }
+    }
   }
 }

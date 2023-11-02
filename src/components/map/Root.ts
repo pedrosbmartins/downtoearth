@@ -1,6 +1,5 @@
 import * as turf from '@turf/turf'
 
-import { INITIAL_CENTER } from '../../constants'
 import { Layer } from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
@@ -30,7 +29,7 @@ export class RootMapComponent extends MapComponent<RootStore> {
   }
 
   protected center({ offset, bearing }: Layer): LngLat {
-    const center = this.store.get('center') ?? INITIAL_CENTER
+    const center = this.store.get('center')
 
     if (!offset) {
       return center
@@ -52,6 +51,6 @@ export class RootMapComponent extends MapComponent<RootStore> {
     return this.store.sizeRatio()
   }
   protected rootCenter() {
-    return () => this.store.get('center')
+    return this.store.get('center')
   }
 }

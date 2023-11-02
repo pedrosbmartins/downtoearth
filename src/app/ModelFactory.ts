@@ -1,6 +1,6 @@
 import { SidebarItem } from '../components/dom'
 import { ModelMapComponent } from '../components/map'
-import { fitBounds } from '../map'
+import { fitBounds } from '../mapConfig'
 import { SingleModel } from '../setups'
 import { GroupStore, ModelStore, RootStore } from '../store'
 
@@ -11,7 +11,7 @@ export class ModelFactory {
   constructor(
     private definition: SingleModel,
     private $container: HTMLElement,
-    private rootStore?: RootStore,
+    private rootStore: RootStore,
     private groupStore?: GroupStore
   ) {
     this.store = new ModelStore(this.definition, this.rootStore, this.groupStore)

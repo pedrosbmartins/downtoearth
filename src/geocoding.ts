@@ -1,7 +1,7 @@
 import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
 import mapboxgl from 'mapbox-gl'
 import { MAPBOXGL_ACCESS_TOKEN } from './constants'
-import map from './map'
+import map from './mapConfig'
 import { LngLat } from './types'
 
 const MAPBOXGL_GEOCODER_INPUT_CLASS = '.mapboxgl-ctrl-geocoder--input'

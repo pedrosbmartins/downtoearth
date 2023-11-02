@@ -1,4 +1,4 @@
-import { circle } from '../../../../map'
+import { circle } from '../../../../mapConfig'
 import { LngLat } from '../../../../types'
 
 import { ShapeSource } from './ShapeSource'

@@ -1,6 +1,6 @@
 import { AnyLayer, GeoJSONSourceRaw } from 'mapbox-gl'
 
-import map from '../../../../map'
+import map from '../../../../mapConfig'
 
 export abstract class Source<D extends {} = {}> {
   constructor(

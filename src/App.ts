@@ -29,19 +29,18 @@ export default class App extends EventTarget {
   }
 
   private buildRoot({ root }: Setup) {
-    if (!root) return
     this.root = new RootFactory(root, this._currentLngLat)
     this.root.store.register(this, 'center', () => {
-      this._currentLngLat = this.root?.store.get('center')
+      this._currentLngLat = this.root!.store.get('center')
     })
   }
 
   private buildModels({ models }: Setup) {
     this.models = models?.map(model => {
       if (isGroup(model)) {
-        return new GroupFactory(model, this.root?.store)
+        return new GroupFactory(model, this.root!.store)
       } else {
-        return new ModelFactory(model, $sidebar, this.root?.store)
+        return new ModelFactory(model, $sidebar, this.root!.store)
       }
     })
   }

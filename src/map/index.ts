@@ -1,5 +1,5 @@
+import { Feature } from '../components/map/features'
 import { BoundingBox, LngLat } from '../types'
-import { Feature } from './features'
 
 export type EventHandler<T = void> = (a: T) => void
 export type ClickEventHandler = EventHandler<{ lngLat: LngLat }>

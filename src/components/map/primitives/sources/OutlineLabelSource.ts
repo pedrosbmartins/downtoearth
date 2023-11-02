@@ -1,6 +1,6 @@
 import { SymbolLayer } from 'mapbox-gl'
 
-import { circle, ellipse } from '../../../../map'
+import { circle, ellipse } from '../../../../mapConfig'
 import { Label } from '../../../../setups'
 import { LngLat } from '../../../../types'
 import { Source } from './Source'

@@ -7,7 +7,7 @@ import starSizes from '../setup/starSizes.json'
 import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import App from './App'
 import { INITIAL_CENTER } from './constants'
-import map from './map'
+import map from './mapConfig'
 import { Setup, ShareableSetup } from './setups'
 import { LngLat } from './types'
 import {
@@ -34,7 +34,7 @@ const app = new App()
 const setupFromURL = tryParseSetupFromURL()
 
 map.onLoad(() => {
-  const initialSetup: keyof typeof setups = 'solarSystem'
+  const initialSetup: keyof typeof setups = 'alphaCentauri'
   const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
   if ($setupOptionElement) {
     $setupOptionElement.setAttribute('selected', 'true')

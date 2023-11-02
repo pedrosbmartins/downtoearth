@@ -2,7 +2,6 @@ import * as turf from '@turf/turf'
 
 import { RootData, RootStore } from '.'
 import { SidebarItemData } from '../components/dom/SidebarItem'
-import { INITIAL_CENTER } from '../constants'
 import { GroupModel } from '../setups'
 import { LngLat } from '../types'
 import { toLngLat } from '../utils'
@@ -15,9 +14,9 @@ export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> 
 }
 
 export class GroupStore extends Store<GroupData> {
-  private rootStore: RootStore | undefined
+  private rootStore: RootStore
 
-  constructor(group: GroupModel, rootStore: RootStore | undefined) {
+  constructor(group: GroupModel, rootStore: RootStore) {
     const data: GroupData = {
       type: 'group',
       visible: group.visible || true,
@@ -26,13 +25,13 @@ export class GroupStore extends Store<GroupData> {
       center: GroupStore.center(group, rootStore),
       sizeRatio: GroupStore.sizeRatio(rootStore)
     }
-    const observables = rootStore ? [new Observable(rootStore, ['size', 'center'])] : []
+    const observables = [new Observable(rootStore, ['size', 'center'])]
     super(`group-${group.id}`, data, observables)
     this.rootStore = rootStore
   }
 
   onUpdate(event: AnyStoreEvent): void {
-    if (this.rootStore && matchEvent<GroupData>(this.id, 'group', event)) {
+    if (matchEvent<GroupData>(this.id, 'group', event)) {
       if (eventField(event) === 'bearing') {
         this.set({
           center: GroupStore.calculateCenter(
@@ -44,7 +43,7 @@ export class GroupStore extends Store<GroupData> {
       }
     }
 
-    if (this.rootStore && matchEvent<RootData>(this.rootStore.id, 'root', event)) {
+    if (matchEvent<RootData>(this.rootStore.id, 'root', event)) {
       switch (eventField(event)) {
         case 'center': {
           this.set({
@@ -77,7 +76,7 @@ export class GroupStore extends Store<GroupData> {
     }
   }
 
-  private static offset(group: { offset?: { real: number } }, rootStore: RootStore | undefined) {
+  private static offset(group: { offset?: { real: number } }, rootStore: RootStore) {
     if (!group.offset) return undefined
     return {
       real: group.offset.real,
@@ -85,12 +84,11 @@ export class GroupStore extends Store<GroupData> {
     }
   }
 
-  private static sizeRatio(rootStore: RootStore | undefined) {
-    return rootStore?.sizeRatio() ?? 1.0
+  private static sizeRatio(rootStore: RootStore) {
+    return rootStore.sizeRatio() ?? 1.0
   }
 
-  private static center(group: GroupModel, rootStore: RootStore | undefined): LngLat {
-    if (!rootStore) return INITIAL_CENTER
+  private static center(group: GroupModel, rootStore: RootStore): LngLat {
     const offset = GroupStore.offset(group, rootStore)
     return GroupStore.calculateCenter(rootStore.get('center'), group.bearing, offset)
   }

@@ -1,4 +1,4 @@
-import { ellipse } from '../../../../map'
+import { ellipse } from '../../../../mapConfig'
 import { LngLat } from '../../../../types'
 
 import { ShapeSource } from './ShapeSource'

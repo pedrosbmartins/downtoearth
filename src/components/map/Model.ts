@@ -66,6 +66,6 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
   }
 
   protected rootCenter() {
-    return () => this.store.rootCenter()
+    return this.store.rootCenter()
   }
 }
