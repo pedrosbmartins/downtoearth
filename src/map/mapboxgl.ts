@@ -48,7 +48,14 @@ export class Map extends BaseMap {
     })
   }
 
-  public removeFeature(id: string) {}
+  public removeFeature(id: string) {
+    this.features[id].layerIds.forEach(layerId => {
+      this.instance.removeLayer(layerId)
+    })
+    this.features[id].sourceIds.forEach(sourceId => {
+      this.instance.removeSource(sourceId)
+    })
+  }
 
   public showFeature(id: string) {
     this.features[id].layerIds.forEach(layerId => {
