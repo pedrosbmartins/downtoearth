@@ -1,19 +1,10 @@
-import { GroupStore, RootData, RootStore } from '.'
-import { SidebarItemData } from '../components/dom/SidebarItem'
+import { BaseModelData, GroupStore, RootData, RootStore } from '.'
 import { INITIAL_CENTER } from '../constants'
 import { SingleModel } from '../setups'
-import {
-  AnyObservable,
-  AnyStoreEvent,
-  eventField,
-  matchEvent,
-  Observable,
-  Store,
-  StoreData
-} from './core'
+import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store } from './core'
 import { GroupData } from './GroupStore'
 
-export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> {
+export interface ModelData extends BaseModelData<'model'> {
   sizeRatio: number
 }
 

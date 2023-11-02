@@ -1,13 +1,12 @@
 import * as turf from '@turf/turf'
 
-import { RootData, RootStore } from '.'
-import { SidebarItemData } from '../components/dom/SidebarItem'
+import { BaseModelData, RootData, RootStore } from '.'
 import { GroupModel } from '../setups'
 import { LngLat } from '../types'
 import { toLngLat } from '../utils'
-import { AnyStoreEvent, Observable, Store, StoreData, eventField, matchEvent } from './core'
+import { AnyStoreEvent, Observable, Store, eventField, matchEvent } from './core'
 
-export interface GroupData extends StoreData<'group'>, SidebarItemData<'group'> {
+export interface GroupData extends BaseModelData<'group'> {
   sizeRatio: number
   offset?: { real: number; rendered: number }
   bearing?: number

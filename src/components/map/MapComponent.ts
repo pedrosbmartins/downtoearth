@@ -1,12 +1,13 @@
 import * as turf from '@turf/turf'
 import map from '../../mapConfig'
 import { CircleLayer, EllipseLayer, Layer, SingleModel } from '../../setups'
-import { AnyStore, StoreListener } from '../../store/core'
+import { BaseModelData } from '../../store'
+import { Store, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
 import { mergeBoundingBoxes, toLngLat } from '../../utils'
 import { CircleFeature, EllipseFeature, Feature, LineFeature } from './features'
 
-export abstract class MapComponent<S extends AnyStore> extends StoreListener {
+export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends StoreListener {
   protected features: Feature[] = []
 
   constructor(
@@ -51,7 +52,7 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
   }
 
   protected renderPopup() {
-    if (this.definition.popup) {
+    if (this.definition.popup && this.store.get('visible')) {
       const { content } = this.definition.popup
       map.removePopup(this.id)
       map.addPopup(this.id, content, this.centerOfMass())

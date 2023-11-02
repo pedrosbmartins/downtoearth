@@ -1,10 +1,10 @@
-import { SidebarItemData } from '../components/dom/SidebarItem'
+import { BaseModelData } from '.'
 import { INITIAL_CENTER } from '../constants'
 import { isRelativeSize, Layer, Root } from '../setups'
 import { LngLat } from '../types'
-import { AnyStoreEvent, Store, StoreData } from './core'
+import { AnyStoreEvent, Store } from './core'
 
-export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
+export interface RootData extends BaseModelData<'root'> {
   size: { real: number; rendered: number }
 }
 
