@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
 import map from '../../map'
-import { CircleFeature, Feature } from '../../map/index'
+import { CircleFeature, EllipseFeature, Feature } from '../../map/index'
 import { CircleLayer, EllipseLayer, Layer as LayerDefinition } from '../../setups'
 import { AnyStore, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
@@ -46,10 +46,8 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
     switch (definition.shape) {
       case 'circle':
         return this.buildCircle(definition)
-      default:
-        throw new Error('...')
-      // case 'ellipse':
-      //   return this.buildEllipse(definition)
+      case 'ellipse':
+        return this.buildEllipse(definition)
     }
   }
 
@@ -65,19 +63,15 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
   }
 
   private buildEllipse(definition: EllipseLayer) {
-    // return new Ellipse(`${this.id}-${definition.id}`, {
-    //   definition,
-    //   ...this.layerProps(definition)
-    // })
+    return new EllipseFeature(
+      definition,
+      {
+        center: this.center(definition),
+        sizeRatio: this.sizeRatio()
+      },
+      map
+    )
   }
-
-  // private layerProps(definition: LayerDefinition) {
-  //   return {
-  //     sizeRatio: this.sizeRatio(),
-  //     center: this.center(definition),
-  //     rootCenter: this.rootCenter()
-  //   }
-  // }
 
   public boundingBox(): BoundingBox {
     const featureBboxes = this.features.map(feature => turf.bbox(feature.data()) as BoundingBox)

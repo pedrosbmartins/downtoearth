@@ -47,9 +47,6 @@
         "shape": {
           "const": "circle",
           "type": "string"
-        },
-        "visible": {
-          "type": "boolean"
         }
       },
       "required": [
@@ -114,9 +111,6 @@
         "shape": {
           "const": "ellipse",
           "type": "string"
-        },
-        "visible": {
-          "type": "boolean"
         }
       },
       "required": [
@@ -279,7 +273,7 @@
         },
         "layers": {
           "items": {
-            "$ref": "#/definitions/CircleLayer"
+            "$ref": "#/definitions/Layer"
           },
           "type": "array"
         },

@@ -37,7 +37,7 @@ export type Model = GroupModel | SingleModel
 export interface Root extends SingleModel {
   id: 'root'
   sizePresets: SizePreset[]
-  layers: CircleLayer[]
+  layers: Layer[]
 }
 
 export interface SizePreset {
