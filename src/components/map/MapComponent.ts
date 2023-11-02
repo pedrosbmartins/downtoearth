@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
 import map from '../../map'
-import { CircleFeature, EllipseFeature, Feature } from '../../map/index'
+import { CircleFeature, EllipseFeature, Feature } from '../../map/features'
 import { CircleLayer, EllipseLayer, Layer as LayerDefinition } from '../../setups'
 import { AnyStore, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'

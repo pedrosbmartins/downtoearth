@@ -1,9 +1,10 @@
 import mapboxgl, { AnyLayer, FillLayer, GeoJSONSourceRaw, LineLayer, SymbolLayer } from 'mapbox-gl'
 
-import { BaseMap, ClickEventHandler, EventHandler, Feature } from '.'
+import { BaseMap, ClickEventHandler, EventHandler } from '.'
 import { Layer } from '../setups'
 import { BoundingBox, LngLat } from '../types'
 import { toLngLat } from '../utils'
+import { Feature } from './features'
 
 interface Props {
   accessToken: string
@@ -26,17 +27,16 @@ export class Map extends BaseMap {
     })
   }
 
-  public addFeature(feature: Feature, options?: { visible?: boolean }) {
-    const featureId = feature.layerDefinition.id
-    this.features[featureId] = { sourceIds: [], layerIds: [] }
-    const { sources, layers } = Shape.build(featureId, feature)
+  public addFeature(id: string, feature: Feature, options?: { visible?: boolean }) {
+    this.features[id] = { sourceIds: [], layerIds: [] }
+    const { sources, layers } = Shape.build(id, feature)
     sources.forEach(source => {
       this.instance.addSource(source.id, source.content)
-      this.features[featureId].sourceIds.push(source.id)
+      this.features[id].sourceIds.push(source.id)
     })
     layers.forEach(layer => {
       this.instance.addLayer(layer)
-      this.features[featureId].layerIds.push(layer.id)
+      this.features[id].layerIds.push(layer.id)
     })
   }
 
