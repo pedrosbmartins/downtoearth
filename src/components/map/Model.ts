@@ -19,13 +19,9 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
           event.data.visible ? this.show() : this.hide()
           break
         case 'sizeRatio':
-          this.resize(event.data.sizeRatio)
-          break
         case 'center':
-          this.resetCenter()
-          break
         case 'bearing':
-          this.resetCenter()
+          this.update()
           break
       }
     }

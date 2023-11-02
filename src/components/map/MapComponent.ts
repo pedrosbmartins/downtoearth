@@ -37,14 +37,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     map.removePopup(this.id)
   }
 
-  protected resize(sizeRatio: number) {
-    this.features.forEach(feature => {
-      feature.update({ sizeRatio })
-    })
-    this.renderPopup()
-  }
-
-  protected resetCenter() {
+  protected update() {
     this.features.forEach(feature => {
       feature.update(this.featureState(feature.layerDefinition))
     })

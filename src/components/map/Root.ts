@@ -19,10 +19,8 @@ export class RootMapComponent extends MapComponent<RootStore> {
           event.data.visible ? this.show() : this.hide()
           break
         case 'size':
-          this.resize(this.store.sizeRatio())
-          break
         case 'center':
-          this.resetCenter()
+          this.update()
           break
       }
     }
