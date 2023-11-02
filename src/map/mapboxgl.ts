@@ -1,7 +1,7 @@
 import mapboxgl, { AnyLayer, AnySourceData, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
 
 import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
-import { BaseMap, ClickEventHandler, EventHandler } from '.'
+import { BaseMap, ClickEventHandler, EventHandler, GeolocateEventHandler } from '.'
 import { Feature, LineFeature } from '../components/map/features'
 import { ShapeFeature } from '../components/map/features/shapes'
 import { ShapeLayer } from '../setups'
@@ -14,6 +14,7 @@ interface Props {
 
 export class Map extends BaseMap {
   public instance: mapboxgl.Map
+  public geolocateControl: mapboxgl.GeolocateControl
 
   private features: Record<string, { sourceIds: string[]; layerIds: string[] }> = {}
   private popups: Record<string, mapboxgl.Popup> = {}
@@ -28,6 +29,11 @@ export class Map extends BaseMap {
       projection: { name: 'globe' },
       zoom: 10
     })
+    this.geolocateControl = new mapboxgl.GeolocateControl({
+      positionOptions: { enableHighAccuracy: true },
+      showUserLocation: false
+    })
+    this.instance.addControl(this.geolocateControl)
   }
 
   public addFeature(id: string, feature: Feature, options?: { visible?: boolean }) {
@@ -92,17 +98,6 @@ export class Map extends BaseMap {
     this.instance.fitBounds(bbox, { padding: 20 })
   }
 
-  public onLoad(handler: EventHandler) {
-    this.instance.on('load', handler)
-  }
-
-  public onClick(handler: ClickEventHandler) {
-    this.instance.on('click', event => {
-      const lngLat = toLngLat(event.lngLat.toArray())
-      handler({ lngLat })
-    })
-  }
-
   public addPopup(id: string, content: string, center: LngLat): void {
     this.popups[id] = new mapboxgl.Popup({ closeButton: false })
       .setLngLat(center)
@@ -140,6 +135,26 @@ export class Map extends BaseMap {
       '.mapboxgl-ctrl-geocoder--input'
     )!
     return $geocoderInput
+  }
+
+  public onLoad(handler: EventHandler) {
+    this.instance.on('load', handler)
+  }
+
+  public onClick(handler: ClickEventHandler) {
+    this.instance.on('click', event => {
+      const lngLat = toLngLat(event.lngLat.toArray())
+      handler({ lngLat })
+    })
+  }
+
+  public onGeolocate(handler: GeolocateEventHandler): void {
+    this.geolocateControl.on('geolocate', (event: any) => {
+      if (isGeolocateResultEvent(event)) {
+        const { longitude, latitude } = event.coords
+        handler({ lngLat: [longitude, latitude] })
+      }
+    })
   }
 }
 
@@ -276,4 +291,13 @@ class LineToRoot {
       }
     }
   }
+}
+
+function isGeolocateResultEvent(event: any): event is GeolocateResultEvent {
+  return event.type && event.type === 'geolocate'
+}
+
+interface GeolocateResultEvent {
+  type: 'geolocate'
+  coords: GeolocationCoordinates
 }

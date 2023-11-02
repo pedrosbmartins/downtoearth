@@ -3,6 +3,7 @@ import { BoundingBox, LngLat } from '../types'
 
 export type EventHandler<T = void> = (a: T) => void
 export type ClickEventHandler = EventHandler<{ lngLat: LngLat }>
+export type GeolocateEventHandler = EventHandler<{ lngLat: LngLat }>
 
 export abstract class BaseMap {
   constructor(protected center: LngLat) {}
@@ -28,4 +29,5 @@ export abstract class BaseMap {
 
   public abstract onLoad(handler: EventHandler): void
   public abstract onClick(handler: ClickEventHandler): void
+  public abstract onGeolocate(handler: GeolocateEventHandler): void
 }

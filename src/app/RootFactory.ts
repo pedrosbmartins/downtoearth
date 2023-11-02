@@ -2,7 +2,7 @@ import { SidebarItem, SizePresets } from '../components/dom'
 import { RootMapComponent } from '../components/map'
 import { INITIAL_CITY } from '../constants'
 import { reverseGeocoding } from '../geocoding'
-import map, { fitBounds, geolocate, isGeolocateResultEvent } from '../mapConfig'
+import map, { fitBounds } from '../mapConfig'
 import { Root } from '../setups'
 import { RootStore } from '../store'
 import { LngLat } from '../types'
@@ -37,12 +37,8 @@ export class RootFactory extends EventTarget {
       this.store.set({ center: lngLat })
     })
 
-    geolocate.on('geolocate', (event: any) => {
-      if (isGeolocateResultEvent(event)) {
-        const { longitude, latitude } = event.coords
-        const center = [longitude, latitude] as LngLat
-        this.store.set({ center })
-      }
+    map.onGeolocate(({ lngLat }) => {
+      this.store.set({ center: lngLat })
     })
   }
 
