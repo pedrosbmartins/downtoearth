@@ -1,5 +1,4 @@
 import { BaseMap } from '../../../map'
-import { Layer } from '../../../setups'
 import { LngLat } from '../../../types'
 
 export interface FeatureState {
@@ -8,15 +7,18 @@ export interface FeatureState {
   rootCenter: LngLat
 }
 
-export abstract class Feature<S extends FeatureState = FeatureState, L extends Layer = Layer> {
+export abstract class Feature {
   public id: string
 
-  constructor(public layerDefinition: L, public state: S, protected mapInstance: BaseMap) {
-    this.id = layerDefinition.id
+  constructor(public state: FeatureState, protected mapInstance: BaseMap) {
+    this.id = Math.random().toString().split('.')[1] // @todo: random UUID?
+  }
+
+  public render() {
     this.mapInstance.addFeature(this.id, this)
   }
 
-  public update(input: Partial<S>) {
+  public update(input: Partial<FeatureState>) {
     this.state = { ...this.state, ...input }
     this.mapInstance.updateFeature(this.id, this.data())
   }

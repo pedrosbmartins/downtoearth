@@ -19,6 +19,7 @@ export interface BaseModel {
   visible?: boolean
   bearingControl?: boolean
   info?: string
+  popup?: Popup
 }
 
 export interface GroupModel extends BaseModel {
@@ -37,7 +38,6 @@ export type Model = GroupModel | SingleModel
 export interface Root extends SingleModel {
   id: 'root'
   sizePresets: SizePreset[]
-  layers: Layer[]
 }
 
 export interface SizePreset {
@@ -53,8 +53,11 @@ export interface LayerBase {
   offset?: RelativeSize
   bearing?: number
   label?: Label
-  popup?: { content: string }
   drawLineToRoot?: boolean
+}
+
+export interface ShapeLayer extends LayerBase {
+  shape: 'circle' | 'ellipse'
 }
 
 export interface CircleLayer extends LayerBase {
@@ -91,6 +94,10 @@ export interface Outline {
 export interface Label {
   value: string
   position: 'center' | 'outline'
+}
+
+export interface Popup {
+  content: string
 }
 
 export interface Unit {

@@ -1,15 +1,17 @@
 import * as turf from '@turf/turf'
 import { BaseMap } from '../../../map'
 import { circle, ellipse } from '../../../mapConfig'
-import { CircleLayer, EllipseLayer, Size, isAbsluteSize } from '../../../setups'
+import { CircleLayer, EllipseLayer, ShapeLayer, Size, isAbsluteSize } from '../../../setups'
 import { toLngLat } from '../../../utils'
 import { Feature, FeatureState } from './Feature'
 
-export class CircleFeature extends Feature<FeatureState, CircleLayer> {
-  constructor(layerDefinition: CircleLayer, state: FeatureState, mapInstance: BaseMap) {
-    super(layerDefinition, state, mapInstance)
+export abstract class ShapeFeature<L extends ShapeLayer> extends Feature {
+  constructor(public layerDefinition: L, state: FeatureState, mapInstance: BaseMap) {
+    super(state, mapInstance)
   }
+}
 
+export class CircleFeature extends ShapeFeature<CircleLayer> {
   public data() {
     return circle(this.state.center, this.size(this.state.sizeRatio))
   }
@@ -29,7 +31,7 @@ interface EllipseAxes {
   semiMinor: number
 }
 
-export class EllipseFeature extends Feature<FeatureState, EllipseLayer> {
+export class EllipseFeature extends ShapeFeature<EllipseLayer> {
   constructor(layerDefinition: EllipseLayer, state: FeatureState, mapInstance: BaseMap) {
     super(layerDefinition, state, mapInstance)
   }

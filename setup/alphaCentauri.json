@@ -6,13 +6,12 @@
     "id": "root",
     "icon": "sun",
     "label": "Sun",
+    "popup": { "content": "Sun" },
     "visible": true,
     "layers": [
       {
         "id": "sun",
         "shape": "circle",
-        "visible": true,
-        "popup": { "content": "Sun" },
         "fill": { "color": "#fff2d1", "opacity": 1 },
         "outline": { "color": "rgba(0,0,0,0.25)" },
         "radius": { "type": "relative", "real": 0.00465047 }
@@ -40,14 +39,13 @@
         {
           "id": "proxima-centauri",
           "label": "Proxima Centauri",
+          "popup": { "content": "Proxima Centauri" },
           "visible": true,
           "icon": "star",
           "layers": [
             {
               "id": "proxima-centauri",
               "shape": "circle",
-              "visible": true,
-              "popup": { "content": "Proxima Centauri" },
               "fill": { "color": "#ffc317" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
               "radius": { "type": "relative", "real": 0.0007 },
@@ -59,14 +57,13 @@
         {
           "id": "alpha-centauri-b",
           "label": "α Centauri B",
+          "popup": { "content": "Alpha Centauri B" },
           "visible": true,
           "icon": "star",
           "layers": [
             {
               "id": "alpha-centauri-b",
               "shape": "circle",
-              "visible": true,
-              "popup": { "content": "Alpha Centauri B" },
               "fill": { "color": "#ffeb93" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
               "radius": { "type": "relative", "real": 0.004 },
@@ -78,14 +75,13 @@
         {
           "id": "alpha-centauri-a",
           "label": "α Centauri A",
+          "popup": { "content": "Alpha Centauri A" },
           "visible": true,
           "icon": "star",
           "layers": [
             {
               "id": "alpha-centauri-a",
               "shape": "circle",
-              "visible": true,
-              "popup": { "content": "Alpha Centauri A" },
               "fill": { "color": "#fff0c0" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
               "radius": { "type": "relative", "real": 0.0057 },

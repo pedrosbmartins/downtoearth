@@ -1,10 +1,9 @@
-import { Layer } from '../../../setups'
-import { Feature, FeatureState } from './Feature'
+import { Feature } from './Feature'
 
 export { Feature, FeatureState } from './Feature'
 export { CircleFeature, EllipseFeature } from './shapes'
 
-export class LineFeature extends Feature<FeatureState, Layer> {
+export class LineFeature extends Feature {
   public data(): GeoJSON.Feature {
     return {
       type: 'Feature',

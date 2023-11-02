@@ -10,7 +10,6 @@
       {
         "id": "earth-fill",
         "shape": "circle",
-        "visible": true,
         "label": { "value": "Earth", "position": "center" },
         "fill": { "color": "#6b93d6", "opacity": 0.5 },
         "outline": { "color": "#4f4cb0" },
@@ -38,7 +37,6 @@
             {
               "id": "iss-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "International Space Station", "position": "outline" },
               "outline": { "color": "#291866" },
               "radius": { "type": "relative", "real": 6571 }
@@ -54,7 +52,6 @@
             {
               "id": "hubble-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Hubble Space Telescope", "position": "outline" },
               "outline": { "color": "#52606B" },
               "radius": { "type": "relative", "real": 6919 }
@@ -70,7 +67,6 @@
             {
               "id": "sputnik-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Sputnik 1", "position": "outline" },
               "outline": { "color": "#3F577D" },
               "radius": { "type": "relative", "real": 6955.2 }
@@ -86,7 +82,6 @@
             {
               "id": "moon-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Moon", "position": "outline" },
               "outline": { "color": "darkgray" },
               "radius": { "type": "relative", "real": 384748 }
@@ -96,6 +91,7 @@
         {
           "id": "jwst",
           "label": "James Webb Space Telescope",
+          "popup": { "content": "James Webb Space Telescope" },
           "visible": true,
           "icon": "jwst",
           "bearingControl": true,
@@ -104,11 +100,9 @@
             {
               "id": "jwst",
               "shape": "circle",
-              "visible": true,
               "fill": { "color": "#CF9537" },
               "radius": { "type": "relative", "real": 0.011 },
-              "offset": { "type": "relative", "real": 1.5e6 },
-              "popup": { "content": "James Webb Space Telescope" }
+              "offset": { "type": "relative", "real": 1.5e6 }
             }
           ]
         }

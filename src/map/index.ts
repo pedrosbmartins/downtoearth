@@ -10,10 +10,17 @@ export abstract class BaseMap {
   public abstract addFeature(id: string, feature: Feature, options?: { visible?: boolean }): void
   public abstract updateFeature(id: string, data: GeoJSON.Feature): void
   public abstract removeFeature(id: string): void
+
   public abstract showFeature(id: string): void
   public abstract hideFeature(id: string): void
+
+  public abstract addPopup(id: string, content: string, center: LngLat): void
+  public abstract updatePopup(id: string, content: string, center: LngLat): void
+  public abstract removePopup(id: string): void
+
   public abstract setCenter(center: LngLat): void
   public abstract flyTo(bbox: BoundingBox): void
+
   public abstract onLoad(handler: EventHandler): void
   public abstract onClick(handler: ClickEventHandler): void
 }

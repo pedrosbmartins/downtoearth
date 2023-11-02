@@ -29,18 +29,6 @@
         "outline": {
           "$ref": "#/definitions/Outline"
         },
-        "popup": {
-          "additionalProperties": false,
-          "properties": {
-            "content": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "content"
-          ],
-          "type": "object"
-        },
         "radius": {
           "$ref": "#/definitions/Size"
         },
@@ -96,18 +84,6 @@
         "outline": {
           "$ref": "#/definitions/Outline"
         },
-        "popup": {
-          "additionalProperties": false,
-          "properties": {
-            "content": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "content"
-          ],
-          "type": "object"
-        },
         "shape": {
           "const": "ellipse",
           "type": "string"
@@ -161,6 +137,9 @@
         },
         "offset": {
           "$ref": "#/definitions/RelativeSize"
+        },
+        "popup": {
+          "$ref": "#/definitions/Popup"
         },
         "visible": {
           "type": "boolean"
@@ -228,6 +207,18 @@
       ],
       "type": "object"
     },
+    "Popup": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content"
+      ],
+      "type": "object"
+    },
     "RelativeSize": {
       "additionalProperties": false,
       "properties": {
@@ -276,6 +267,9 @@
             "$ref": "#/definitions/Layer"
           },
           "type": "array"
+        },
+        "popup": {
+          "$ref": "#/definitions/Popup"
         },
         "sizePresets": {
           "items": {
@@ -346,6 +340,9 @@
             "$ref": "#/definitions/Layer"
           },
           "type": "array"
+        },
+        "popup": {
+          "$ref": "#/definitions/Popup"
         },
         "visible": {
           "type": "boolean"

@@ -1,5 +1,5 @@
 import * as turf from '@turf/turf'
-import mapboxgl, { LngLatLike } from 'mapbox-gl'
+import mapboxgl from 'mapbox-gl'
 
 import { INITIAL_CENTER } from '../../../constants'
 import map from '../../../mapConfig'
@@ -72,12 +72,12 @@ export abstract class Layer<D extends LayerDefinition> {
   }
 
   private renderPopup() {
-    if (!this.definition.popup || !this.visible) return
-    this.popup?.remove()
-    this.popup = new mapboxgl.Popup({ closeButton: false })
-      .setLngLat(this.props.center as LngLatLike)
-      .setText(this.definition.popup.content)
-      .addTo(map.instance)
+    // if (!this.definition.popup || !this.visible) return
+    // this.popup?.remove()
+    // this.popup = new mapboxgl.Popup({ closeButton: false })
+    //   .setLngLat(this.props.center as LngLatLike)
+    //   .setText(this.definition.popup.content)
+    //   .addTo(map.instance)
   }
 
   private updateSources(props: Partial<Props<D>>) {

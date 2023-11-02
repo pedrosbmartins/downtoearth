@@ -2,7 +2,8 @@ import mapboxgl, { AnyLayer, AnySourceData, FillLayer, LineLayer, SymbolLayer } 
 
 import { BaseMap, ClickEventHandler, EventHandler } from '.'
 import { Feature, LineFeature } from '../components/map/features'
-import { Layer } from '../setups'
+import { ShapeFeature } from '../components/map/features/shapes'
+import { ShapeLayer } from '../setups'
 import { BoundingBox, LngLat } from '../types'
 import { toLngLat } from '../utils'
 
@@ -14,6 +15,7 @@ export class Map extends BaseMap {
   public instance: mapboxgl.Map
 
   private features: Record<string, { sourceIds: string[]; layerIds: string[] }> = {}
+  private popups: Record<string, mapboxgl.Popup> = {}
 
   constructor(protected center: LngLat, props: Props) {
     super(center)
@@ -45,8 +47,10 @@ export class Map extends BaseMap {
   ): MapResources {
     if (feature instanceof LineFeature) {
       return LineToRoot.build(id, feature, options)
-    } else {
+    } else if (feature instanceof ShapeFeature) {
       return Shape.build(id, feature, options)
+    } else {
+      throw new Error(`Feature ${feature.id} not supported.`)
     }
   }
 
@@ -97,6 +101,26 @@ export class Map extends BaseMap {
       handler({ lngLat })
     })
   }
+
+  public addPopup(id: string, content: string, center: LngLat): void {
+    this.popups[id] = new mapboxgl.Popup({ closeButton: false })
+      .setLngLat(center)
+      .setText(content)
+      .addTo(this.instance)
+  }
+
+  public updatePopup(id: string, content: string, center: LngLat): void {
+    if (this.removePopup(id)) {
+      this.addPopup(id, content, center)
+    }
+  }
+
+  public removePopup(id: string): boolean {
+    const popup = this.popups[id]
+    if (!popup) return false
+    popup.remove()
+    return true
+  }
 }
 
 interface FeatureSource {
@@ -111,10 +135,14 @@ interface MapResources {
   layers: FeatureLayer[]
 }
 
-type ShapeProps = Layer & { visible?: boolean }
+type ShapeProps = ShapeLayer & { visible?: boolean }
 
 class Shape {
-  public static build(id: string, feature: Feature, options?: { visible?: boolean }): MapResources {
+  public static build(
+    id: string,
+    feature: ShapeFeature<ShapeLayer>,
+    options?: { visible?: boolean }
+  ): MapResources {
     const props: ShapeProps = { ...feature.layerDefinition, ...options }
     const sourceId = `${id}-main`
     return {

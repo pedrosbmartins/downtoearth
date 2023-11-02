@@ -1,15 +1,15 @@
 import * as turf from '@turf/turf'
 
-import { Layer } from '../../setups'
+import { Layer, SingleModel } from '../../setups'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { LngLat } from '../../types'
 import { toLngLat } from '../../utils'
-import { MapComponent, Props } from './MapComponent'
+import { MapComponent } from './MapComponent'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
-  constructor(id: string, store: ModelStore, props: Props) {
-    super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], props)
+  constructor(id: string, store: ModelStore, definition: SingleModel) {
+    super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], definition)
   }
 
   onUpdate(event: AnyStoreEvent) {

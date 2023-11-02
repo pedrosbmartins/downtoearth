@@ -25,10 +25,8 @@ export class ModelFactory {
   }
 
   private buildMapComponent() {
-    const { id, layers, visible } = this.definition
-    return new ModelMapComponent(id, this.store, {
-      layerDefinitions: layers.map(layer => ({ ...layer, visible }))
-    })
+    const { id } = this.definition
+    return new ModelMapComponent(id, this.store, this.definition)
   }
 
   private buildUI() {

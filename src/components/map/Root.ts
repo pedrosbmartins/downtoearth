@@ -1,15 +1,15 @@
 import * as turf from '@turf/turf'
 
-import { Layer } from '../../setups'
+import { Layer, Root } from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { LngLat } from '../../types'
 import { toLngLat } from '../../utils'
-import { MapComponent, Props } from './MapComponent'
+import { MapComponent } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
-  constructor(id: string, store: RootStore, props: Props) {
-    super(id, store, ['visible', 'size', 'center'], props)
+  constructor(id: string, store: RootStore, definition: Root) {
+    super(id, store, ['visible', 'size', 'center'], definition)
   }
 
   onUpdate(event: AnyStoreEvent) {

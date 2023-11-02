@@ -1,55 +1,69 @@
 import * as turf from '@turf/turf'
 import map from '../../mapConfig'
-import { CircleLayer, EllipseLayer, Layer, Layer as LayerDefinition } from '../../setups'
+import { CircleLayer, EllipseLayer, Layer, SingleModel } from '../../setups'
 import { AnyStore, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
-import { mergeBoundingBoxes } from '../../utils'
+import { mergeBoundingBoxes, toLngLat } from '../../utils'
 import { CircleFeature, EllipseFeature, Feature, LineFeature } from './features'
-
-export interface Props {
-  layerDefinitions: LayerDefinition[]
-}
 
 export abstract class MapComponent<S extends AnyStore> extends StoreListener {
   protected features: Feature[] = []
 
-  constructor(protected id: string, protected store: S, events: string[], protected props: Props) {
+  constructor(
+    protected id: string,
+    protected store: S,
+    events: string[],
+    protected definition: SingleModel
+  ) {
     super([{ store, events }])
-    this.features = this.props.layerDefinitions
-      .map(definition => this.buildFeatures(definition))
-      .flat()
+    this.features = this.definition.layers.map(layer => this.buildFeatures(layer)).flat()
+    this.features.forEach(feature => feature.render())
+    this.renderPopup()
   }
 
   public destroy() {
     this.features.forEach(feature => feature.remove())
+    map.removePopup(this.id)
   }
 
   protected show() {
     this.features.forEach(features => features.show())
+    this.renderPopup()
   }
 
   protected hide() {
     this.features.forEach(feature => feature.hide())
+    map.removePopup(this.id)
   }
 
   protected resize(sizeRatio: number) {
     this.features.forEach(feature => {
       feature.update({ sizeRatio })
     })
+    this.renderPopup()
   }
 
   protected setCenter(center: LngLat) {
     this.features.forEach(feature => {
       feature.update({ center, rootCenter: this.rootCenter() })
     })
+    this.renderPopup()
   }
 
-  private buildFeatures(definition: LayerDefinition) {
+  protected renderPopup() {
+    if (this.definition.popup) {
+      const { content } = this.definition.popup
+      map.removePopup(this.id)
+      map.addPopup(this.id, content, this.centerOfMass())
+    }
+  }
+
+  private buildFeatures(definition: Layer) {
     const isCircle = definition.shape === 'circle'
     const shape = isCircle ? this.buildCircle(definition) : this.buildEllipse(definition)
     const features: Feature[] = [shape]
     if (definition.drawLineToRoot) {
-      features.push(new LineFeature(definition, this.featureState(definition), map))
+      features.push(new LineFeature(this.featureState(definition), map))
     }
     return features
   }
@@ -71,11 +85,18 @@ export abstract class MapComponent<S extends AnyStore> extends StoreListener {
   }
 
   public boundingBox(): BoundingBox {
-    const featureBboxes = this.features.map(feature => turf.bbox(feature.data()) as BoundingBox)
+    const featureBboxes = this.features
+      .filter(feature => !(feature instanceof LineFeature))
+      .map(feature => turf.bbox(feature.data()) as BoundingBox)
     return mergeBoundingBoxes(featureBboxes)
   }
 
+  public centerOfMass(): LngLat {
+    const allCenters = turf.points(this.definition.layers.map(layer => this.center(layer)))
+    return toLngLat(turf.center(allCenters).geometry.coordinates)
+  }
+
   protected abstract sizeRatio(): number
-  protected abstract center(definition: LayerDefinition): LngLat
+  protected abstract center(definition: Layer): LngLat
   protected abstract rootCenter(): LngLat
 }
