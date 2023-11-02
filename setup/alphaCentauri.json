@@ -31,10 +31,7 @@
       "visible": true,
       "bearingControl": true,
       "bearing": 270,
-      "offset": {
-        "type": "relative",
-        "real": 268521.61
-      },
+      "offset": { "type": "relative", "real": 268521.61 },
       "models": [
         {
           "id": "proxima-centauri",

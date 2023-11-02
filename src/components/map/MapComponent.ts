@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
 import map from '../../mapConfig'
-import { CircleLayer, EllipseLayer, Layer, SingleModel } from '../../setups'
+import { CircleLayer, EllipseLayer, Layer, LayerBase, SingleModel } from '../../setups'
 import { BaseModelData } from '../../store'
 import { Store, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
@@ -44,9 +44,9 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     this.renderPopup()
   }
 
-  protected setCenter(center: LngLat) {
+  protected resetCenter() {
     this.features.forEach(feature => {
-      feature.update({ center, rootCenter: this.rootCenter() })
+      feature.update(this.featureState(feature.layerDefinition))
     })
     this.renderPopup()
   }
@@ -64,7 +64,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     const shape = isCircle ? this.buildCircle(definition) : this.buildEllipse(definition)
     const features: Feature[] = [shape]
     if (definition.drawLineToRoot) {
-      features.push(new LineFeature(this.featureState(definition), map))
+      features.push(new LineFeature(definition, this.featureState(definition), map))
     }
     return features
   }
@@ -77,7 +77,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     return new EllipseFeature(definition, this.featureState(definition), map)
   }
 
-  private featureState(layer: Layer) {
+  private featureState(layer: LayerBase) {
     return {
       center: this.center(layer),
       rootCenter: this.rootCenter(),
@@ -98,6 +98,6 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
   }
 
   protected abstract sizeRatio(): number
-  protected abstract center(definition: Layer): LngLat
+  protected abstract center(definition: LayerBase): LngLat
   protected abstract rootCenter(): LngLat
 }

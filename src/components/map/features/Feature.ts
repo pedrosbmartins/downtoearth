@@ -1,4 +1,5 @@
 import { BaseMap } from '../../../map'
+import { LayerBase } from '../../../setups'
 import { LngLat } from '../../../types'
 
 export interface FeatureState {
@@ -10,7 +11,11 @@ export interface FeatureState {
 export abstract class Feature {
   public id: string
 
-  constructor(public state: FeatureState, protected mapInstance: BaseMap) {
+  constructor(
+    public layerDefinition: LayerBase,
+    public state: FeatureState,
+    protected mapInstance: BaseMap
+  ) {
     this.id = Math.random().toString().split('.')[1] // @todo: random UUID?
   }
 

@@ -22,7 +22,7 @@ export class RootMapComponent extends MapComponent<RootStore> {
           this.resize(this.store.sizeRatio())
           break
         case 'center':
-          this.setCenter(event.data.center!)
+          this.resetCenter()
           break
       }
     }

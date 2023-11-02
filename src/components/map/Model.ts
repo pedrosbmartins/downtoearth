@@ -22,25 +22,14 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
           this.resize(event.data.sizeRatio)
           break
         case 'center':
-          this.setCenter(event.data.center)
+          this.resetCenter()
           break
         case 'bearing':
-          this.setCenter(event.data.center)
+          this.resetCenter()
           break
       }
     }
   }
-
-  // protected onRootResize() {
-  //   this.features.forEach(({ definition, rendered }) => {
-  //     if (hasRelativeSize(definition)) {
-  //       rendered.resize(this.sizeRatio())
-  //     }
-  //     if (definition.offset) {
-  //       rendered.setCenter(this.center(definition))
-  //     }
-  //   })
-  // }
 
   protected sizeRatio(): number {
     return this.store.get('sizeRatio')

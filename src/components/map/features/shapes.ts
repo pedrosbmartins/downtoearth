@@ -7,7 +7,7 @@ import { Feature, FeatureState } from './Feature'
 
 export abstract class ShapeFeature<L extends ShapeLayer> extends Feature {
   constructor(public layerDefinition: L, state: FeatureState, mapInstance: BaseMap) {
-    super(state, mapInstance)
+    super(layerDefinition, state, mapInstance)
   }
 }
 
