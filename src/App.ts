@@ -22,10 +22,10 @@ export default class App extends EventTarget {
 
   public initialize(setup: Setup, center?: LngLat) {
     this.destroy()
+    this._currentLngLat = center
+    this._setup = setup
     this.buildRoot(setup)
     this.buildModels(setup)
-    this._setup = setup
-    this._currentLngLat = center
   }
 
   private buildRoot({ root }: Setup) {
