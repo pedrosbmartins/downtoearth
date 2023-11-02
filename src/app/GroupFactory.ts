@@ -1,5 +1,5 @@
 import { SidebarItem } from '../components/dom'
-import map from '../configs/map'
+import map from '../initializers/map'
 import { GroupModel } from '../setups'
 import { GroupStore, RootStore } from '../store'
 import { $sidebar } from '../ui'

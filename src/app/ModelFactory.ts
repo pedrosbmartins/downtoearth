@@ -1,6 +1,6 @@
 import { SidebarItem } from '../components/dom'
 import { ModelMapComponent } from '../components/map'
-import map from '../configs/map'
+import map from '../initializers/map'
 import { SingleModel } from '../setups'
 import { GroupStore, ModelStore, RootStore } from '../store'
 

@@ -6,8 +6,9 @@ import solarSystem from '../setup/solarSystem.json'
 import starSizes from '../setup/starSizes.json'
 import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import App from './App'
-import map from './configs/map'
 import { INITIAL_CENTER } from './constants'
+import map from './initializers/map'
+import { setupFromURL } from './initializers/setupFromURL'
 import { Setup, ShareableSetup } from './setups'
 import { LngLat } from './types'
 import {
@@ -31,7 +32,6 @@ const setups = {
 }
 
 const app = new App()
-const setupFromURL = tryParseSetupFromURL()
 
 map.onLoad(() => {
   const initialSetup: keyof typeof setups = 'alphaCentauri'
@@ -44,14 +44,10 @@ map.onLoad(() => {
   let center: LngLat | undefined
 
   if (setupFromURL) {
-    try {
-      activateUIForSetupFromURL(setupFromURL.setup.title)
-      activateMapForSetupFromURL(setupFromURL.center)
-      setup = setupFromURL.setup
-      center = setupFromURL.center
-    } catch (error) {
-      console.error('Error parsing setup from URL.', error)
-    }
+    activateUIForSetupFromURL(setupFromURL.setup.title)
+    map.setCenter(setupFromURL.center)
+    setup = setupFromURL.setup
+    center = setupFromURL.center
   }
 
   app.initialize(setup, center)
@@ -97,22 +93,10 @@ map.onLoad(() => {
   })
 })
 
-function tryParseSetupFromURL() {
-  const urlDataMatch = window.location.search.match(/data=(.+)/)
-  const urlData = urlDataMatch && urlDataMatch[1]
-  const urlDataContent = urlData && Buffer.from(urlData, 'base64').toString()
-  if (!urlDataContent) return
-  return JSON.parse(urlDataContent) as ShareableSetup
-}
-
 function activateUIForSetupFromURL(title: string) {
   $setupFromURLOption.style.display = 'block'
   $setupFromURLOption.setAttribute('selected', 'true')
   $setupFromURLOption.innerText = title
-}
-
-function activateMapForSetupFromURL(center: LngLat) {
-  map.setCenter(center)
 }
 
 function generateShareableLink() {

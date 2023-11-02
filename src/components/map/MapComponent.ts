@@ -1,5 +1,5 @@
 import * as turf from '@turf/turf'
-import map from '../../configs/map'
+import map from '../../initializers/map'
 import { CircleLayer, EllipseLayer, Layer, LayerBase, SingleModel } from '../../setups'
 import { BaseModelData } from '../../store'
 import { Store, StoreListener } from '../../store/core'
