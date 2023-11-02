@@ -57,6 +57,7 @@ export class CircleFeature extends Feature<FeatureState, CircleLayer> {
   constructor(layerDefinition: CircleLayer, state: FeatureState, mapInstance: BaseMap) {
     super(layerDefinition, state, mapInstance)
   }
+
   public size(ratio: number) {
     const { radius } = this.layerDefinition
     if (isAbsluteSize(radius)) {
@@ -65,6 +66,7 @@ export class CircleFeature extends Feature<FeatureState, CircleLayer> {
       return ratio * radius.real
     }
   }
+
   public data() {
     return circle(this.state.center, this.size(this.state.sizeRatio))
   }

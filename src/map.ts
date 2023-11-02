@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 import mapboxgl from 'mapbox-gl'
 
 import { INITIAL_CENTER, MAPBOXGL_ACCESS_TOKEN } from './constants'
-import { MapBoxGL } from './map/mapboxgl'
+import * as MapBoxGL from './map/mapboxgl'
 import { BoundingBox, LngLat } from './types'
 
 export const geolocate = new mapboxgl.GeolocateControl({
