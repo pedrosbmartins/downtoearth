@@ -1,31 +1,5 @@
-import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
-import mapboxgl from 'mapbox-gl'
 import { MAPBOXGL_ACCESS_TOKEN } from './constants'
-import map from './mapConfig'
 import { LngLat } from './types'
-
-const MAPBOXGL_GEOCODER_INPUT_CLASS = '.mapboxgl-ctrl-geocoder--input'
-
-type ResultEventHandler = (event: { result: Result }) => void
-
-export function buildGeocoder($container: HTMLElement, onResult?: ResultEventHandler) {
-  const geocoder = new MapboxGeocoder({
-    accessToken: MAPBOXGL_ACCESS_TOKEN,
-    mapboxgl: mapboxgl,
-    marker: false,
-    flyTo: false,
-    trackProximity: false
-  })
-  if (onResult) geocoder.on('result', onResult)
-  const $geocoderElement = $container.querySelector<HTMLElement>('#geocoder')!
-  $geocoderElement.appendChild(geocoder.onAdd(map.instance))
-  const $geocoderInput = extractInputElement($geocoderElement)
-  return { geocoder, $geocoderElement, $geocoderInput }
-}
-
-function extractInputElement($geocoderElement: HTMLElement) {
-  return $geocoderElement.querySelector<HTMLInputElement>(MAPBOXGL_GEOCODER_INPUT_CLASS)!
-}
 
 export async function reverseGeocoding(lngLat: LngLat) {
   try {

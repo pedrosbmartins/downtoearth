@@ -1,14 +1,12 @@
-import { Result } from '@mapbox/mapbox-gl-geocoder'
 import { SidebarItem, SizePresets } from '../components/dom'
 import { RootMapComponent } from '../components/map'
 import { INITIAL_CITY } from '../constants'
-import { buildGeocoder, reverseGeocoding } from '../geocoding'
+import { reverseGeocoding } from '../geocoding'
 import map, { fitBounds, geolocate, isGeolocateResultEvent } from '../mapConfig'
 import { Root } from '../setups'
 import { RootStore } from '../store'
 import { LngLat } from '../types'
 import { $sidebar } from '../ui'
-import { toLngLat } from '../utils'
 
 export class RootFactory extends EventTarget {
   public store: RootStore
@@ -78,8 +76,7 @@ export class RootFactory extends EventTarget {
   }
 
   private async buildGeocoder(currentLngLat: LngLat | undefined) {
-    const { $geocoderInput } = buildGeocoder(this.$ui, async (event: { result: Result }) => {
-      const center = toLngLat(event.result.center)
+    const $geocoderInput = map.buildGeocoder(this.$ui, center => {
       map.setCenter(center)
       this.store.set({ center })
     })

@@ -1,5 +1,6 @@
 import mapboxgl, { AnyLayer, AnySourceData, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
 
+import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
 import { BaseMap, ClickEventHandler, EventHandler } from '.'
 import { Feature, LineFeature } from '../components/map/features'
 import { ShapeFeature } from '../components/map/features/shapes'
@@ -17,10 +18,10 @@ export class Map extends BaseMap {
   private features: Record<string, { sourceIds: string[]; layerIds: string[] }> = {}
   private popups: Record<string, mapboxgl.Popup> = {}
 
-  constructor(protected center: LngLat, props: Props) {
+  constructor(protected center: LngLat, private props: Props) {
     super(center)
     this.instance = new mapboxgl.Map({
-      accessToken: props.accessToken,
+      accessToken: this.props.accessToken,
       center: this.center,
       style: 'mapbox://styles/pedrosbmartins/ckxorrc2q6hzp15p9b9kojnvj',
       container: 'map',
@@ -120,6 +121,25 @@ export class Map extends BaseMap {
     if (!popup) return false
     popup.remove()
     return true
+  }
+
+  public buildGeocoder($container: HTMLElement, handler: (center: LngLat) => void) {
+    const geocoder = new MapboxGeocoder({
+      accessToken: this.props.accessToken,
+      mapboxgl: mapboxgl,
+      marker: false,
+      flyTo: false,
+      trackProximity: false
+    })
+    geocoder.on('result', (event: { result: Result }) => {
+      handler(toLngLat(event.result.center))
+    })
+    const $geocoderElement = $container.querySelector<HTMLElement>('#geocoder')!
+    $geocoderElement.appendChild(geocoder.onAdd(this.instance))
+    const $geocoderInput = $geocoderElement.querySelector<HTMLInputElement>(
+      '.mapboxgl-ctrl-geocoder--input'
+    )!
+    return $geocoderInput
   }
 }
 

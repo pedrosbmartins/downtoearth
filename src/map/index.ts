@@ -18,6 +18,11 @@ export abstract class BaseMap {
   public abstract updatePopup(id: string, content: string, center: LngLat): void
   public abstract removePopup(id: string): void
 
+  public abstract buildGeocoder(
+    $container: HTMLElement,
+    handler: (center: LngLat) => void
+  ): HTMLInputElement
+
   public abstract setCenter(center: LngLat): void
   public abstract flyTo(bbox: BoundingBox): void
 
