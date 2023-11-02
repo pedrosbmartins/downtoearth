@@ -9,8 +9,6 @@ interface Props {
   accessToken: string
 }
 
-type ShapeProps = Layer & { visible?: boolean }
-
 export class Map extends BaseMap {
   public instance: mapboxgl.Map
 
@@ -84,19 +82,24 @@ export class Map extends BaseMap {
   }
 }
 
+interface ShapeMapResources {
+  sources: { id: string; content: GeoJSONSourceRaw }[]
+  layers: Array<AnyLayer & { id: string }>
+}
+
+type ShapeProps = Layer & { visible?: boolean }
+
 class Shape {
   public static build(
     id: string,
     feature: Feature,
     options?: { visible?: boolean }
-  ): {
-    sources: { id: string; content: GeoJSONSourceRaw }[]
-    layers: Array<AnyLayer & { id: string }>
-  } {
-    const sourceId = `${id}-main`
+  ): ShapeMapResources {
+    const props: ShapeProps = { ...feature.layerDefinition, ...options }
+    const mainSourceId = `${id}-main`
     return {
-      sources: [{ id: sourceId, content: { type: 'geojson', data: feature.data() } }],
-      layers: Shape.layers(sourceId, { ...feature.layerDefinition, ...options })
+      sources: [{ id: mainSourceId, content: { type: 'geojson' as const, data: feature.data() } }],
+      layers: Shape.layers(mainSourceId, props)
     }
   }
 
@@ -104,7 +107,8 @@ class Shape {
     return [
       ...this.fillLayer(sourceId, props),
       ...this.outlineLayer(sourceId, props),
-      ...this.labelLayer(sourceId, props)
+      ...this.labelLayer(sourceId, props),
+      ...this.outlineLabelLayer(sourceId, props)
     ]
   }
 
@@ -133,7 +137,9 @@ class Shape {
         id: `${sourceId}-outline`,
         type: 'line',
         source: sourceId,
-        layout: {},
+        layout: {
+          visibility: props.visible ?? true ? 'visible' : 'none'
+        },
         paint: {
           'line-color': props.outline.color,
           'line-width': props.outline.width ?? 1
@@ -150,10 +156,32 @@ class Shape {
         type: 'symbol',
         source: sourceId,
         layout: {
+          visibility: props.visible ?? true ? 'visible' : 'none',
           'symbol-placement': 'point',
           'text-font': ['Open Sans Regular'],
           'text-field': props.label.value,
           'text-size': 14
+        }
+      }
+    ]
+  }
+
+  private static outlineLabelLayer(sourceId: string, props: ShapeProps): SymbolLayer[] {
+    if (!props.label || props.label.position !== 'outline') return []
+    return [
+      {
+        id: `${sourceId}-outline-label`,
+        type: 'symbol',
+        source: sourceId,
+        layout: {
+          visibility: props.visible ?? true ? 'visible' : 'none',
+          'symbol-placement': 'line',
+          'symbol-spacing': 500,
+          'text-font': ['Open Sans Regular'],
+          'text-field': props.label.value,
+          'text-size': 14,
+          'text-pitch-alignment': 'viewport',
+          'text-anchor': 'bottom'
         }
       }
     ]
