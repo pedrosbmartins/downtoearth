@@ -1,5 +1,5 @@
 import { SidebarItem } from '../components/dom'
-import { fitBounds } from '../mapConfig'
+import map from '../configs/map'
 import { GroupModel } from '../setups'
 import { GroupStore, RootStore } from '../store'
 import { $sidebar } from '../ui'
@@ -32,7 +32,7 @@ export class GroupFactory {
     const onCenter = () => {
       const componentsBbox = this.models.map(model => model.mapComponent.boundingBox())
       const boundingBox = mergeBoundingBoxes(componentsBbox)
-      fitBounds(boundingBox)
+      map.flyTo(boundingBox)
     }
     const { label, bearingControl, info } = this.definition
     const itemComponent = SidebarItem(

@@ -1,8 +1,8 @@
 import { SidebarItem, SizePresets } from '../components/dom'
 import { RootMapComponent } from '../components/map'
+import map from '../configs/map'
 import { INITIAL_CITY } from '../constants'
 import { reverseGeocoding } from '../geocoding'
-import map, { fitBounds } from '../mapConfig'
 import { Root } from '../setups'
 import { RootStore } from '../store'
 import { LngLat } from '../types'
@@ -59,7 +59,7 @@ export class RootFactory extends EventTarget {
     $container.innerHTML = this.template()
     $sidebar.append($container)
 
-    const onCenter = () => this.mapComponent && fitBounds(this.mapComponent.boundingBox())
+    const onCenter = () => this.mapComponent && map.flyTo(this.mapComponent.boundingBox())
     const $items = $container.querySelector('.items')
     const itemComponent = SidebarItem({ label, icon, info, onCenter }, this.store)
     $items?.append(itemComponent.dom())

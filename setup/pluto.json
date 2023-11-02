@@ -6,13 +6,12 @@
     "id": "root",
     "icon": "sun",
     "label": "Sun",
+    "popup": { "content": "Sun" },
     "visible": true,
     "layers": [
       {
         "id": "sun",
         "shape": "circle",
-        "visible": true,
-        "popup": { "content": "Sun" },
         "fill": { "color": "yellow", "opacity": 0.5 },
         "outline": { "color": "orange" },
         "radius": { "type": "relative", "real": 0.0093096 }
@@ -27,28 +26,20 @@
   },
   "models": [
     {
-      "id": "solar-system",
-      "label": "Solar System",
+      "id": "pluto",
+      "label": "Pluto",
       "visible": true,
-      "models": [
+      "icon": "pluto",
+      "layers": [
         {
-          "id": "pluto",
-          "label": "Pluto",
-          "visible": true,
-          "icon": "pluto",
-          "layers": [
-            {
-              "id": "pluto-orbit",
-              "shape": "ellipse",
-              "visible": true,
-              "label": { "value": "Pluto", "position": "outline" },
-              "outline": { "color": "#45331D" },
-              "axes": {
-                "semiMajor": { "type": "relative", "real": 39.236 },
-                "semiMinor": { "type": "relative", "real": 38.046 }
-              }
-            }
-          ]
+          "id": "pluto-orbit",
+          "shape": "ellipse",
+          "label": { "value": "Pluto", "position": "outline" },
+          "outline": { "color": "#45331D" },
+          "axes": {
+            "semiMajor": { "type": "relative", "real": 39.236 },
+            "semiMinor": { "type": "relative", "real": 38.046 }
+          }
         }
       ]
     }

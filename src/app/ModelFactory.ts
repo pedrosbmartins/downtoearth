@@ -1,6 +1,6 @@
 import { SidebarItem } from '../components/dom'
 import { ModelMapComponent } from '../components/map'
-import { fitBounds } from '../mapConfig'
+import map from '../configs/map'
 import { SingleModel } from '../setups'
 import { GroupStore, ModelStore, RootStore } from '../store'
 
@@ -37,7 +37,7 @@ export class ModelFactory {
         icon,
         bearingControl,
         info,
-        onCenter: () => fitBounds(this.mapComponent.boundingBox())
+        onCenter: () => map.flyTo(this.mapComponent.boundingBox())
       },
       this.store
     )
