@@ -15,7 +15,7 @@ class TestStoreListener extends StoreListener {
 }
 
 describe('StoreListener', () => {
-  const store = new TestStore('test', { type: 'test', value: 42 })
+  const store = new TestStore({ type: 'test', value: 42 })
   const listener = new TestStoreListener([new Observable(store, ['value'])])
   describe('#onUpdate', () => {
     it('is called when a store broadcasts an event', () => {

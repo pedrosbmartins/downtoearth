@@ -3,14 +3,12 @@
   "title": "Alpha Centauri",
   "unit": { "name": "AU", "km": 149597870700 },
   "root": {
-    "id": "root",
     "icon": "sun",
     "label": "Sun",
     "popup": { "content": "Sun" },
     "visible": true,
     "features": [
       {
-        "id": "sun",
         "shape": "circle",
         "fill": { "color": "#fff2d1", "opacity": 1 },
         "outline": { "color": "rgba(0,0,0,0.25)" },
@@ -26,7 +24,6 @@
   },
   "models": [
     {
-      "id": "alpha-centauri",
       "label": "α Centauri",
       "visible": true,
       "bearingControl": true,
@@ -34,14 +31,12 @@
       "offset": { "type": "relative", "real": 268521.61 },
       "models": [
         {
-          "id": "proxima-centauri",
           "label": "Proxima Centauri",
           "popup": { "content": "Proxima Centauri" },
           "visible": true,
           "icon": "star",
           "features": [
             {
-              "id": "proxima-centauri",
               "shape": "circle",
               "fill": { "color": "#ffc317" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
@@ -52,14 +47,12 @@
           ]
         },
         {
-          "id": "alpha-centauri-b",
           "label": "α Centauri B",
           "popup": { "content": "Alpha Centauri B" },
           "visible": true,
           "icon": "star",
           "features": [
             {
-              "id": "alpha-centauri-b",
               "shape": "circle",
               "fill": { "color": "#ffeb93" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
@@ -70,14 +63,12 @@
           ]
         },
         {
-          "id": "alpha-centauri-a",
           "label": "α Centauri A",
           "popup": { "content": "Alpha Centauri A" },
           "visible": true,
           "icon": "star",
           "features": [
             {
-              "id": "alpha-centauri-a",
               "shape": "circle",
               "fill": { "color": "#fff0c0" },
               "outline": { "color": "rgba(0,0,0,0.25)" },

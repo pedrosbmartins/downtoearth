@@ -3,15 +3,11 @@
   "title": "Star Sizes vs Solar System",
   "unit": { "name": "AU", "km": 149597870700 },
   "root": {
-    "id": "root",
     "icon": "sun",
     "label": "Sun",
-    "visible": true,
     "features": [
       {
-        "id": "sun",
         "shape": "circle",
-        "visible": true,
         "label": { "value": "Sun", "position": "center" },
         "fill": { "color": "yellow", "opacity": 0.75 },
         "outline": { "color": "yellow" },
@@ -28,20 +24,14 @@
   },
   "models": [
     {
-      "id": "stars",
       "label": "Stars",
-      "visible": true,
       "models": [
         {
-          "id": "vega",
           "label": "Vega (α Lyrae)",
-          "visible": false,
           "icon": "star",
           "features": [
             {
-              "id": "vega",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Vega", "position": "outline" },
               "fill": { "color": "#b9c9ff", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 0.0109841136 }
@@ -49,15 +39,11 @@
           ]
         },
         {
-          "id": "deneb",
           "label": "Deneb (α Cygni)",
-          "visible": false,
           "icon": "star",
           "features": [
             {
-              "id": "deneb",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Deneb", "position": "outline" },
               "fill": { "color": "#c7d6ff", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 0.9449244 }
@@ -65,15 +51,11 @@
           ]
         },
         {
-          "id": "antaresA",
           "label": "Antares A (α Scorpii)",
-          "visible": false,
           "icon": "star",
           "features": [
             {
-              "id": "antaresA",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Antares A", "position": "outline" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 3.165264 }
@@ -81,15 +63,11 @@
           ]
         },
         {
-          "id": "betelgeuse",
           "label": "Betelgeuse (α Orionis)",
-          "visible": false,
           "icon": "star",
           "features": [
             {
-              "id": "betelgeuse",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Betelgeuse", "position": "outline" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 3.5562672 }
@@ -97,15 +75,11 @@
           ]
         },
         {
-          "id": "v602carinae",
           "label": "V602 Carinae",
-          "visible": false,
           "icon": "star",
           "features": [
             {
-              "id": "v602carinae",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "V602 Carinae", "position": "outline" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 4.88754 }
@@ -113,15 +87,11 @@
           ]
         },
         {
-          "id": "vycanismajoris",
           "label": "VY Canis Majoris",
-          "visible": false,
           "icon": "star",
           "features": [
             {
-              "id": "vycanismajoris",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "VY Canis Majoris", "position": "outline" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
               "radius": { "type": "relative", "real": 6.609816 }
@@ -131,20 +101,14 @@
       ]
     },
     {
-      "id": "solar-system",
       "label": "Solar System",
-      "visible": true,
       "models": [
         {
-          "id": "mercury",
           "label": "Mercury",
-          "visible": true,
           "icon": "mercury",
           "features": [
             {
-              "id": "mercury-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Mercury", "position": "outline" },
               "outline": { "color": "Crimson" },
               "radius": { "type": "relative", "real": 0.39 }
@@ -152,15 +116,11 @@
           ]
         },
         {
-          "id": "venus",
           "label": "Venus",
-          "visible": true,
           "icon": "venus",
           "features": [
             {
-              "id": "venus-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Venus", "position": "outline" },
               "outline": { "color": "Chocolate" },
               "radius": { "type": "relative", "real": 0.72 }
@@ -168,15 +128,11 @@
           ]
         },
         {
-          "id": "earth",
           "label": "Earth",
-          "visible": true,
           "icon": "earth",
           "features": [
             {
-              "id": "earth-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Earth", "position": "outline" },
               "outline": { "color": "blue" },
               "radius": { "type": "relative", "real": 1.0 }
@@ -184,15 +140,11 @@
           ]
         },
         {
-          "id": "mars",
           "label": "Mars",
-          "visible": true,
           "icon": "mars",
           "features": [
             {
-              "id": "mars-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Mars", "position": "outline" },
               "outline": { "color": "red" },
               "radius": { "type": "relative", "real": 1.52 }
@@ -200,15 +152,11 @@
           ]
         },
         {
-          "id": "asteroid",
           "label": "Asteroid Belt",
-          "visible": true,
           "icon": "asteroid",
           "features": [
             {
-              "id": "asteroid-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Asteroid Belt", "position": "outline" },
               "outline": { "color": "gray" },
               "radius": { "type": "relative", "real": 2.8 }
@@ -216,15 +164,11 @@
           ]
         },
         {
-          "id": "jupiter",
           "label": "Jupiter",
-          "visible": true,
           "icon": "jupiter",
           "features": [
             {
-              "id": "jupiter-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Jupiter", "position": "outline" },
               "outline": { "color": "orange" },
               "radius": { "type": "relative", "real": 5.2 }
@@ -232,15 +176,11 @@
           ]
         },
         {
-          "id": "saturn",
           "label": "Saturn",
-          "visible": true,
           "icon": "saturn",
           "features": [
             {
-              "id": "saturn-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Saturn", "position": "outline" },
               "outline": { "color": "DarkGoldenRod" },
               "radius": { "type": "relative", "real": 9.54 }
@@ -248,15 +188,11 @@
           ]
         },
         {
-          "id": "uranus",
           "label": "Uranus",
-          "visible": true,
           "icon": "uranus",
           "features": [
             {
-              "id": "uranus-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Uranus", "position": "outline" },
               "outline": { "color": "DarkBlue" },
               "radius": { "type": "relative", "real": 19.2 }
@@ -264,15 +200,11 @@
           ]
         },
         {
-          "id": "neptune",
           "label": "Neptune",
-          "visible": true,
           "icon": "neptune",
           "features": [
             {
-              "id": "neptune-orbit",
               "shape": "circle",
-              "visible": true,
               "label": { "value": "Neptune", "position": "outline" },
               "outline": { "color": "blue" },
               "radius": { "type": "relative", "real": 30.06 }

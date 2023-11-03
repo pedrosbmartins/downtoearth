@@ -14,7 +14,7 @@ export class RootStore extends Store<RootData> {
     const mainFeature = features[0]
     const realSize = RootStore.realSize(mainFeature)
     const renderedSize = (sizePresets.find(sp => sp.default) ?? sizePresets[0]).km / 2
-    super('root', {
+    super({
       type: 'root',
       visible: visible ?? true,
       center: center ?? initialCenter,

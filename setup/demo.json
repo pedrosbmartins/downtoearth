@@ -3,12 +3,10 @@
   "title": "Demo",
   "unit": { "name": "km", "km": 1 },
   "root": {
-    "id": "root",
     "label": "Root",
     "visible": true,
     "features": [
       {
-        "id": "2",
         "shape": "circle",
         "radius": { "type": "relative", "real": 10 },
         "outline": { "color": "green" },

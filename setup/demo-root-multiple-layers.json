@@ -3,23 +3,17 @@
   "title": "Demo",
   "unit": { "name": "km", "km": 1 },
   "root": {
-    "id": "root",
     "label": "Root",
-    "visible": true,
     "features": [
       {
-        "id": "1",
         "shape": "circle",
-        "visible": true,
         "radius": { "type": "relative", "real": 10 },
         "offset": { "type": "relative", "real": -8 },
         "bearing": 90,
         "fill": { "color": "green" }
       },
       {
-        "id": "2",
         "shape": "circle",
-        "visible": true,
         "radius": { "type": "relative", "real": 10 },
         "offset": { "type": "relative", "real": 8 },
         "bearing": 90,

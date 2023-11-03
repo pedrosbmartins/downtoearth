@@ -3,14 +3,12 @@
   "title": "Pluto",
   "unit": { "name": "AU", "km": 149597870700 },
   "root": {
-    "id": "root",
     "icon": "sun",
     "label": "Sun",
     "popup": { "content": "Sun" },
     "visible": true,
     "features": [
       {
-        "id": "sun",
         "shape": "circle",
         "fill": { "color": "yellow", "opacity": 0.5 },
         "outline": { "color": "orange" },
@@ -26,13 +24,11 @@
   },
   "models": [
     {
-      "id": "pluto",
       "label": "Pluto",
       "visible": true,
       "icon": "pluto",
       "features": [
         {
-          "id": "pluto-orbit",
           "shape": "ellipse",
           "label": { "value": "Pluto", "position": "outline" },
           "outline": { "color": "#45331D" },

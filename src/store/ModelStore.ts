@@ -31,7 +31,7 @@ export class ModelStore extends Store<ModelData> {
       sizeRatio: rootStore?.sizeRatio() ?? 1.0,
       center: groupStore?.get('center') ?? rootStore?.get('center') ?? initialCenter
     }
-    super(`model-${definition.id}`, data, observables)
+    super(data, observables)
     this.rootStore = rootStore
     this.groupStore = groupStore
   }

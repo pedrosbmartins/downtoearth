@@ -8,8 +8,8 @@ import { toLngLat } from '../../utils'
 import { MapComponent } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
-  constructor(id: string, store: RootStore, definition: Setup.Root) {
-    super(id, store, ['visible', 'size', 'center'], definition)
+  constructor(store: RootStore, definition: Setup.Root) {
+    super(store, ['visible', 'size', 'center'], definition)
   }
 
   onUpdate(event: AnyStoreEvent) {

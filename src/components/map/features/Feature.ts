@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { BaseMap } from '../../../map'
 import * as Setup from '../../../setups'
 import { LngLat } from '../../../types'
@@ -16,7 +17,7 @@ export abstract class Feature {
     public state: FeatureState,
     protected mapInstance: BaseMap
   ) {
-    this.id = Math.random().toString().split('.')[1] // @todo: random UUID?
+    this.id = nanoid()
   }
 
   public render() {

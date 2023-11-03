@@ -25,8 +25,7 @@ export class ModelFactory {
   }
 
   private buildMapComponent() {
-    const { id } = this.definition
-    return new ModelMapComponent(id, this.store, this.definition)
+    return new ModelMapComponent(this.store, this.definition)
   }
 
   private buildUI() {

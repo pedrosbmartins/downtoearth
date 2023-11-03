@@ -48,7 +48,7 @@ export class RootFactory extends EventTarget {
   }
 
   private buildMapComponent() {
-    this.mapComponent = new RootMapComponent('root', this.store, this.definition)
+    this.mapComponent = new RootMapComponent(this.store, this.definition)
   }
 
   private buildUI() {

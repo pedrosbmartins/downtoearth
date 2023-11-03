@@ -17,9 +17,6 @@
         "fill": {
           "$ref": "#/definitions/Fill"
         },
-        "id": {
-          "type": "string"
-        },
         "label": {
           "$ref": "#/definitions/Label"
         },
@@ -38,7 +35,6 @@
         }
       },
       "required": [
-        "id",
         "radius",
         "shape"
       ],
@@ -72,9 +68,6 @@
         "fill": {
           "$ref": "#/definitions/Fill"
         },
-        "id": {
-          "type": "string"
-        },
         "label": {
           "$ref": "#/definitions/Label"
         },
@@ -91,7 +84,6 @@
       },
       "required": [
         "axes",
-        "id",
         "shape"
       ],
       "type": "object"
@@ -130,9 +122,6 @@
         "bearingControl": {
           "type": "boolean"
         },
-        "id": {
-          "type": "string"
-        },
         "info": {
           "type": "string"
         },
@@ -156,7 +145,6 @@
         }
       },
       "required": [
-        "id",
         "label",
         "models"
       ],
@@ -258,10 +246,6 @@
         "icon": {
           "type": "string"
         },
-        "id": {
-          "const": "root",
-          "type": "string"
-        },
         "info": {
           "type": "string"
         },
@@ -283,7 +267,6 @@
       },
       "required": [
         "features",
-        "id",
         "label",
         "sizePresets"
       ],
@@ -332,9 +315,6 @@
         "icon": {
           "type": "string"
         },
-        "id": {
-          "type": "string"
-        },
         "info": {
           "type": "string"
         },
@@ -350,7 +330,6 @@
       },
       "required": [
         "features",
-        "id",
         "label"
       ],
       "type": "object"

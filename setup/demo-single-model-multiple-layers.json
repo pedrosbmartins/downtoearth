@@ -3,14 +3,10 @@
   "title": "Demo",
   "unit": { "name": "km", "km": 1 },
   "root": {
-    "id": "root",
     "label": "Root",
-    "visible": true,
     "features": [
       {
-        "id": "root",
         "shape": "circle",
-        "visible": true,
         "radius": { "type": "relative", "real": 5 },
         "fill": { "color": "green" }
       }
@@ -23,24 +19,20 @@
   },
   "models": [
     {
-      "id": "object-1",
       "label": "Object 1",
       "features": [
         {
-          "id": "1",
           "shape": "circle",
           "radius": { "type": "relative", "real": 10 },
           "outline": { "color": "red", "width": 3 }
         },
         {
-          "id": "2",
           "shape": "circle",
           "radius": { "type": "relative", "real": 5 },
           "fill": { "color": "blue" },
           "offset": { "type": "relative", "real": 10 }
         },
         {
-          "id": "3",
           "shape": "circle",
           "radius": { "type": "relative", "real": 5 },
           "fill": { "color": "blue" },

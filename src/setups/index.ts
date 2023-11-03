@@ -14,7 +14,6 @@ export interface Setup {
 }
 
 export interface BaseModel {
-  id: string
   label: string
   visible?: boolean
   bearingControl?: boolean
@@ -36,7 +35,6 @@ export interface SingleModel extends BaseModel {
 export type Model = GroupModel | SingleModel
 
 export interface Root extends SingleModel {
-  id: 'root'
   sizePresets: SizePreset[]
 }
 
@@ -47,7 +45,6 @@ export interface SizePreset {
 }
 
 export interface FeatureBase {
-  id: string
   fill?: Fill
   outline?: Outline
   offset?: RelativeSize

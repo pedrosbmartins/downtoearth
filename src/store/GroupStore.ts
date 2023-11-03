@@ -18,14 +18,14 @@ export class GroupStore extends Store<GroupData> {
   constructor(definition: Setup.GroupModel, rootStore: RootStore) {
     const data: GroupData = {
       type: 'group',
-      visible: definition.visible || true,
+      visible: definition.visible ?? true,
       bearing: definition.bearing,
       offset: GroupStore.offset(definition, rootStore),
       center: GroupStore.center(definition, rootStore),
       sizeRatio: GroupStore.sizeRatio(rootStore)
     }
     const observables = [new Observable(rootStore, ['size', 'center'])]
-    super(`group-${definition.id}`, data, observables)
+    super(data, observables)
     this.rootStore = rootStore
   }
 

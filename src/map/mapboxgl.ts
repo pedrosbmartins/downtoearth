@@ -16,7 +16,7 @@ export class Map extends BaseMap {
   public instance: mapboxgl.Map
   public geolocateControl: mapboxgl.GeolocateControl
 
-  private features: Record<string, { sourceIds: string[]; layerIds: string[] }> = {}
+  public features: Record<string, { sourceIds: string[]; layerIds: string[] }> = {}
   private popups: Record<string, mapboxgl.Popup> = {}
 
   constructor(protected center: LngLat, private props: Props) {

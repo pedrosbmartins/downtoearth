@@ -4,12 +4,10 @@ export const base: Setup = {
   title: 'Test',
   unit: { name: 'm', km: 1e-3 },
   root: {
-    id: 'root',
     label: 'Root',
     visible: true,
     features: [
       {
-        id: 'root',
         shape: 'circle',
         radius: { type: 'relative', real: 2.5 },
         fill: { color: '#fff2d1' }
@@ -23,17 +21,14 @@ export const base: Setup = {
   },
   models: [
     {
-      id: 'group',
       label: 'Group',
       visible: true,
       models: [
         {
-          id: '1',
           label: 'Object 1',
           visible: true,
           features: [
             {
-              id: '1',
               shape: 'circle',
               radius: { type: 'relative', real: 5 },
               fill: { color: '#fff0c0' }
@@ -41,12 +36,10 @@ export const base: Setup = {
           ]
         },
         {
-          id: '2',
           label: 'Object 2',
           visible: true,
           features: [
             {
-              id: '2',
               shape: 'circle',
               radius: { type: 'relative', real: 7.5 },
               fill: { color: '#ffeb93' }

@@ -10,12 +10,7 @@ import { CircleFeature, EllipseFeature, Feature, LineFeature } from './features'
 export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends StoreListener {
   protected features: Feature[] = []
 
-  constructor(
-    protected id: string,
-    protected store: S,
-    events: string[],
-    protected definition: Setup.SingleModel
-  ) {
+  constructor(protected store: S, events: string[], protected definition: Setup.SingleModel) {
     super([{ store, events }])
     this.features = this.definition.features.map(feature => this.buildFeatures(feature)).flat()
     this.features.forEach(feature => feature.render())
@@ -24,7 +19,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
 
   public destroy() {
     this.features.forEach(feature => feature.remove())
-    map.removePopup(this.id)
+    map.removePopup(this.store.id)
   }
 
   protected show() {
@@ -34,7 +29,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
 
   protected hide() {
     this.features.forEach(feature => feature.hide())
-    map.removePopup(this.id)
+    map.removePopup(this.store.id)
   }
 
   protected update() {
@@ -47,8 +42,8 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
   protected renderPopup() {
     if (this.definition.popup && this.store.get('visible')) {
       const { content } = this.definition.popup
-      map.removePopup(this.id)
-      map.addPopup(this.id, content, this.centerOfMass())
+      map.removePopup(this.store.id)
+      map.addPopup(this.store.id, content, this.centerOfMass())
     }
   }
 

@@ -3,14 +3,10 @@
   "title": "Demo",
   "unit": { "name": "km", "km": 1 },
   "root": {
-    "id": "root",
     "label": "Root",
-    "visible": true,
     "features": [
       {
-        "id": "root",
         "shape": "circle",
-        "visible": true,
         "radius": { "type": "relative", "real": 0.5 },
         "fill": { "color": "green" }
       }
@@ -23,11 +19,9 @@
   },
   "models": [
     {
-      "id": "object-1",
       "label": "Object 1",
       "features": [
         {
-          "id": "1",
           "shape": "circle",
           "radius": { "type": "relative", "real": 10 },
           "outline": { "color": "red" }
@@ -35,17 +29,14 @@
       ]
     },
     {
-      "id": "group-1",
       "label": "Group 1",
       "bearingControl": true,
       "models": [
         {
-          "id": "grouped-object-1",
           "label": "Grouped Object 1",
           "bearingControl": true,
           "features": [
             {
-              "id": "1",
               "shape": "circle",
               "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "blue" },
@@ -55,12 +46,10 @@
           ]
         },
         {
-          "id": "grouped-object-2",
           "label": "Grouped Object 2",
           "bearingControl": true,
           "features": [
             {
-              "id": "1",
               "shape": "circle",
               "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "blue" },
@@ -72,11 +61,9 @@
       ]
     },
     {
-      "id": "object-2",
       "label": "Object 2",
       "features": [
         {
-          "id": "1",
           "shape": "circle",
           "radius": { "type": "relative", "real": 5 },
           "outline": { "color": "orange" }
@@ -84,11 +71,9 @@
       ]
     },
     {
-      "id": "object-3",
       "label": "Object 3",
       "features": [
         {
-          "id": "1",
           "shape": "circle",
           "radius": { "type": "relative", "real": 15 },
           "outline": { "color": "purple" }
@@ -96,18 +81,15 @@
       ]
     },
     {
-      "id": "group-2",
       "label": "Group 2",
       "bearing": 90,
       "bearingControl": true,
       "models": [
         {
-          "id": "grouped-object-2-1",
           "label": "Grouped Object 1",
           "bearingControl": true,
           "features": [
             {
-              "id": "1",
               "shape": "circle",
               "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "yellow" },
@@ -117,12 +99,10 @@
           ]
         },
         {
-          "id": "grouped-object-2-2",
           "label": "Grouped Object 2",
           "bearingControl": true,
           "features": [
             {
-              "id": "1",
               "shape": "circle",
               "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "yellow" },

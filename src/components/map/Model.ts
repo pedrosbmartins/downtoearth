@@ -8,8 +8,8 @@ import { toLngLat } from '../../utils'
 import { MapComponent } from './MapComponent'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
-  constructor(id: string, store: ModelStore, definition: Setup.SingleModel) {
-    super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], definition)
+  constructor(store: ModelStore, definition: Setup.SingleModel) {
+    super(store, ['visible', 'center', 'sizeRatio', 'bearing'], definition)
   }
 
   onUpdate(event: AnyStoreEvent) {
@@ -40,7 +40,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
 
     const ratio = this.sizeRatio()
     if (!ratio) {
-      throw new Error(`size ratio not set for relative sized model ${this.id}`)
+      throw new Error(`size ratio not set for relative sized model ${this.definition.label}`)
     }
     const destination = turf.rhumbDestination(
       center,
