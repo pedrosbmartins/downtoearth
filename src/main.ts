@@ -34,7 +34,7 @@ const setups = {
 const app = new App()
 
 map.onLoad(() => {
-  const initialSetup: keyof typeof setups = 'alphaCentauri'
+  const initialSetup: keyof typeof setups = 'solarSystem'
   const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
   if ($setupOptionElement) {
     $setupOptionElement.setAttribute('selected', 'true')

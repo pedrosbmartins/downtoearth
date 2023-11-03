@@ -7,7 +7,7 @@ export const base: Setup = {
     id: 'root',
     label: 'Root',
     visible: true,
-    layers: [
+    features: [
       {
         id: 'root',
         shape: 'circle',
@@ -31,7 +31,7 @@ export const base: Setup = {
           id: '1',
           label: 'Object 1',
           visible: true,
-          layers: [
+          features: [
             {
               id: '1',
               shape: 'circle',
@@ -44,7 +44,7 @@ export const base: Setup = {
           id: '2',
           label: 'Object 2',
           visible: true,
-          layers: [
+          features: [
             {
               id: '2',
               shape: 'circle',

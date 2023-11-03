@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
 
-import { Layer, SingleModel } from '../../setups'
+import * as Setup from '../../setups'
 import { ModelData, ModelStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { LngLat } from '../../types'
@@ -8,7 +8,7 @@ import { toLngLat } from '../../utils'
 import { MapComponent } from './MapComponent'
 
 export class ModelMapComponent extends MapComponent<ModelStore> {
-  constructor(id: string, store: ModelStore, definition: SingleModel) {
+  constructor(id: string, store: ModelStore, definition: Setup.SingleModel) {
     super(id, store, ['visible', 'center', 'sizeRatio', 'bearing'], definition)
   }
 
@@ -31,7 +31,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
     return this.store.get('sizeRatio')
   }
 
-  protected center({ offset, bearing }: Layer): LngLat {
+  protected center({ offset, bearing }: Setup.Feature): LngLat {
     const center = this.store.get('center')
 
     if (!offset) {

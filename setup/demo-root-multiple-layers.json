@@ -6,7 +6,7 @@
     "id": "root",
     "label": "Root",
     "visible": true,
-    "layers": [
+    "features": [
       {
         "id": "1",
         "shape": "circle",

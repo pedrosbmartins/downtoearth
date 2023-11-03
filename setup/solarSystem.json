@@ -8,7 +8,7 @@
     "label": "Sun",
     "visible": true,
     "info": "The Sun is the star at the center of the Solar System. It is a massive, hot ball of plasma, inflated and heated by nuclear fusion reactions at its core.",
-    "layers": [
+    "features": [
       {
         "id": "sun",
         "shape": "circle",
@@ -39,7 +39,7 @@
           "label": "Mercury",
           "visible": true,
           "icon": "mercury",
-          "layers": [
+          "features": [
             {
               "id": "mercury-orbit",
               "shape": "circle",
@@ -55,7 +55,7 @@
           "label": "Venus",
           "visible": true,
           "icon": "venus",
-          "layers": [
+          "features": [
             {
               "id": "venus-orbit",
               "shape": "circle",
@@ -72,7 +72,7 @@
           "visible": true,
           "icon": "earth",
           "info": "The Earth is the third planet from the Sun and the only astronomical object known to harbor life.",
-          "layers": [
+          "features": [
             {
               "id": "earth-orbit",
               "shape": "circle",
@@ -88,7 +88,7 @@
           "label": "Mars",
           "visible": true,
           "icon": "mars",
-          "layers": [
+          "features": [
             {
               "id": "mars-orbit",
               "shape": "circle",
@@ -104,7 +104,7 @@
           "label": "Asteroid Belt",
           "visible": true,
           "icon": "asteroid",
-          "layers": [
+          "features": [
             {
               "id": "asteroid-orbit",
               "shape": "circle",
@@ -120,7 +120,7 @@
           "label": "Jupiter",
           "visible": true,
           "icon": "jupiter",
-          "layers": [
+          "features": [
             {
               "id": "jupiter-orbit",
               "shape": "circle",
@@ -136,7 +136,7 @@
           "label": "Saturn",
           "visible": true,
           "icon": "saturn",
-          "layers": [
+          "features": [
             {
               "id": "saturn-orbit",
               "shape": "circle",
@@ -152,7 +152,7 @@
           "label": "Uranus",
           "visible": true,
           "icon": "uranus",
-          "layers": [
+          "features": [
             {
               "id": "uranus-orbit",
               "shape": "circle",
@@ -168,7 +168,7 @@
           "label": "Neptune",
           "visible": true,
           "icon": "neptune",
-          "layers": [
+          "features": [
             {
               "id": "neptune-orbit",
               "shape": "circle",

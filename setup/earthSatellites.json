@@ -6,7 +6,7 @@
     "icon": "earth",
     "label": "Earth",
     "visible": true,
-    "layers": [
+    "features": [
       {
         "id": "earth-fill",
         "shape": "circle",
@@ -33,7 +33,7 @@
           "label": "International Space Station",
           "visible": true,
           "icon": "iss",
-          "layers": [
+          "features": [
             {
               "id": "iss-orbit",
               "shape": "circle",
@@ -48,7 +48,7 @@
           "label": "Hubble Space Telescope",
           "visible": true,
           "icon": "hubble",
-          "layers": [
+          "features": [
             {
               "id": "hubble-orbit",
               "shape": "circle",
@@ -63,7 +63,7 @@
           "label": "Sputnik 1 (Спутник-1)",
           "visible": true,
           "icon": "sputnik",
-          "layers": [
+          "features": [
             {
               "id": "sputnik-orbit",
               "shape": "circle",
@@ -78,7 +78,7 @@
           "label": "Moon",
           "visible": true,
           "icon": "moon",
-          "layers": [
+          "features": [
             {
               "id": "moon-orbit",
               "shape": "circle",
@@ -96,7 +96,7 @@
           "icon": "jwst",
           "bearingControl": true,
           "info": "The James Webb Space Telescope is technically not an Earth satellite. It is in a solar orbit near the Sun-Earth L2 Lagrange point.",
-          "layers": [
+          "features": [
             {
               "id": "jwst",
               "shape": "circle",

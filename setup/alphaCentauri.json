@@ -8,7 +8,7 @@
     "label": "Sun",
     "popup": { "content": "Sun" },
     "visible": true,
-    "layers": [
+    "features": [
       {
         "id": "sun",
         "shape": "circle",
@@ -39,7 +39,7 @@
           "popup": { "content": "Proxima Centauri" },
           "visible": true,
           "icon": "star",
-          "layers": [
+          "features": [
             {
               "id": "proxima-centauri",
               "shape": "circle",
@@ -57,7 +57,7 @@
           "popup": { "content": "Alpha Centauri B" },
           "visible": true,
           "icon": "star",
-          "layers": [
+          "features": [
             {
               "id": "alpha-centauri-b",
               "shape": "circle",
@@ -75,7 +75,7 @@
           "popup": { "content": "Alpha Centauri A" },
           "visible": true,
           "icon": "star",
-          "layers": [
+          "features": [
             {
               "id": "alpha-centauri-a",
               "shape": "circle",

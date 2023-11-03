@@ -3,7 +3,7 @@ import { RootMapComponent } from '../components/map'
 import { INITIAL_CITY } from '../constants'
 import { reverseGeocoding } from '../geocoding'
 import map from '../initializers/map'
-import { Root } from '../setups'
+import * as Setup from '../setups'
 import { RootStore } from '../store'
 import { LngLat } from '../types'
 import { $sidebar } from '../ui'
@@ -15,7 +15,7 @@ export class RootFactory extends EventTarget {
   private $ui: HTMLElement
   private $geocoderInput: HTMLInputElement | undefined
 
-  constructor(private definition: Root, private currentLngLat?: LngLat) {
+  constructor(private definition: Setup.Root, private currentLngLat?: LngLat) {
     super()
 
     this.store = new RootStore(this.definition, this.currentLngLat)

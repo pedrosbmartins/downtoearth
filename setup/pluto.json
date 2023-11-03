@@ -8,7 +8,7 @@
     "label": "Sun",
     "popup": { "content": "Sun" },
     "visible": true,
-    "layers": [
+    "features": [
       {
         "id": "sun",
         "shape": "circle",
@@ -30,7 +30,7 @@
       "label": "Pluto",
       "visible": true,
       "icon": "pluto",
-      "layers": [
+      "features": [
         {
           "id": "pluto-orbit",
           "shape": "ellipse",

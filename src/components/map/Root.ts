@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
 
-import { Layer, Root } from '../../setups'
+import * as Setup from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
 import { LngLat } from '../../types'
@@ -8,7 +8,7 @@ import { toLngLat } from '../../utils'
 import { MapComponent } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
-  constructor(id: string, store: RootStore, definition: Root) {
+  constructor(id: string, store: RootStore, definition: Setup.Root) {
     super(id, store, ['visible', 'size', 'center'], definition)
   }
 
@@ -26,7 +26,7 @@ export class RootMapComponent extends MapComponent<RootStore> {
     }
   }
 
-  protected center({ offset, bearing }: Layer): LngLat {
+  protected center({ offset, bearing }: Setup.Feature): LngLat {
     const center = this.store.get('center')
 
     if (!offset) {

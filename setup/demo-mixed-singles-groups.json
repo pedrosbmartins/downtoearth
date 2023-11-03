@@ -6,7 +6,7 @@
     "id": "root",
     "label": "Root",
     "visible": true,
-    "layers": [
+    "features": [
       {
         "id": "root",
         "shape": "circle",
@@ -25,7 +25,7 @@
     {
       "id": "object-1",
       "label": "Object 1",
-      "layers": [
+      "features": [
         {
           "id": "1",
           "shape": "circle",
@@ -43,7 +43,7 @@
           "id": "grouped-object-1",
           "label": "Grouped Object 1",
           "bearingControl": true,
-          "layers": [
+          "features": [
             {
               "id": "1",
               "shape": "circle",
@@ -58,7 +58,7 @@
           "id": "grouped-object-2",
           "label": "Grouped Object 2",
           "bearingControl": true,
-          "layers": [
+          "features": [
             {
               "id": "1",
               "shape": "circle",
@@ -74,7 +74,7 @@
     {
       "id": "object-2",
       "label": "Object 2",
-      "layers": [
+      "features": [
         {
           "id": "1",
           "shape": "circle",
@@ -86,7 +86,7 @@
     {
       "id": "object-3",
       "label": "Object 3",
-      "layers": [
+      "features": [
         {
           "id": "1",
           "shape": "circle",
@@ -105,7 +105,7 @@
           "id": "grouped-object-2-1",
           "label": "Grouped Object 1",
           "bearingControl": true,
-          "layers": [
+          "features": [
             {
               "id": "1",
               "shape": "circle",
@@ -120,7 +120,7 @@
           "id": "grouped-object-2-2",
           "label": "Grouped Object 2",
           "bearingControl": true,
-          "layers": [
+          "features": [
             {
               "id": "1",
               "shape": "circle",

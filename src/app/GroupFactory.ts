@@ -1,6 +1,6 @@
 import { SidebarItem } from '../components/dom'
 import map from '../initializers/map'
-import { GroupModel } from '../setups'
+import * as Setup from '../setups'
 import { GroupStore, RootStore } from '../store'
 import { $sidebar } from '../ui'
 import { mergeBoundingBoxes } from '../utils'
@@ -11,7 +11,7 @@ export class GroupFactory {
   public $ui: HTMLElement
   public models: ModelFactory[]
 
-  constructor(private definition: GroupModel, private rootStore: RootStore) {
+  constructor(private definition: Setup.GroupModel, private rootStore: RootStore) {
     this.store = new GroupStore(this.definition, this.rootStore)
     this.$ui = this.buildUI()
     this.models = this.buildModels()

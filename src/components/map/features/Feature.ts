@@ -1,5 +1,5 @@
 import { BaseMap } from '../../../map'
-import { LayerBase } from '../../../setups'
+import * as Setup from '../../../setups'
 import { LngLat } from '../../../types'
 
 export interface FeatureState {
@@ -12,7 +12,7 @@ export abstract class Feature {
   public id: string
 
   constructor(
-    public layerDefinition: LayerBase,
+    public definition: Setup.FeatureBase,
     public state: FeatureState,
     protected mapInstance: BaseMap
   ) {

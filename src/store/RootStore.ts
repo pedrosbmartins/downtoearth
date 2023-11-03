@@ -1,6 +1,6 @@
 import { BaseModelData } from '.'
 import { INITIAL_CENTER } from '../constants'
-import { isRelativeSize, Layer, Root } from '../setups'
+import * as Setup from '../setups'
 import { LngLat } from '../types'
 import { AnyStoreEvent, Store } from './core'
 
@@ -9,10 +9,10 @@ export interface RootData extends BaseModelData<'root'> {
 }
 
 export class RootStore extends Store<RootData> {
-  constructor(definition: Root, center?: LngLat) {
-    const { visible, layers, sizePresets } = definition
-    const mainLayer = layers[0]
-    const realSize = RootStore.realSize(mainLayer)
+  constructor(definition: Setup.Root, center?: LngLat) {
+    const { visible, features, sizePresets } = definition
+    const mainFeature = features[0]
+    const realSize = RootStore.realSize(mainFeature)
     const renderedSize = (sizePresets.find(sp => sp.default) ?? sizePresets[0]).km / 2
     super('root', {
       type: 'root',
@@ -25,9 +25,9 @@ export class RootStore extends Store<RootData> {
     })
   }
 
-  public static realSize(layer: Layer) {
-    const size = layer.shape === 'circle' ? layer.radius : layer.axes.semiMajor
-    return isRelativeSize(size) ? size.real : size
+  public static realSize(feature: Setup.Feature) {
+    const size = feature.shape === 'circle' ? feature.radius : feature.axes.semiMajor
+    return Setup.isRelativeSize(size) ? size.real : size
   }
 
   public sizeRatio() {

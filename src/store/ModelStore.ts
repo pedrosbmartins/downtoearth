@@ -1,6 +1,6 @@
 import { BaseModelData, GroupStore, RootData, RootStore } from '.'
 import { INITIAL_CENTER } from '../constants'
-import { SingleModel } from '../setups'
+import * as Setup from '../setups'
 import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store } from './core'
 import { GroupData } from './GroupStore'
 
@@ -12,7 +12,11 @@ export class ModelStore extends Store<ModelData> {
   private rootStore: RootStore
   private groupStore: GroupStore | undefined
 
-  constructor(model: SingleModel, rootStore: RootStore, groupStore: GroupStore | undefined) {
+  constructor(
+    definition: Setup.SingleModel,
+    rootStore: RootStore,
+    groupStore: GroupStore | undefined
+  ) {
     const observables: AnyObservable[] = []
     const rootObservables: Array<keyof RootData> = ['size']
     if (groupStore) {
@@ -23,11 +27,11 @@ export class ModelStore extends Store<ModelData> {
     observables.push(new Observable(rootStore, rootObservables))
     const data: ModelData = {
       type: 'model',
-      visible: model.visible ?? true,
+      visible: definition.visible ?? true,
       sizeRatio: rootStore?.sizeRatio() ?? 1.0,
       center: groupStore?.get('center') ?? rootStore?.get('center') ?? INITIAL_CENTER
     }
-    super(`model-${model.id}`, data, observables)
+    super(`model-${definition.id}`, data, observables)
     this.rootStore = rootStore
     this.groupStore = groupStore
   }

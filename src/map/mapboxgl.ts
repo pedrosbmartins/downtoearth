@@ -4,7 +4,7 @@ import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
 import { BaseMap, ClickEventHandler, EventHandler, GeolocateEventHandler } from '.'
 import { Feature, LineFeature } from '../components/map/features'
 import { ShapeFeature } from '../components/map/features/shapes'
-import { ShapeLayer } from '../setups'
+import * as Setup from '../setups'
 import { BoundingBox, LngLat } from '../types'
 import { toLngLat } from '../utils'
 
@@ -170,15 +170,15 @@ interface MapResources {
   layers: FeatureLayer[]
 }
 
-type ShapeProps = ShapeLayer & { visible?: boolean }
+type ShapeProps = Setup.ShapeFeature & { visible?: boolean }
 
 class Shape {
   public static build(
     id: string,
-    feature: ShapeFeature<ShapeLayer>,
+    feature: ShapeFeature<Setup.ShapeFeature>,
     options?: { visible?: boolean }
   ): MapResources {
-    const props: ShapeProps = { ...feature.layerDefinition, ...options }
+    const props: ShapeProps = { ...feature.definition, ...options }
     const sourceId = `${id}-main`
     return {
       source: { id: sourceId, content: { type: 'geojson' as const, data: feature.data() } },
@@ -276,15 +276,18 @@ class LineToRoot {
     const sourceId = `${id}-rootline`
     return {
       source: { id: sourceId, content: { type: 'geojson' as const, data: feature.data() } },
-      layers: [LineToRoot.layer(sourceId)]
+      layers: [LineToRoot.layer(sourceId, options?.visible)]
     }
   }
 
-  public static layer(sourceId: string): LineLayer {
+  public static layer(sourceId: string, visible: boolean = true): LineLayer {
     return {
       id: sourceId,
       type: 'line',
       source: sourceId,
+      layout: {
+        visibility: visible ? 'visible' : 'none'
+      },
       paint: {
         'line-color': '#555',
         'line-width': 2

@@ -1,4 +1,4 @@
-import { SizePreset } from '../../setups'
+import * as Setup from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { matchEvent } from '../../store/core'
 import { ComponentProps, DOMComponent } from './DOMComponent'
@@ -9,7 +9,7 @@ export function SizePresets(props: Props, store: RootStore) {
 }
 
 interface Props extends ComponentProps<HTMLDivElement, RootData> {
-  presets?: SizePreset[]
+  presets?: Setup.SizePreset[]
 }
 
 class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props, RootData> {

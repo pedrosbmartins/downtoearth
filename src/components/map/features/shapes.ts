@@ -1,16 +1,16 @@
 import * as turf from '@turf/turf'
 import { BaseMap } from '../../../map'
-import { CircleLayer, EllipseLayer, ShapeLayer, Size, isAbsluteSize } from '../../../setups'
+import * as Setup from '../../../setups'
 import { toLngLat } from '../../../utils'
 import { Feature, FeatureState } from './Feature'
 
-export abstract class ShapeFeature<L extends ShapeLayer> extends Feature {
-  constructor(public layerDefinition: L, state: FeatureState, mapInstance: BaseMap) {
-    super(layerDefinition, state, mapInstance)
+export abstract class ShapeFeature<L extends Setup.ShapeFeature> extends Feature {
+  constructor(public definition: L, state: FeatureState, mapInstance: BaseMap) {
+    super(definition, state, mapInstance)
   }
 }
 
-export class CircleFeature extends ShapeFeature<CircleLayer> {
+export class CircleFeature extends ShapeFeature<Setup.CircleFeature> {
   private renderOptions = { steps: 80, units: 'kilometers' as const }
 
   public data() {
@@ -18,8 +18,8 @@ export class CircleFeature extends ShapeFeature<CircleLayer> {
   }
 
   private size(ratio: number) {
-    const { radius } = this.layerDefinition
-    if (isAbsluteSize(radius)) {
+    const { radius } = this.definition
+    if (Setup.isAbsluteSize(radius)) {
       return radius
     } else {
       return ratio * radius.real
@@ -32,7 +32,7 @@ interface EllipseAxes {
   semiMinor: number
 }
 
-export class EllipseFeature extends ShapeFeature<EllipseLayer> {
+export class EllipseFeature extends ShapeFeature<Setup.EllipseFeature> {
   private renderOptions = { steps: 180, units: 'kilometers' as const }
 
   public data() {
@@ -41,12 +41,12 @@ export class EllipseFeature extends ShapeFeature<EllipseLayer> {
   }
 
   private axes(): EllipseAxes {
-    const { semiMajor, semiMinor } = this.layerDefinition.axes
+    const { semiMajor, semiMinor } = this.definition.axes
     return { semiMajor: this.size(semiMajor), semiMinor: this.size(semiMinor) }
   }
 
-  private size(axis: Size) {
-    if (isAbsluteSize(axis)) {
+  private size(axis: Setup.Size) {
+    if (Setup.isAbsluteSize(axis)) {
       return axis
     } else {
       return this.state.sizeRatio * axis.real

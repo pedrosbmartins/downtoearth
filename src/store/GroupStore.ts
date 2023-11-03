@@ -1,7 +1,7 @@
 import * as turf from '@turf/turf'
 
 import { BaseModelData, RootData, RootStore } from '.'
-import { GroupModel } from '../setups'
+import * as Setup from '../setups'
 import { LngLat } from '../types'
 import { toLngLat } from '../utils'
 import { AnyStoreEvent, Observable, Store, eventField, matchEvent } from './core'
@@ -15,17 +15,17 @@ export interface GroupData extends BaseModelData<'group'> {
 export class GroupStore extends Store<GroupData> {
   private rootStore: RootStore
 
-  constructor(group: GroupModel, rootStore: RootStore) {
+  constructor(definition: Setup.GroupModel, rootStore: RootStore) {
     const data: GroupData = {
       type: 'group',
-      visible: group.visible || true,
-      bearing: group.bearing,
-      offset: GroupStore.offset(group, rootStore),
-      center: GroupStore.center(group, rootStore),
+      visible: definition.visible || true,
+      bearing: definition.bearing,
+      offset: GroupStore.offset(definition, rootStore),
+      center: GroupStore.center(definition, rootStore),
       sizeRatio: GroupStore.sizeRatio(rootStore)
     }
     const observables = [new Observable(rootStore, ['size', 'center'])]
-    super(`group-${group.id}`, data, observables)
+    super(`group-${definition.id}`, data, observables)
     this.rootStore = rootStore
   }
 
@@ -87,7 +87,7 @@ export class GroupStore extends Store<GroupData> {
     return rootStore.sizeRatio() ?? 1.0
   }
 
-  private static center(group: GroupModel, rootStore: RootStore): LngLat {
+  private static center(group: Setup.GroupModel, rootStore: RootStore): LngLat {
     const offset = GroupStore.offset(group, rootStore)
     return GroupStore.calculateCenter(rootStore.get('center'), group.bearing, offset)
   }

@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
 import map from '../../initializers/map'
-import { CircleLayer, EllipseLayer, Layer, LayerBase, SingleModel } from '../../setups'
+import * as Setup from '../../setups'
 import { BaseModelData } from '../../store'
 import { Store, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
@@ -14,10 +14,10 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     protected id: string,
     protected store: S,
     events: string[],
-    protected definition: SingleModel
+    protected definition: Setup.SingleModel
   ) {
     super([{ store, events }])
-    this.features = this.definition.layers.map(layer => this.buildFeatures(layer)).flat()
+    this.features = this.definition.features.map(feature => this.buildFeatures(feature)).flat()
     this.features.forEach(feature => feature.render())
     this.renderPopup()
   }
@@ -39,7 +39,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
 
   protected update() {
     this.features.forEach(feature => {
-      feature.update(this.featureState(feature.layerDefinition))
+      feature.update(this.featureState(feature.definition))
     })
     this.renderPopup()
   }
@@ -52,7 +52,7 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     }
   }
 
-  private buildFeatures(definition: Layer) {
+  private buildFeatures(definition: Setup.Feature) {
     const isCircle = definition.shape === 'circle'
     const shape = isCircle ? this.buildCircle(definition) : this.buildEllipse(definition)
     const features: Feature[] = [shape]
@@ -62,17 +62,17 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     return features
   }
 
-  private buildCircle(definition: CircleLayer) {
+  private buildCircle(definition: Setup.CircleFeature) {
     return new CircleFeature(definition, this.featureState(definition), map)
   }
 
-  private buildEllipse(definition: EllipseLayer) {
+  private buildEllipse(definition: Setup.EllipseFeature) {
     return new EllipseFeature(definition, this.featureState(definition), map)
   }
 
-  private featureState(layer: LayerBase) {
+  private featureState(definition: Setup.FeatureBase) {
     return {
-      center: this.center(layer),
+      center: this.center(definition),
       rootCenter: this.rootCenter(),
       sizeRatio: this.sizeRatio()
     }
@@ -86,11 +86,11 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
   }
 
   public centerOfMass(): LngLat {
-    const allCenters = turf.points(this.definition.layers.map(layer => this.center(layer)))
+    const allCenters = turf.points(this.definition.features.map(feature => this.center(feature)))
     return toLngLat(turf.center(allCenters).geometry.coordinates)
   }
 
   protected abstract sizeRatio(): number
-  protected abstract center(definition: LayerBase): LngLat
+  protected abstract center(definition: Setup.FeatureBase): LngLat
   protected abstract rootCenter(): LngLat
 }

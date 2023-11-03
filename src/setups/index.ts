@@ -29,7 +29,7 @@ export interface GroupModel extends BaseModel {
 }
 
 export interface SingleModel extends BaseModel {
-  layers: Layer[]
+  features: Feature[]
   icon?: string
 }
 
@@ -46,7 +46,7 @@ export interface SizePreset {
   default?: boolean
 }
 
-export interface LayerBase {
+export interface FeatureBase {
   id: string
   fill?: Fill
   outline?: Outline
@@ -56,21 +56,21 @@ export interface LayerBase {
   drawLineToRoot?: boolean
 }
 
-export interface ShapeLayer extends LayerBase {
+export interface ShapeFeature extends FeatureBase {
   shape: 'circle' | 'ellipse'
 }
 
-export interface CircleLayer extends LayerBase {
+export interface CircleFeature extends ShapeFeature {
   shape: 'circle'
   radius: Size
 }
 
-export interface EllipseLayer extends LayerBase {
+export interface EllipseFeature extends ShapeFeature {
   shape: 'ellipse'
   axes: { semiMajor: Size; semiMinor: Size }
 }
 
-export type Layer = CircleLayer | EllipseLayer
+export type Feature = CircleFeature | EllipseFeature
 
 export type Size = AbsoluteSize | RelativeSize
 
@@ -105,10 +105,10 @@ export interface Unit {
   km: number
 }
 
-export function hasRelativeSize(layer: Layer) {
+export function hasRelativeSize(feature: Feature) {
   return (
-    (layer.shape === 'circle' && isRelativeSize(layer.radius)) ||
-    (layer.shape === 'ellipse' && isRelativeSize(layer.axes.semiMajor))
+    (feature.shape === 'circle' && isRelativeSize(feature.radius)) ||
+    (feature.shape === 'ellipse' && isRelativeSize(feature.axes.semiMajor))
   )
 }
 

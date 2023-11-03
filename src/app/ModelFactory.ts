@@ -1,7 +1,7 @@
 import { SidebarItem } from '../components/dom'
 import { ModelMapComponent } from '../components/map'
 import map from '../initializers/map'
-import { SingleModel } from '../setups'
+import * as Setup from '../setups'
 import { GroupStore, ModelStore, RootStore } from '../store'
 
 export class ModelFactory {
@@ -9,7 +9,7 @@ export class ModelFactory {
   public mapComponent: ModelMapComponent
 
   constructor(
-    private definition: SingleModel,
+    private definition: Setup.SingleModel,
     private $container: HTMLElement,
     private rootStore: RootStore,
     private groupStore?: GroupStore
