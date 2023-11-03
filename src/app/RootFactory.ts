@@ -1,7 +1,7 @@
 import { SidebarItem, SizePresets } from '../components/dom'
 import { RootMapComponent } from '../components/map'
-import { INITIAL_CITY } from '../constants'
 import { reverseGeocoding } from '../geocoding'
+import { initialCenter } from '../initializers/center'
 import map from '../initializers/map'
 import * as Setup from '../setups'
 import { RootStore } from '../store'
@@ -77,10 +77,8 @@ export class RootFactory extends EventTarget {
       this.store.set({ center })
     })
     this.$geocoderInput = $geocoderInput
-    let locationText = `${INITIAL_CITY.name}, ${INITIAL_CITY.country}`
-    if (currentLngLat) {
-      locationText = (await reverseGeocoding(currentLngLat)) ?? ''
-    }
+    const center = currentLngLat ?? initialCenter
+    const locationText = (await reverseGeocoding(center)) ?? center.toString()
     $geocoderInput.value = locationText
   }
 

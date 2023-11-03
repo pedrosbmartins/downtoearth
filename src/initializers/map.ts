@@ -1,9 +1,7 @@
-import { INITIAL_CENTER, MAPBOXGL_ACCESS_TOKEN } from '../constants'
+import { MAPBOXGL_ACCESS_TOKEN } from '../constants'
 import * as MapBoxGL from '../map/mapboxgl'
-import { setupFromURL } from './setupFromURL'
+import { initialCenter } from './center'
 
-const center = setupFromURL ? setupFromURL.center : INITIAL_CENTER
-
-const map = new MapBoxGL.Map(center, { accessToken: MAPBOXGL_ACCESS_TOKEN })
+const map = new MapBoxGL.Map(initialCenter, { accessToken: MAPBOXGL_ACCESS_TOKEN })
 
 export default map

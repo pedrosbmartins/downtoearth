@@ -1,5 +1,5 @@
 import { BaseModelData, GroupStore, RootData, RootStore } from '.'
-import { INITIAL_CENTER } from '../constants'
+import { initialCenter } from '../initializers/center'
 import * as Setup from '../setups'
 import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store } from './core'
 import { GroupData } from './GroupStore'
@@ -29,7 +29,7 @@ export class ModelStore extends Store<ModelData> {
       type: 'model',
       visible: definition.visible ?? true,
       sizeRatio: rootStore?.sizeRatio() ?? 1.0,
-      center: groupStore?.get('center') ?? rootStore?.get('center') ?? INITIAL_CENTER
+      center: groupStore?.get('center') ?? rootStore?.get('center') ?? initialCenter
     }
     super(`model-${definition.id}`, data, observables)
     this.rootStore = rootStore

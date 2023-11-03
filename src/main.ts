@@ -6,7 +6,7 @@ import solarSystem from '../setup/solarSystem.json'
 import starSizes from '../setup/starSizes.json'
 import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import App from './App'
-import { INITIAL_CENTER } from './constants'
+import { initialCenter } from './initializers/center'
 import map from './initializers/map'
 import { setupFromURL } from './initializers/setupFromURL'
 import { Setup, ShareableSetup } from './setups'
@@ -102,7 +102,7 @@ function activateUIForSetupFromURL(title: string) {
 function generateShareableLink() {
   const { setup, currentLngLat } = app
   if (!setup) return
-  const shareableSetup: ShareableSetup = { setup, center: currentLngLat ?? INITIAL_CENTER }
+  const shareableSetup: ShareableSetup = { setup, center: currentLngLat ?? initialCenter }
   const encodedValue = Buffer.from(JSON.stringify(shareableSetup)).toString('base64')
   const encodedValueURLSafe = encodedValue.replace('/', '_').replace('+', '-').replace('=', '')
   const { origin, pathname } = window.location

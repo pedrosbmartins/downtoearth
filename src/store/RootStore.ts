@@ -1,5 +1,5 @@
 import { BaseModelData } from '.'
-import { INITIAL_CENTER } from '../constants'
+import { initialCenter } from '../initializers/center'
 import * as Setup from '../setups'
 import { LngLat } from '../types'
 import { AnyStoreEvent, Store } from './core'
@@ -17,7 +17,7 @@ export class RootStore extends Store<RootData> {
     super('root', {
       type: 'root',
       visible: visible ?? true,
-      center: center ?? INITIAL_CENTER,
+      center: center ?? initialCenter,
       size: {
         real: realSize,
         rendered: renderedSize
