@@ -1,11 +1,11 @@
-import { GroupFactory } from './app/GroupFactory'
-import { ModelFactory } from './app/ModelFactory'
-import { RootFactory } from './app/RootFactory'
-import { Setup, isGroup } from './setups'
-import { LngLat } from './types'
-import { $sidebar } from './ui'
+import { Setup, isGroup } from '../setups'
+import { LngLat } from '../types'
+import { $sidebar } from '../ui'
+import { GroupFactory } from './GroupFactory'
+import { ModelFactory } from './ModelFactory'
+import { RootFactory } from './RootFactory'
 
-export default class App extends EventTarget {
+export class App extends EventTarget {
   private _setup: Setup | undefined
   private _currentLngLat: LngLat | undefined
 
