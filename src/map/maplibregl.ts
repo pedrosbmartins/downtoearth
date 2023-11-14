@@ -1,6 +1,13 @@
-import mapboxgl, { AnyLayer, AnySourceData, FillLayer, LineLayer, SymbolLayer } from 'mapbox-gl'
+import maplibregl, {
+  FillLayerSpecification,
+  GeoJSONSource,
+  LayerSpecification,
+  LineLayerSpecification,
+  SourceSpecification,
+  SymbolLayerSpecification
+} from 'maplibre-gl'
 
-import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder'
+import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import { BaseMap, ClickEventHandler, EventHandler, GeolocateEventHandler } from '.'
 import { Feature, LineFeature } from '../components/map/features'
 import { ShapeFeature } from '../components/map/features/shapes'
@@ -8,28 +15,25 @@ import * as Setup from '../setups'
 import { BoundingBox, LngLat } from '../types'
 import { toLngLat } from '../utils'
 
-interface Props {
-  accessToken: string
-}
+const MAPTILER_TILES_URL =
+  'https://api.maptiler.com/maps/e9306780-349b-4a26-aea6-04e753c60595/style.json?key=ueYtYJJTYP1Dn4zN9eXr'
 
 export class Map extends BaseMap {
-  public instance: mapboxgl.Map
-  public geolocateControl: mapboxgl.GeolocateControl
+  public instance: maplibregl.Map
+  public geolocateControl: maplibregl.GeolocateControl
 
   public features: Record<string, { sourceIds: string[]; layerIds: string[] }> = {}
-  private popups: Record<string, mapboxgl.Popup> = {}
+  private popups: Record<string, maplibregl.Popup> = {}
 
-  constructor(protected center: LngLat, private props: Props) {
+  constructor(protected center: LngLat) {
     super(center)
-    this.instance = new mapboxgl.Map({
-      accessToken: this.props.accessToken,
+    this.instance = new maplibregl.Map({
       center: this.center,
-      style: 'mapbox://styles/pedrosbmartins/ckxorrc2q6hzp15p9b9kojnvj',
+      style: MAPTILER_TILES_URL,
       container: 'map',
-      projection: { name: 'globe' },
       zoom: 10
     })
-    this.geolocateControl = new mapboxgl.GeolocateControl({
+    this.geolocateControl = new maplibregl.GeolocateControl({
       positionOptions: { enableHighAccuracy: true },
       showUserLocation: false
     })
@@ -63,8 +67,8 @@ export class Map extends BaseMap {
 
   public updateFeature(id: string, data: GeoJSON.Feature) {
     this.features[id].sourceIds.forEach(sourceId => {
-      const source = this.instance.getSource(sourceId)
-      if (source.type !== 'geojson') return
+      const source = this.instance.getSource(sourceId) as GeoJSONSource
+      if (source === undefined || source.type !== 'geojson') return
       source.setData(data)
     })
   }
@@ -99,7 +103,7 @@ export class Map extends BaseMap {
   }
 
   public addPopup(id: string, content: string, center: LngLat): void {
-    this.popups[id] = new mapboxgl.Popup({ closeButton: false })
+    this.popups[id] = new maplibregl.Popup({ closeButton: false })
       .setLngLat(center)
       .setText(content)
       .addTo(this.instance)
@@ -119,20 +123,53 @@ export class Map extends BaseMap {
   }
 
   public buildGeocoder($container: HTMLElement, handler: (center: LngLat) => void) {
-    const geocoder = new MapboxGeocoder({
-      accessToken: this.props.accessToken,
-      mapboxgl: mapboxgl,
+    const geocoderApi = {
+      forwardGeocode: async (config: any) => {
+        const features = []
+        try {
+          const request = `https://nominatim.openstreetmap.org/search?q=${config.query}&format=geojson&polygon_geojson=1&addressdetails=1`
+          const response = await fetch(request)
+          const geojson = await response.json()
+          for (const feature of geojson.features) {
+            const center = [
+              feature.bbox[0] + (feature.bbox[2] - feature.bbox[0]) / 2,
+              feature.bbox[1] + (feature.bbox[3] - feature.bbox[1]) / 2
+            ]
+            const point = {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: center
+              },
+              place_name: feature.properties.display_name,
+              properties: feature.properties,
+              text: feature.properties.display_name,
+              place_type: ['place'],
+              center
+            }
+            features.push(point)
+          }
+        } catch (e) {
+          console.error(`Failed to forwardGeocode with error: ${e}`)
+        }
+
+        return {
+          features
+        }
+      }
+    }
+    const geocoder = new MaplibreGeocoder(geocoderApi, {
       marker: false,
       flyTo: false,
       trackProximity: false
     })
-    geocoder.on('result', (event: { result: Result }) => {
-      handler(toLngLat(event.result.center))
+    geocoder.on('result', (event: { result: { center: LngLat } }) => {
+      handler(event.result.center)
     })
     const $geocoderElement = $container.querySelector<HTMLElement>('#geocoder')!
     $geocoderElement.appendChild(geocoder.onAdd(this.instance))
     const $geocoderInput = $geocoderElement.querySelector<HTMLInputElement>(
-      '.mapboxgl-ctrl-geocoder--input'
+      '.maplibregl-ctrl-geocoder--input'
     )!
     return $geocoderInput
   }
@@ -160,10 +197,10 @@ export class Map extends BaseMap {
 
 interface FeatureSource {
   id: string
-  content: AnySourceData
+  content: SourceSpecification
 }
 
-type FeatureLayer = AnyLayer & { id: string }
+type FeatureLayer = LayerSpecification & { id: string }
 
 interface MapResources {
   source: FeatureSource
@@ -186,7 +223,7 @@ class Shape {
     }
   }
 
-  private static layers(sourceId: string, props: ShapeProps): AnyLayer[] {
+  private static layers(sourceId: string, props: ShapeProps): LayerSpecification[] {
     return [
       ...this.fillLayer(sourceId, props),
       ...this.outlineLayer(sourceId, props),
@@ -195,7 +232,7 @@ class Shape {
     ]
   }
 
-  private static fillLayer(sourceId: string, props: ShapeProps): FillLayer[] {
+  private static fillLayer(sourceId: string, props: ShapeProps): FillLayerSpecification[] {
     if (!props.fill) return []
     return [
       {
@@ -213,7 +250,7 @@ class Shape {
     ]
   }
 
-  private static outlineLayer(sourceId: string, props: ShapeProps): LineLayer[] {
+  private static outlineLayer(sourceId: string, props: ShapeProps): LineLayerSpecification[] {
     if (!props.outline) return []
     return [
       {
@@ -231,7 +268,7 @@ class Shape {
     ]
   }
 
-  private static labelLayer(sourceId: string, props: ShapeProps): SymbolLayer[] {
+  private static labelLayer(sourceId: string, props: ShapeProps): SymbolLayerSpecification[] {
     if (!props.label || props.label.position !== 'center') return []
     return [
       {
@@ -249,7 +286,10 @@ class Shape {
     ]
   }
 
-  private static outlineLabelLayer(sourceId: string, props: ShapeProps): SymbolLayer[] {
+  private static outlineLabelLayer(
+    sourceId: string,
+    props: ShapeProps
+  ): SymbolLayerSpecification[] {
     if (!props.label || props.label.position !== 'outline') return []
     return [
       {
@@ -280,7 +320,7 @@ class LineToRoot {
     }
   }
 
-  public static layer(sourceId: string, visible: boolean = true): LineLayer {
+  public static layer(sourceId: string, visible: boolean = true): LineLayerSpecification {
     return {
       id: sourceId,
       type: 'line',

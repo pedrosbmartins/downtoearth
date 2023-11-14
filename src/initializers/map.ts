@@ -1,7 +1,6 @@
-import { MAPBOXGL_ACCESS_TOKEN } from '../constants'
-import * as MapBoxGL from '../map/mapboxgl'
+import * as MapLibreGL from '../map/maplibregl'
 import { initialCenter } from './center'
 
-const map = new MapBoxGL.Map(initialCenter, { accessToken: MAPBOXGL_ACCESS_TOKEN })
+const map = new MapLibreGL.Map(initialCenter)
 
 export default map

@@ -1,2 +1,0 @@
-export const MAPBOXGL_ACCESS_TOKEN =
-  'pk.eyJ1IjoicGVkcm9zYm1hcnRpbnMiLCJhIjoiY2tiazY3bDM3MDQ2MzJwbWUzdmFqZXp0dSJ9.wyh0b-cWtDFg7MhOuHJwhg'

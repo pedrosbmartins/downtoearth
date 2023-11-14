@@ -1,4 +1,4 @@
-@import url('../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css');
+@import url('../../node_modules/@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css');
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -10,7 +10,7 @@ a {
   color: #fff;
 }
 
-.mapboxgl-popup-content {
+.maplibregl-popup-content {
   background-color: #2d2d2d;
   border-radius: 15px;
   color: #fff;
@@ -19,7 +19,7 @@ a {
   padding: 2px 10px;
 }
 
-.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
   background-color: transparent;
   border: 0;
   border-right: 1px dashed #555;
