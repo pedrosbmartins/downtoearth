@@ -24,10 +24,11 @@ export interface BaseModel {
 export interface GroupModel extends BaseModel {
   models: SingleModel[]
   bearing?: number
-  offset?: RelativeSize
+  offset?: Offset<'root'>
 }
 
 export interface SingleModel extends BaseModel {
+  size: number
   features: Feature[]
   icon?: string
 }
@@ -47,7 +48,7 @@ export interface SizePreset {
 export interface FeatureBase {
   fill?: Fill
   outline?: Outline
-  offset?: RelativeSize
+  offset?: Offset
   bearing?: number
   label?: Label
   drawLineToRoot?: boolean
@@ -59,25 +60,15 @@ export interface ShapeFeature extends FeatureBase {
 
 export interface CircleFeature extends ShapeFeature {
   shape: 'circle'
-  radius: Size
+  radiusRatio?: number
 }
 
 export interface EllipseFeature extends ShapeFeature {
   shape: 'ellipse'
-  axes: { semiMajor: Size; semiMinor: Size }
+  axesRatios?: { semiMajor: number; semiMinor: number }
 }
 
 export type Feature = CircleFeature | EllipseFeature
-
-export type Size = AbsoluteSize | RelativeSize
-
-export type AbsoluteSize = number
-
-export interface RelativeSize {
-  type: 'relative'
-  to?: 'root' | 'group'
-  real: AbsoluteSize
-}
 
 export interface Fill {
   color: string
@@ -102,19 +93,11 @@ export interface Unit {
   km: number
 }
 
-export function hasRelativeSize(feature: Feature) {
-  return (
-    (feature.shape === 'circle' && isRelativeSize(feature.radius)) ||
-    (feature.shape === 'ellipse' && isRelativeSize(feature.axes.semiMajor))
-  )
-}
+type OffsetTarget = 'root' | 'group'
 
-export function isRelativeSize(object: any): object is RelativeSize {
-  return object && object.type === 'relative' && object.real !== undefined
-}
-
-export function isAbsluteSize(object: any): object is AbsoluteSize {
-  return object !== undefined && typeof object === 'number'
+export interface Offset<T extends OffsetTarget = OffsetTarget> {
+  value: number
+  to?: T
 }
 
 export function isGroup(object: any): object is GroupModel {

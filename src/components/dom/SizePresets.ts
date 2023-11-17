@@ -35,7 +35,7 @@ class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props
         events: ['size'],
         onUpdate: ($, event) => {
           if (matchEvent<RootData>(this.storeId, 'root', event)) {
-            const isCurrent = event.data.size?.rendered === preset.km / 2
+            const isCurrent = event.data.size?.rendered === preset.km
             const $selectorItem = $.querySelector('.selector-item')!
             if (isCurrent) {
               $selectorItem.classList.add('selected')
@@ -44,7 +44,7 @@ class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props
             }
           }
         },
-        onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.km / 2 } })
+        onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.km } })
       })
       $container.append(PresetButton.dom())
     })

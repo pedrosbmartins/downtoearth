@@ -11,19 +11,17 @@ export abstract class ShapeFeature<L extends Setup.ShapeFeature> extends Feature
 }
 
 export class CircleFeature extends ShapeFeature<Setup.CircleFeature> {
+  private readonly DEFAULT_RADIUS_RATIO = 0.5
   private renderOptions = { steps: 80, units: 'kilometers' as const }
 
   public data() {
-    return turf.circle(this.state.center, this.size(this.state.sizeRatio), this.renderOptions)
+    return turf.circle(this.state.center, this.size(), this.renderOptions)
   }
 
-  private size(ratio: number) {
-    const { radius } = this.definition
-    if (Setup.isAbsluteSize(radius)) {
-      return radius
-    } else {
-      return ratio * radius.real
-    }
+  private size() {
+    const { radiusRatio } = this.definition
+    console.log(this.id, this.state.baseSize)
+    return this.state.baseSize * (radiusRatio ?? this.DEFAULT_RADIUS_RATIO)
   }
 }
 
@@ -33,6 +31,8 @@ interface EllipseAxes {
 }
 
 export class EllipseFeature extends ShapeFeature<Setup.EllipseFeature> {
+  private readonly DEFAULT_AXIS_RATIO = { semiMajor: 0.5, semiMinor: 0.25 }
+
   private renderOptions = { steps: 180, units: 'kilometers' as const }
 
   public data() {
@@ -41,16 +41,13 @@ export class EllipseFeature extends ShapeFeature<Setup.EllipseFeature> {
   }
 
   private axes(): EllipseAxes {
-    const { semiMajor, semiMinor } = this.definition.axes
+    const { axesRatios } = this.definition
+    const { semiMajor, semiMinor } = axesRatios ?? this.DEFAULT_AXIS_RATIO
     return { semiMajor: this.size(semiMajor), semiMinor: this.size(semiMinor) }
   }
 
-  private size(axis: Setup.Size) {
-    if (Setup.isAbsluteSize(axis)) {
-      return axis
-    } else {
-      return this.state.sizeRatio * axis.real
-    }
+  private size(ratio: number) {
+    return this.state.baseSize * ratio
   }
 
   private center() {

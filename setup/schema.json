@@ -2,9 +2,6 @@
   "$ref": "#/definitions/Setup",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "AbsoluteSize": {
-      "type": "number"
-    },
     "CircleFeature": {
       "additionalProperties": false,
       "properties": {
@@ -21,13 +18,13 @@
           "$ref": "#/definitions/Label"
         },
         "offset": {
-          "$ref": "#/definitions/RelativeSize"
+          "$ref": "#/definitions/Offset"
         },
         "outline": {
           "$ref": "#/definitions/Outline"
         },
-        "radius": {
-          "$ref": "#/definitions/Size"
+        "radiusRatio": {
+          "type": "number"
         },
         "shape": {
           "const": "circle",
@@ -35,7 +32,6 @@
         }
       },
       "required": [
-        "radius",
         "shape"
       ],
       "type": "object"
@@ -43,14 +39,14 @@
     "EllipseFeature": {
       "additionalProperties": false,
       "properties": {
-        "axes": {
+        "axesRatios": {
           "additionalProperties": false,
           "properties": {
             "semiMajor": {
-              "$ref": "#/definitions/Size"
+              "type": "number"
             },
             "semiMinor": {
-              "$ref": "#/definitions/Size"
+              "type": "number"
             }
           },
           "required": [
@@ -72,7 +68,7 @@
           "$ref": "#/definitions/Label"
         },
         "offset": {
-          "$ref": "#/definitions/RelativeSize"
+          "$ref": "#/definitions/Offset"
         },
         "outline": {
           "$ref": "#/definitions/Outline"
@@ -83,7 +79,6 @@
         }
       },
       "required": [
-        "axes",
         "shape"
       ],
       "type": "object"
@@ -135,7 +130,7 @@
           "type": "array"
         },
         "offset": {
-          "$ref": "#/definitions/RelativeSize"
+          "$ref": "#/definitions/Offset%3C%22root%22%3E"
         },
         "popup": {
           "$ref": "#/definitions/Popup"
@@ -180,6 +175,41 @@
         }
       ]
     },
+    "Offset": {
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "enum": [
+            "root",
+            "group"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "Offset<\"root\">": {
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "const": "root",
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
     "Outline": {
       "additionalProperties": false,
       "properties": {
@@ -207,30 +237,6 @@
       ],
       "type": "object"
     },
-    "RelativeSize": {
-      "additionalProperties": false,
-      "properties": {
-        "real": {
-          "$ref": "#/definitions/AbsoluteSize"
-        },
-        "to": {
-          "enum": [
-            "root",
-            "group"
-          ],
-          "type": "string"
-        },
-        "type": {
-          "const": "relative",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "real"
-      ],
-      "type": "object"
-    },
     "Root": {
       "additionalProperties": false,
       "properties": {
@@ -255,6 +261,9 @@
         "popup": {
           "$ref": "#/definitions/Popup"
         },
+        "size": {
+          "type": "number"
+        },
         "sizePresets": {
           "items": {
             "$ref": "#/definitions/SizePreset"
@@ -268,6 +277,7 @@
       "required": [
         "features",
         "label",
+        "size",
         "sizePresets"
       ],
       "type": "object"
@@ -324,25 +334,19 @@
         "popup": {
           "$ref": "#/definitions/Popup"
         },
+        "size": {
+          "type": "number"
+        },
         "visible": {
           "type": "boolean"
         }
       },
       "required": [
         "features",
-        "label"
+        "label",
+        "size"
       ],
       "type": "object"
-    },
-    "Size": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/AbsoluteSize"
-        },
-        {
-          "$ref": "#/definitions/RelativeSize"
-        }
-      ]
     },
     "SizePreset": {
       "additionalProperties": false,

@@ -39,7 +39,7 @@ export class RootMapComponent extends MapComponent<RootStore> {
     }
     const destination = turf.rhumbDestination(
       center,
-      offset.real * ratio,
+      offset.value * ratio,
       bearing || this.store.get('bearing') || 0
     )
     return toLngLat(destination.geometry.coordinates)

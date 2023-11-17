@@ -1,18 +1,18 @@
 {
   "$schema": "./schema.json",
   "title": "Alpha Centauri",
-  "unit": { "name": "AU", "km": 149597870700 },
+  "unit": { "name": "AU", "km": 149597870.7 },
   "root": {
     "icon": "sun",
     "label": "Sun",
     "popup": { "content": "Sun" },
     "visible": true,
+    "size": 0.009,
     "features": [
       {
         "shape": "circle",
         "fill": { "color": "#fff2d1", "opacity": 1 },
-        "outline": { "color": "rgba(0,0,0,0.25)" },
-        "radius": { "type": "relative", "real": 0.00465047 }
+        "outline": { "color": "rgba(0,0,0,0.25)" }
       }
     ],
     "sizePresets": [
@@ -28,52 +28,50 @@
       "visible": true,
       "bearingControl": true,
       "bearing": 270,
-      "offset": { "type": "relative", "real": 268521.61 },
+      "offset": { "value": 276000 },
       "models": [
-        {
-          "label": "Proxima Centauri",
-          "popup": { "content": "Proxima Centauri" },
-          "visible": true,
-          "icon": "star",
-          "features": [
-            {
-              "shape": "circle",
-              "fill": { "color": "#ffc317" },
-              "outline": { "color": "rgba(0,0,0,0.25)" },
-              "radius": { "type": "relative", "real": 0.0007 },
-              "offset": { "type": "relative", "real": 0 },
-              "drawLineToRoot": true
-            }
-          ]
-        },
-        {
-          "label": "α Centauri B",
-          "popup": { "content": "Alpha Centauri B" },
-          "visible": true,
-          "icon": "star",
-          "features": [
-            {
-              "shape": "circle",
-              "fill": { "color": "#ffeb93" },
-              "outline": { "color": "rgba(0,0,0,0.25)" },
-              "radius": { "type": "relative", "real": 0.004 },
-              "offset": { "type": "relative", "real": 13000 },
-              "drawLineToRoot": true
-            }
-          ]
-        },
         {
           "label": "α Centauri A",
           "popup": { "content": "Alpha Centauri A" },
-          "visible": true,
+          "size": 0.011,
           "icon": "star",
           "features": [
             {
               "shape": "circle",
               "fill": { "color": "#fff0c0" },
               "outline": { "color": "rgba(0,0,0,0.25)" },
-              "radius": { "type": "relative", "real": 0.0057 },
-              "offset": { "type": "relative", "real": 13023.4 },
+              "drawLineToRoot": true,
+              "offset": { "value": 13020 },
+              "bearing": 270
+            }
+          ]
+        },
+        {
+          "label": "α Centauri B",
+          "popup": { "content": "Alpha Centauri B" },
+          "size": 0.008,
+          "icon": "star",
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "#ffeb93" },
+              "outline": { "color": "rgba(0,0,0,0.25)" },
+              "drawLineToRoot": true,
+              "offset": { "value": 13000 },
+              "bearing": 270
+            }
+          ]
+        },
+        {
+          "label": "Proxima Centauri",
+          "size": 0.001,
+          "popup": { "content": "Proxima Centauri" },
+          "icon": "star",
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "#ffc317" },
+              "outline": { "color": "rgba(0,0,0,0.25)" },
               "drawLineToRoot": true
             }
           ]

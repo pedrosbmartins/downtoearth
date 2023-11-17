@@ -10,24 +10,17 @@ export interface RootData extends BaseModelData<'root'> {
 
 export class RootStore extends Store<RootData> {
   constructor(definition: Setup.Root, center?: LngLat) {
-    const { visible, features, sizePresets } = definition
-    const mainFeature = features[0]
-    const realSize = RootStore.realSize(mainFeature)
-    const renderedSize = (sizePresets.find(sp => sp.default) ?? sizePresets[0]).km / 2
+    const { visible, sizePresets } = definition
+    const renderedSize = (sizePresets.find(sp => sp.default) ?? sizePresets[0]).km
     super({
       type: 'root',
       visible: visible ?? true,
       center: center ?? initialCenter,
       size: {
-        real: realSize,
+        real: definition.size,
         rendered: renderedSize
       }
     })
-  }
-
-  public static realSize(feature: Setup.Feature) {
-    const size = feature.shape === 'circle' ? feature.radius : feature.axes.semiMajor
-    return Setup.isRelativeSize(size) ? size.real : size
   }
 
   public sizeRatio() {

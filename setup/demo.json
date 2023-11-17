@@ -5,19 +5,45 @@
   "root": {
     "label": "Root",
     "visible": true,
+    "size": 2,
     "features": [
       {
         "shape": "circle",
-        "radius": { "type": "relative", "real": 10 },
         "outline": { "color": "green" },
+        "label": { "position": "outline", "value": "Circle" }
+      },
+      {
+        "shape": "circle",
+        "radiusRatio": 0.01,
+        "fill": { "color": "green" },
         "label": { "position": "outline", "value": "Circle" }
       }
     ],
     "sizePresets": [
       { "label": "1 km", "km": 1 },
       { "label": "10 km", "km": 10, "default": true },
-      { "label": "100 km", "km": 100 }
+      { "label": "300 km", "km": 300 }
     ]
   },
-  "models": []
+  "models": [
+    {
+      "label": "Group 1",
+      "offset": { "value": 1 },
+      "bearing": 180,
+      "models": [
+        {
+          "label": "Model 1",
+          "size": 2,
+          "features": [
+            {
+              "shape": "circle",
+              "outline": { "color": "red" },
+              "offset": { "value": 1 },
+              "bearing": 180
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

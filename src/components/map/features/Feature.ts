@@ -4,7 +4,7 @@ import * as Setup from '../../../setups'
 import { LngLat } from '../../../types'
 
 export interface FeatureState {
-  sizeRatio: number
+  baseSize: number
   center: LngLat
   rootCenter: LngLat
 }

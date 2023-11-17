@@ -44,7 +44,7 @@ export class ModelMapComponent extends MapComponent<ModelStore> {
     }
     const destination = turf.rhumbDestination(
       center,
-      offset.real * ratio,
+      offset.value * ratio,
       bearing || this.store.get('bearing') || this.store.groupBearing() || 0
     )
     return toLngLat(destination.geometry.coordinates)

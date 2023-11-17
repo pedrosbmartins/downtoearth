@@ -5,7 +5,7 @@ import { BaseModelData } from '../../store'
 import { Store, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
 import { mergeBoundingBoxes, toLngLat } from '../../utils'
-import { CircleFeature, EllipseFeature, Feature, LineFeature } from './features'
+import { CircleFeature, EllipseFeature, Feature, FeatureState, LineFeature } from './features'
 
 export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends StoreListener {
   protected features: Feature[] = []
@@ -65,11 +65,11 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     return new EllipseFeature(definition, this.featureState(definition), map)
   }
 
-  private featureState(definition: Setup.FeatureBase) {
+  private featureState(definition: Setup.FeatureBase): FeatureState {
     return {
       center: this.center(definition),
       rootCenter: this.rootCenter(),
-      sizeRatio: this.sizeRatio()
+      baseSize: this.definition.size * this.sizeRatio()
     }
   }
 
