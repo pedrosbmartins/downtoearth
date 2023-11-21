@@ -24,7 +24,7 @@ export interface BaseModel {
 export interface GroupModel extends BaseModel {
   models: SingleModel[]
   bearing?: number
-  offset?: Offset<'root'>
+  offset?: number
 }
 
 export interface SingleModel extends BaseModel {
@@ -48,7 +48,7 @@ export interface SizePreset {
 export interface FeatureBase {
   fill?: Fill
   outline?: Outline
-  offset?: Offset
+  offset?: number
   bearing?: number
   label?: Label
   drawLineToRoot?: boolean
@@ -91,13 +91,6 @@ export interface Popup {
 export interface Unit {
   name: string
   km: number
-}
-
-type OffsetTarget = 'root' | 'group'
-
-export interface Offset<T extends OffsetTarget = OffsetTarget> {
-  value: number
-  to?: T
 }
 
 export function isGroup(object: any): object is GroupModel {

@@ -85,7 +85,26 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
     return toLngLat(turf.center(allCenters).geometry.coordinates)
   }
 
+  protected center({ offset, bearing }: Setup.FeatureBase): LngLat {
+    const center = this.store.get('center')
+
+    if (!offset) {
+      return center
+    }
+
+    const ratio = this.sizeRatio()
+    if (!ratio) {
+      throw new Error(`size ratio not set for relative sized model ${this.definition.label}`)
+    }
+    const destination = turf.rhumbDestination(
+      center,
+      offset * ratio,
+      bearing ?? this.defaultBearing()
+    )
+    return toLngLat(destination.geometry.coordinates)
+  }
+
   protected abstract sizeRatio(): number
-  protected abstract center(definition: Setup.FeatureBase): LngLat
+  protected abstract defaultBearing(): number
   protected abstract rootCenter(): LngLat
 }

@@ -18,7 +18,7 @@
           "$ref": "#/definitions/Label"
         },
         "offset": {
-          "$ref": "#/definitions/Offset"
+          "type": "number"
         },
         "outline": {
           "$ref": "#/definitions/Outline"
@@ -68,7 +68,7 @@
           "$ref": "#/definitions/Label"
         },
         "offset": {
-          "$ref": "#/definitions/Offset"
+          "type": "number"
         },
         "outline": {
           "$ref": "#/definitions/Outline"
@@ -130,7 +130,7 @@
           "type": "array"
         },
         "offset": {
-          "$ref": "#/definitions/Offset%3C%22root%22%3E"
+          "type": "number"
         },
         "popup": {
           "$ref": "#/definitions/Popup"
@@ -174,41 +174,6 @@
           "$ref": "#/definitions/SingleModel"
         }
       ]
-    },
-    "Offset": {
-      "additionalProperties": false,
-      "properties": {
-        "to": {
-          "enum": [
-            "root",
-            "group"
-          ],
-          "type": "string"
-        },
-        "value": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "type": "object"
-    },
-    "Offset<\"root\">": {
-      "additionalProperties": false,
-      "properties": {
-        "to": {
-          "const": "root",
-          "type": "string"
-        },
-        "value": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "value"
-      ],
-      "type": "object"
     },
     "Outline": {
       "additionalProperties": false,

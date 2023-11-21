@@ -20,7 +20,6 @@ export class CircleFeature extends ShapeFeature<Setup.CircleFeature> {
 
   private size() {
     const { radiusRatio } = this.definition
-    console.log(this.id, this.state.baseSize)
     return this.state.baseSize * (radiusRatio ?? this.DEFAULT_RADIUS_RATIO)
   }
 }

@@ -1,10 +1,6 @@
-import * as turf from '@turf/turf'
-
 import * as Setup from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { LngLat } from '../../types'
-import { toLngLat } from '../../utils'
 import { MapComponent } from './MapComponent'
 
 export class RootMapComponent extends MapComponent<RootStore> {
@@ -26,28 +22,14 @@ export class RootMapComponent extends MapComponent<RootStore> {
     }
   }
 
-  protected center({ offset, bearing }: Setup.Feature): LngLat {
-    const center = this.store.get('center')
-
-    if (!offset) {
-      return center
-    }
-
-    const ratio = this.sizeRatio()
-    if (!ratio) {
-      throw new Error(`size ratio not set for root model`)
-    }
-    const destination = turf.rhumbDestination(
-      center,
-      offset.value * ratio,
-      bearing || this.store.get('bearing') || 0
-    )
-    return toLngLat(destination.geometry.coordinates)
-  }
-
   protected sizeRatio(): number {
     return this.store.sizeRatio()
   }
+
+  protected defaultBearing(): number {
+    return this.store.get('bearing') ?? 0
+  }
+
   protected rootCenter() {
     return this.store.get('center')
   }

@@ -4,7 +4,6 @@
   "unit": { "name": "km", "km": 1 },
   "root": {
     "label": "Root",
-    "visible": true,
     "size": 2,
     "features": [
       {
@@ -28,7 +27,7 @@
   "models": [
     {
       "label": "Group 1",
-      "offset": { "value": 1 },
+      "offset": 1,
       "bearing": 180,
       "models": [
         {
@@ -38,7 +37,7 @@
             {
               "shape": "circle",
               "outline": { "color": "red" },
-              "offset": { "value": 1 },
+              "offset": 1,
               "bearing": 180
             }
           ]
