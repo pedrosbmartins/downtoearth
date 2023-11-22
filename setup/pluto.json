@@ -6,13 +6,12 @@
     "icon": "sun",
     "label": "Sun",
     "popup": { "content": "Sun" },
-    "visible": true,
+    "size": 0.009,
     "features": [
       {
         "shape": "circle",
-        "fill": { "color": "yellow", "opacity": 0.5 },
-        "outline": { "color": "orange" },
-        "radius": { "type": "relative", "real": 0.0093096 }
+        "fill": { "color": "#fff2d1" },
+        "outline": { "color": "rgba(0,0,0,0.25)" }
       }
     ],
     "sizePresets": [
@@ -25,16 +24,16 @@
   "models": [
     {
       "label": "Pluto",
-      "visible": true,
       "icon": "pluto",
+      "size": 78.472,
       "features": [
         {
           "shape": "ellipse",
           "label": { "value": "Pluto", "position": "outline" },
           "outline": { "color": "#45331D" },
-          "axes": {
-            "semiMajor": { "type": "relative", "real": 39.236 },
-            "semiMinor": { "type": "relative", "real": 38.046 }
+          "axesRatios": {
+            "semiMajor": 0.5,
+            "semiMinor": 0.4848
           }
         }
       ]

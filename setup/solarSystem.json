@@ -6,13 +6,13 @@
     "icon": "sun",
     "label": "Sun",
     "info": "The Sun is the star at the center of the Solar System. It is a massive, hot ball of plasma, inflated and heated by nuclear fusion reactions at its core.",
+    "size": 0.0093,
     "features": [
       {
         "shape": "circle",
         "label": { "value": "Sun", "position": "center" },
-        "fill": { "color": "yellow", "opacity": 0.5 },
-        "outline": { "color": "orange" },
-        "radius": { "type": "relative", "real": 0.00465047 }
+        "fill": { "color": "#fff2d1", "opacity": 0.75 },
+        "outline": { "color": "#fff2d1" }
       }
     ],
     "sizePresets": [
@@ -31,24 +31,24 @@
         {
           "label": "Mercury",
           "icon": "mercury",
+          "size": 0.78,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Mercury", "position": "outline" },
-              "outline": { "color": "Crimson" },
-              "radius": { "type": "relative", "real": 0.39 }
+              "outline": { "color": "Crimson" }
             }
           ]
         },
         {
           "label": "Venus",
           "icon": "venus",
+          "size": 1.44,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Venus", "position": "outline" },
-              "outline": { "color": "Chocolate" },
-              "radius": { "type": "relative", "real": 0.72 }
+              "outline": { "color": "Chocolate" }
             }
           ]
         },
@@ -56,84 +56,84 @@
           "label": "Earth",
           "icon": "earth",
           "info": "The Earth is the third planet from the Sun and the only astronomical object known to harbor life.",
+          "size": 2.0,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Earth", "position": "outline" },
-              "outline": { "color": "blue" },
-              "radius": { "type": "relative", "real": 1.0 }
+              "outline": { "color": "blue" }
             }
           ]
         },
         {
           "label": "Mars",
           "icon": "mars",
+          "size": 3.04,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Mars", "position": "outline" },
-              "outline": { "color": "red" },
-              "radius": { "type": "relative", "real": 1.52 }
+              "outline": { "color": "red" }
             }
           ]
         },
         {
           "label": "Asteroid Belt",
           "icon": "asteroid",
+          "size": 5.6,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Asteroid Belt", "position": "outline" },
-              "outline": { "color": "gray" },
-              "radius": { "type": "relative", "real": 2.8 }
+              "outline": { "color": "gray" }
             }
           ]
         },
         {
           "label": "Jupiter",
           "icon": "jupiter",
+          "size": 10.4,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Jupiter", "position": "outline" },
-              "outline": { "color": "orange" },
-              "radius": { "type": "relative", "real": 5.2 }
+              "outline": { "color": "orange" }
             }
           ]
         },
         {
           "label": "Saturn",
           "icon": "saturn",
+          "size": 19.08,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Saturn", "position": "outline" },
-              "outline": { "color": "DarkGoldenRod" },
-              "radius": { "type": "relative", "real": 9.54 }
+              "outline": { "color": "DarkGoldenRod" }
             }
           ]
         },
         {
           "label": "Uranus",
           "icon": "uranus",
+          "size": 38.4,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Uranus", "position": "outline" },
-              "outline": { "color": "DarkBlue" },
-              "radius": { "type": "relative", "real": 19.2 }
+              "outline": { "color": "DarkBlue" }
             }
           ]
         },
         {
           "label": "Neptune",
           "icon": "neptune",
+          "size": 60.12,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Neptune", "position": "outline" },
-              "outline": { "color": "blue" },
-              "radius": { "type": "relative", "real": 30.06 }
+              "outline": { "color": "blue" }
             }
           ]
         }

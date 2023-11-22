@@ -6,7 +6,6 @@
     "icon": "sun",
     "label": "Sun",
     "popup": { "content": "Sun" },
-    "visible": true,
     "size": 0.009,
     "features": [
       {
@@ -25,7 +24,6 @@
   "models": [
     {
       "label": "α Centauri",
-      "visible": true,
       "bearingControl": true,
       "bearing": 270,
       "offset": 276000,

@@ -5,13 +5,13 @@
   "root": {
     "icon": "sun",
     "label": "Sun",
+    "size": 0.0093,
     "features": [
       {
         "shape": "circle",
         "label": { "value": "Sun", "position": "center" },
-        "fill": { "color": "yellow", "opacity": 0.75 },
-        "outline": { "color": "yellow" },
-        "radius": { "type": "relative", "real": 0.00465047 }
+        "fill": { "color": "#fff2d1", "opacity": 0.75 },
+        "outline": { "color": "yellow" }
       }
     ],
     "sizePresets": [
@@ -29,78 +29,78 @@
         {
           "label": "Vega (α Lyrae)",
           "icon": "star",
+          "size": 0.02197,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Vega", "position": "center" },
               "fill": { "color": "#b9c9ff", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 0.0156345836 },
-              "radius": { "type": "relative", "real": 0.0109841136 }
+              "offset": 0.0156345836
             }
           ]
         },
         {
           "label": "Deneb (α Cygni)",
           "icon": "star",
+          "size": 1.88985,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Deneb", "position": "center" },
               "fill": { "color": "#c7d6ff", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 0.9715430972 },
-              "radius": { "type": "relative", "real": 0.9449244 }
+              "offset": 0.9715430972
             }
           ]
         },
         {
           "label": "Antares A (α Scorpii)",
           "icon": "star",
+          "size": 6.33053,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Antares A", "position": "center" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 5.0817314972 },
-              "radius": { "type": "relative", "real": 3.165264 }
+              "offset": 5.0817314972
             }
           ]
         },
         {
           "label": "Betelgeuse (α Orionis)",
           "icon": "star",
+          "size": 7.11253,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "Betelgeuse", "position": "center" },
               "fill": { "color": "#ffca8a", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 11.8032626972 },
-              "radius": { "type": "relative", "real": 3.5562672 }
+              "offset": 11.8032626972
             }
           ]
         },
         {
           "label": "V602 Carinae",
           "icon": "star",
+          "size": 9.77508,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "V602 Carinae", "position": "center" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 20.2470698972 },
-              "radius": { "type": "relative", "real": 4.88754 }
+              "offset": 20.2470698972
             }
           ]
         },
         {
           "label": "VY Canis Majoris",
           "icon": "star",
+          "size": 13.21963,
           "features": [
             {
               "shape": "circle",
               "label": { "value": "VY Canis Majoris", "position": "center" },
               "fill": { "color": "#ffbb7b", "opacity": 0.75 },
-              "offset": { "type": "relative", "real": 31.7444258972 },
-              "radius": { "type": "relative", "real": 6.609816 }
+              "offset": 31.7444258972
             }
           ]
         }

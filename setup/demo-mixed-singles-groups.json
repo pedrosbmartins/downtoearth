@@ -4,10 +4,10 @@
   "unit": { "name": "km", "km": 1 },
   "root": {
     "label": "Root",
+    "size": 1,
     "features": [
       {
         "shape": "circle",
-        "radius": { "type": "relative", "real": 0.5 },
         "fill": { "color": "green" }
       }
     ],
@@ -20,10 +20,10 @@
   "models": [
     {
       "label": "Object 1",
+      "size": 20,
       "features": [
         {
           "shape": "circle",
-          "radius": { "type": "relative", "real": 10 },
           "outline": { "color": "red" }
         }
       ]
@@ -35,26 +35,26 @@
         {
           "label": "Grouped Object 1",
           "bearingControl": true,
+          "size": 1,
           "features": [
             {
               "shape": "circle",
-              "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "blue" },
               "drawLineToRoot": true,
-              "offset": { "type": "relative", "real": 10, "to": "group" }
+              "offset": 10
             }
           ]
         },
         {
           "label": "Grouped Object 2",
           "bearingControl": true,
+          "size": 1,
           "features": [
             {
               "shape": "circle",
-              "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "blue" },
               "drawLineToRoot": true,
-              "offset": { "type": "relative", "real": -10, "to": "group" }
+              "offset": -10
             }
           ]
         }
@@ -62,20 +62,20 @@
     },
     {
       "label": "Object 2",
+      "size": 10,
       "features": [
         {
           "shape": "circle",
-          "radius": { "type": "relative", "real": 5 },
           "outline": { "color": "orange" }
         }
       ]
     },
     {
       "label": "Object 3",
+      "size": 30,
       "features": [
         {
           "shape": "circle",
-          "radius": { "type": "relative", "real": 15 },
           "outline": { "color": "purple" }
         }
       ]
@@ -88,26 +88,26 @@
         {
           "label": "Grouped Object 1",
           "bearingControl": true,
+          "size": 1,
           "features": [
             {
               "shape": "circle",
-              "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "yellow" },
               "drawLineToRoot": true,
-              "offset": { "type": "relative", "real": 10, "to": "group" }
+              "offset": 10
             }
           ]
         },
         {
           "label": "Grouped Object 2",
           "bearingControl": true,
+          "size": 1,
           "features": [
             {
               "shape": "circle",
-              "radius": { "type": "relative", "real": 0.5 },
               "fill": { "color": "yellow" },
               "drawLineToRoot": true,
-              "offset": { "type": "relative", "real": -10, "to": "group" }
+              "offset": -10
             }
           ]
         }
