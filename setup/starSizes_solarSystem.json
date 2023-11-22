@@ -11,7 +11,7 @@
         "shape": "circle",
         "label": { "value": "Sun", "position": "center" },
         "fill": { "color": "#fff2d1", "opacity": 0.75 },
-        "outline": { "color": "yellow" }
+        "outline": { "color": "rgba(0,0,0,0.25)" }
       }
     ],
     "sizePresets": [
@@ -27,7 +27,6 @@
       "label": "Stars",
       "bearing": 90,
       "bearingControl": true,
-      "visible": false,
       "models": [
         {
           "label": "Vega (α Lyrae)",
@@ -37,7 +36,8 @@
             {
               "shape": "circle",
               "label": { "value": "Vega", "position": "center" },
-              "fill": { "color": "#b9c9ff", "opacity": 0.75 }
+              "fill": { "color": "#b9c9ff", "opacity": 0.75 },
+              "outline": { "color": "rgba(0,0,0,0.25)" }
             }
           ]
         },
@@ -49,7 +49,8 @@
             {
               "shape": "circle",
               "label": { "value": "Deneb", "position": "center" },
-              "fill": { "color": "#c7d6ff", "opacity": 0.75 }
+              "fill": { "color": "#c7d6ff", "opacity": 0.75 },
+              "outline": { "color": "rgba(0,0,0,0.25)" }
             }
           ]
         },
@@ -61,7 +62,8 @@
             {
               "shape": "circle",
               "label": { "value": "Antares A", "position": "center" },
-              "fill": { "color": "#ffca8a", "opacity": 0.75 }
+              "fill": { "color": "#ffca8a", "opacity": 0.75 },
+              "outline": { "color": "rgba(0,0,0,0.25)" }
             }
           ]
         },
@@ -73,7 +75,8 @@
             {
               "shape": "circle",
               "label": { "value": "Betelgeuse", "position": "center" },
-              "fill": { "color": "#ffca8a", "opacity": 0.75 }
+              "fill": { "color": "#ffca8a", "opacity": 0.75 },
+              "outline": { "color": "rgba(0,0,0,0.25)" }
             }
           ]
         },
@@ -85,7 +88,8 @@
             {
               "shape": "circle",
               "label": { "value": "V602 Carinae", "position": "center" },
-              "fill": { "color": "#ffbb7b", "opacity": 0.75 }
+              "fill": { "color": "#ffbb7b", "opacity": 0.75 },
+              "outline": { "color": "rgba(0,0,0,0.25)" }
             }
           ]
         },
@@ -97,7 +101,8 @@
             {
               "shape": "circle",
               "label": { "value": "VY Canis Majoris", "position": "center" },
-              "fill": { "color": "#ffbb7b", "opacity": 0.75 }
+              "fill": { "color": "#ffbb7b", "opacity": 0.75 },
+              "outline": { "color": "rgba(0,0,0,0.25)" }
             }
           ]
         }

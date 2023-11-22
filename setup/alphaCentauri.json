@@ -6,11 +6,11 @@
     "icon": "sun",
     "label": "Sun",
     "popup": { "content": "Sun" },
-    "size": 0.009,
+    "size": 0.0093,
     "features": [
       {
         "shape": "circle",
-        "fill": { "color": "#fff2d1" },
+        "fill": { "color": "#fff2d1", "opacity": 0.75 },
         "outline": { "color": "rgba(0,0,0,0.25)" }
       }
     ],
