@@ -5,11 +5,10 @@ export const base: Setup = {
   unit: { name: 'm', km: 1e-3 },
   root: {
     label: 'Root',
-    visible: true,
+    size: 100,
     features: [
       {
         shape: 'circle',
-        radius: { type: 'relative', real: 2.5 },
         fill: { color: '#fff2d1' }
       }
     ],
@@ -22,26 +21,23 @@ export const base: Setup = {
   models: [
     {
       label: 'Group',
-      visible: true,
       models: [
         {
           label: 'Object 1',
-          visible: true,
+          size: 20,
           features: [
             {
               shape: 'circle',
-              radius: { type: 'relative', real: 5 },
               fill: { color: '#fff0c0' }
             }
           ]
         },
         {
           label: 'Object 2',
-          visible: true,
+          size: 15,
           features: [
             {
               shape: 'circle',
-              radius: { type: 'relative', real: 7.5 },
               fill: { color: '#ffeb93' }
             }
           ]
@@ -56,7 +52,7 @@ export const groupWithOffset: Setup = {
   models: base.models!.map(model => {
     if (isGroup(model)) {
       model.bearing = 270
-      model.offset = { type: 'relative', real: 15 }
+      model.offset = 30
     }
     return model
   })

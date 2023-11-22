@@ -13,6 +13,8 @@ interface Group {
 let rootStore: RootStore
 let groups: Group[] = []
 
+jest.mock('../../src/initializers/map')
+
 describe('stores', () => {
   beforeEach(() => {
     rootStore = new RootStore(setups.base.root)
@@ -24,18 +26,15 @@ describe('stores', () => {
   })
 
   it('calculates the root size ratio', () => {
-    expect(rootStore.sizeRatio()).toEqual(0.2)
+    expect(rootStore.sizeRatio()).toEqual(0.01)
   })
 
-  it('propagates root size ratio change to all group and model stores', () => {
-    // 10 is diameter but rendered size represents radius, hence the division by 2
-    // @todo: simplify diameter/radius mess
-    rootStore.set({ size: { rendered: 10 / 2, real: rootStore.get('size').real } })
-    const groupRatio = groups[0].store.get('sizeRatio')
+  it('propagates root size ratio change to all model stores', () => {
+    const newSize = 10
+    rootStore.set({ size: { ...rootStore.get('size'), rendered: newSize } })
     const modelRatios = groups[0].models.map(m => m.get('sizeRatio'))
-    expect(groupRatio).toEqual(10 / 5)
-    expect(modelRatios[0]).toEqual(10 / 5)
-    expect(modelRatios[1]).toEqual(10 / 5)
+    expect(modelRatios[0]).toEqual(newSize / 100)
+    expect(modelRatios[1]).toEqual(newSize / 100)
   })
 
   it('propagates group store visibility change to all model stores in the group', () => {
@@ -68,24 +67,23 @@ describe('stores', () => {
     })
 
     it('initializes the center of the group and related models with offset', () => {
-      const groupCenter = turf.rhumbDestination(initialCenter, 15 * 0.2, 270).geometry.coordinates
+      const groupCenter = turf.rhumbDestination(initialCenter, 30 * 0.01, 270).geometry.coordinates
       expect(groups[0].store.get('center')).toEqual(groupCenter)
       expect(groups[0].models.map(model => model.get('center'))).toEqual([groupCenter, groupCenter])
     })
 
     it('propagates group center change with offset to the group store and all model stores in the group', () => {
       rootStore.set({ center: [100, 100] })
-      const groupCenter = turf.rhumbDestination([100, 100], 15 * 0.2, 270).geometry.coordinates
+      const groupCenter = turf.rhumbDestination([100, 100], 30 * 0.01, 270).geometry.coordinates
       expect(groups[0].store.get('center')).toEqual(groupCenter)
       expect(groups[0].models.map(model => model.get('center'))).toEqual([groupCenter, groupCenter])
     })
 
     it('updates group center with offset when root size ratio changes', () => {
-      // 10 is diameter but rendered size represents radius, hence the division by 2
-      // @todo: simplify diameter/radius mess
-      rootStore.set({ size: { rendered: 10 / 2, real: rootStore.get('size').real } })
-      const groupCenter = turf.rhumbDestination(initialCenter, 15 * (10 / 5), 270).geometry
-        .coordinates
+      const newSize = 10
+      rootStore.set({ size: { ...rootStore.get('size'), rendered: newSize } })
+      const groupCenterDest = turf.rhumbDestination(initialCenter, 30 * (newSize / 100), 270)
+      const groupCenter = groupCenterDest.geometry.coordinates
       expect(groups[0].store.get('center')).toEqual(groupCenter)
     })
   })
