@@ -1,10 +1,3 @@
-import { LngLat } from '../types'
-
-export interface ShareableSetup {
-  setup: Setup
-  center: LngLat
-}
-
 export interface Setup {
   title: string
   unit?: Unit

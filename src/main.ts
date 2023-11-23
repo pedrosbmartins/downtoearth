@@ -6,19 +6,17 @@ import solarSystem from '../setup/solarSystem.json'
 import starSizes from '../setup/starSizes.json'
 import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import { App } from './app'
-import { initialCenter } from './initializers/center'
 import map from './initializers/map'
-import { setupFromURL } from './initializers/setupFromURL'
-import { Setup, ShareableSetup } from './setups'
+import { URLData } from './initializers/urldata'
+import { Setup } from './setups'
+import { activateUIForSetupFromURL, displaySharingDialog, generateShareableLink } from './sharing'
 import { LngLat } from './types'
 import {
   $setupDropdown,
   $setupFileSelector,
-  $setupFromURLOption,
   $shareButton,
   SETUP_FROM_FILE_VALUE,
-  SETUP_FROM_URL_VALUE,
-  showDialog
+  SETUP_FROM_URL_VALUE
 } from './ui'
 
 const setups = {
@@ -43,11 +41,13 @@ map.onLoad(() => {
   let setup: Setup = setups[initialSetup]
   let center: LngLat | undefined
 
-  if (setupFromURL) {
-    activateUIForSetupFromURL(setupFromURL.setup.title)
-    map.setCenter(setupFromURL.center)
-    setup = setupFromURL.setup
-    center = setupFromURL.center
+  if (URLData?.setup) {
+    setup = URLData.setup
+    activateUIForSetupFromURL(setup.title)
+  }
+  if (URLData?.location) {
+    center = URLData.location
+    map.setCenter(center)
   }
 
   app.initialize(setup, center)
@@ -60,7 +60,7 @@ map.onLoad(() => {
         $setupFileSelector.click()
         break
       case SETUP_FROM_URL_VALUE:
-        if (setupFromURL) app.initialize(setupFromURL.setup, app.currentLngLat)
+        if (URLData?.setup) app.initialize(URLData.setup, app.currentLngLat)
         break
       default:
         const setup = setups[value as keyof typeof setups]
@@ -85,38 +85,11 @@ map.onLoad(() => {
   })
 
   $shareButton.addEventListener('click', async () => {
-    const link = generateShareableLink()
+    const link = generateShareableLink(app)
     if (!link) {
-      alert('Could not generate a shareable link: no visualization loaded.')
+      alert('Could not generate a shareable link.')
       return
     }
     await displaySharingDialog(link)
   })
 })
-
-function activateUIForSetupFromURL(title: string) {
-  $setupFromURLOption.style.display = 'block'
-  $setupFromURLOption.setAttribute('selected', 'true')
-  $setupFromURLOption.innerText = title
-}
-
-function generateShareableLink() {
-  const { setup, currentLngLat } = app
-  if (!setup) return
-  const shareableSetup: ShareableSetup = { setup, center: currentLngLat ?? initialCenter }
-  const encodedValue = Buffer.from(JSON.stringify(shareableSetup)).toString('base64')
-  const encodedValueURLSafe = encodedValue.replace('/', '_').replace('+', '-').replace('=', '')
-  const { origin, pathname } = window.location
-  return `${origin}${pathname}?data=${encodedValueURLSafe}`
-}
-
-async function displaySharingDialog(link: string) {
-  let dialogContent = `This is a <a href="${link}">shareable link</a> to your current visualization.`
-  try {
-    await window.navigator.clipboard.writeText(link)
-    dialogContent += '<br /><br />It has been automatically copied to your clipboard.'
-  } catch (e) {
-    console.error('Could not write shareable link to clipboard.', e)
-  }
-  showDialog('Sharing', { type: 'html', value: dialogContent })
-}

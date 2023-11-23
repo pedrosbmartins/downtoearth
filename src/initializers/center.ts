@@ -1,6 +1,6 @@
 import cities from '../constants/cities'
 import { LngLat } from '../types'
-import { setupFromURL } from './setupFromURL'
+import { URLData } from './urldata'
 
 function getRandomCityLngLat(): LngLat {
   const randomIndex = Math.round(Math.random() * (cities.length - 1))
@@ -8,4 +8,4 @@ function getRandomCityLngLat(): LngLat {
   return [randomCity.lng, randomCity.lat]
 }
 
-export const initialCenter = setupFromURL ? setupFromURL.center : getRandomCityLngLat()
+export const initialCenter = URLData?.location ? URLData.location : getRandomCityLngLat()
