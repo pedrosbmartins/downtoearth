@@ -39,7 +39,7 @@
 
 ## About
 
-[![Product Name Screen Shot](assets/screenshot-20231019.png)](assets/screenshot-20231019.png)
+[![Screenshot](assets/screenshot-20231113.png)](assets/screenshot-20231113.png)
 
 > If the sun was 1 cm in diameter and stood right in my living room, how far away would the nearest star be?
 
@@ -55,7 +55,7 @@ The **downtoearth** project aims for simplicity.
 
 - **Customizable**: custom visualizations can be built and loaded from a local JSON file
 - **Shareable visualizations**: a URL parameter allows sharing of custom visualizations
-- **Client-side only**: no back-end or API calls
+- **Client-side only**: no back-end or API calls (other than downloading map tiles and doing reverse geocoding)
 - **Minimal dependencies**: no use of full-blown JS frameworks
 
 ## Usage
@@ -78,71 +78,70 @@ The JSON schema can be accessed in [setup/schema.json](https://github.com/pedros
 
 A single visualization is called a `Setup`. In a nutshell, Setups have a required `title` and `root` model (its main object for centralization and scaling), and may have multiple additional `models`.
 
-A `model` represents an individual object that can be visualized and interacted with. Models can be positioned and sized relative to the root. They have a `label` and one or more `layers`, which define shapes to be rendered on the map. Shapes have properties such as `fill` and `outline`.
+A `model` represents an individual object that can be visualized and interacted with. Models can be positioned and sized relative to the root. They have a `label` and one or more `features`, which define shapes to be rendered on the map. Shapes have properties such as `fill` and `outline`.
 
-Currently, the only implemented shapes are Circles and Ellipses.
+Currently, the only implemented shapes are `Circles` and `Ellipses`.
 
 ### Examples
 
 All the pre-built visualizations can be found in the `/setup` directory.
 
-Here is a simple example with a root and a group of two objects. The group is positioned with an offset and the objects are sized relative to the root.
+Here is a simple example for the Earth-Moon system, with Earth as the root and a model for the orbit and for the body of the Moon.
 
 <details>
 
-<summary>Example Setup JSON</summary>
+<summary>Earth-Moon Example Setup</summary>
 
 ```json
 {
+  "$schema": "./schema.json",
   "title": "Example",
   "root": {
-    "id": "root",
-    "label": "Root",
-    "layers": [
+    "icon": "earth",
+    "label": "Earth",
+    "size": 12742,
+    "features": [
       {
-        "id": "1",
         "shape": "circle",
-        "radius": { "type": "relative", "real": 0.5 },
-        "fill": { "color": "yellow" }
+        "label": { "value": "Earth", "position": "center" },
+        "fill": { "color": "#6b93d6", "opacity": 0.5 },
+        "outline": { "color": "#4f4cb0" }
       }
     ],
     "sizePresets": [
-      { "label": "1 km", "km": 1 },
-      { "label": "100 km", "km": 100, "default": true },
-      { "label": "1000 km", "km": 1000 }
+      { "label": "10 m", "km": 0.01 },
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "10 km", "km": 10 }
     ]
   },
   "models": [
     {
-      "id": "group",
-      "label": "Group",
+      "label": "Moon",
       "bearingControl": true,
-      "bearing": 270,
-      "offset": { "type": "relative", "real": 10 },
+      "bearing": 90,
       "models": [
         {
-          "id": "object-1",
-          "label": "Object 1",
-          "layers": [
+          "label": "Orbit",
+          "size": 769496,
+          "icon": "moon",
+          "features": [
             {
-              "id": "1",
               "shape": "circle",
-              "radius": { "type": "relative", "real": 2 },
-              "fill": { "color": "red" },
-              "drawLineToRoot": true
+              "outline": { "color": "darkgray" }
             }
           ]
         },
         {
-          "id": "object-22",
-          "label": "Object 2",
-          "layers": [
+          "label": "Body",
+          "size": 3474.8,
+          "icon": "moon",
+          "popup": { "content": "Moon" },
+          "features": [
             {
-              "id": "2",
               "shape": "circle",
-              "radius": { "type": "relative", "real": 2 },
-              "fill": { "color": "blue" },
-              "offset": { "type": "relative", "real": 2 },
+              "fill": { "color": "gray" },
+              "outline": { "color": "darkgray" },
+              "offset": 384748,
               "drawLineToRoot": true
             }
           ]
