@@ -1,5 +1,6 @@
 import alphaCentauri from '../setup/alphaCentauri.json'
 import demo from '../setup/demo.json'
+import earthMoon from '../setup/earthMoon.json'
 import earthSatellites from '../setup/earthSatellites.json'
 import pluto from '../setup/pluto.json'
 import solarSystem from '../setup/solarSystem.json'
@@ -21,6 +22,7 @@ import {
 
 const setups = {
   alphaCentauri: alphaCentauri as Setup,
+  earthMoon: earthMoon as Setup,
   earthSatellites: earthSatellites as Setup,
   pluto: pluto as Setup,
   solarSystem: solarSystem as Setup,
@@ -32,7 +34,7 @@ const setups = {
 const app = new App()
 
 map.onLoad(() => {
-  const initialSetup: keyof typeof setups = 'solarSystem'
+  const initialSetup: keyof typeof setups = 'demo'
   const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
   if ($setupOptionElement) {
     $setupOptionElement.setAttribute('selected', 'true')
