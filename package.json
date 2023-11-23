@@ -6,9 +6,9 @@
     "start": "concurrently \"yarn:build:tsc:watch\" \"yarn:build:browserify:watch\" \"yarn:serve\"",
     "build": "tsc && yarn build:browserify",
     "build:tsc:watch": "tsc -w",
-    "build:browserify": "browserify -t browserify-css build/src/main.js -o build/bundle.js",
-    "build:browserify:watch": "watchify -t browserify-css build/src/main.js -o build/bundle.js -v",
-    "serve": "live-server --watch=build/bundle.js,index.html,assets",
+    "build:browserify": "browserify -t browserify-css build/src/main.js -o public/js/bundle.js",
+    "build:browserify:watch": "watchify -t browserify-css build/src/main.js -o public/js/bundle.js -v",
+    "serve": "live-server ./public",
     "test": "jest",
     "test:watch": "jest --watch",
     "schema": "bin/setup-schema"

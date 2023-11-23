@@ -87,7 +87,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       events: ['visible'],
       onUpdate: ($, event) => {
         if (matchDataEvent(this.storeId, event)) {
-          $.innerHTML = `<img alt="center" src="../assets/icons/ui/${
+          $.innerHTML = `<img alt="center" src="./assets/icons/ui/${
             event.data.visible ? 'hide' : 'show'
           }.png" />`
         }
@@ -136,7 +136,7 @@ function SidebarItemIconTemplate({ label, icon }: SidebarItemTemplateProps) {
   $div.className = 'icon'
   const $img = document.createElement('img')
   $img.setAttribute('alt', label)
-  $img.setAttribute('src', `../assets/icons/models/${icon}.png`)
+  $img.setAttribute('src', `./assets/icons/models/${icon}.png`)
   $div.append($img)
   return $div.outerHTML
 }

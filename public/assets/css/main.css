@@ -1,4 +1,4 @@
-@import url('../../node_modules/@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css');
+@import url('./maplibre-gl-geocoder.css');
 
 body {
   font-family: 'Open Sans', sans-serif;
