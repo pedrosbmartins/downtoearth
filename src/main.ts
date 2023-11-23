@@ -56,6 +56,7 @@ map.onLoad(() => {
     const { value } = this
     switch (value) {
       case SETUP_FROM_FILE_VALUE:
+        $setupDropdown.value = ''
         $setupFileSelector.click()
         break
       case SETUP_FROM_URL_VALUE:

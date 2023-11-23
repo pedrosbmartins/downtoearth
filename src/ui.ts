@@ -5,7 +5,7 @@ export const $sidebarContainer = document.getElementById('sidebar')!
 export const $sidebar = $sidebarContainer.querySelector<HTMLDivElement>(
   '.dynamic-content-container'
 )!
-export const $setupDropdown = document.getElementById('setup-dropdown')!
+export const $setupDropdown = document.getElementById('setup-dropdown')! as HTMLSelectElement
 export const $setupFileSelector = document.getElementById('setup-file-selector')!
 
 export const $setupFromURLOption = $setupDropdown.querySelector<HTMLInputElement>(
