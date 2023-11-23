@@ -2823,7 +2823,7 @@ const setups = {
 };
 const app = new app_1.App();
 map_1.default.onLoad(() => {
-    const initialSetup = 'demo';
+    const initialSetup = 'solarSystem';
     const $setupOptionElement = ui_1.$setupDropdown.querySelector(`option[value=${initialSetup}]`);
     if ($setupOptionElement) {
         $setupOptionElement.setAttribute('selected', 'true');
