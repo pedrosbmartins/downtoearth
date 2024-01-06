@@ -1,3 +1,4 @@
 node_modules
 build
 aux
+public/js/bundle.js
