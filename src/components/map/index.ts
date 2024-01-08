@@ -1,2 +1,2 @@
-export { RegularMapComponent } from './Regular'
+export { ModelMapComponent } from './Model'
 export { RootMapComponent } from './Root'

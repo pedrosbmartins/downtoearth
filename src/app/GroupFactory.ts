@@ -1,9 +1,9 @@
-import * as turf from '@turf/turf'
 import { SidebarItem } from '../components/dom'
-import { fitBounds } from '../map'
-import { BoundingBox, GroupStore, RootStore } from '../store'
-import { Group } from '../types'
+import map from '../initializers/map'
+import * as Setup from '../setups'
+import { GroupStore, RootStore } from '../store'
 import { $sidebar } from '../ui'
+import { mergeBoundingBoxes } from '../utils'
 import { ModelFactory } from './ModelFactory'
 
 export class GroupFactory {
@@ -11,32 +11,36 @@ export class GroupFactory {
   public $ui: HTMLElement
   public models: ModelFactory[]
 
-  constructor(private definition: Group, private rootStore?: RootStore) {
+  constructor(private definition: Setup.GroupModel, private rootStore: RootStore) {
     this.store = new GroupStore(this.definition, this.rootStore)
     this.$ui = this.buildUI()
     this.models = this.buildModels()
   }
 
-  private buildUI() {
-    const $container = document.createElement('div')
-    $container.innerHTML = this.template()
-    $sidebar.append($container)
+  public destroy() {
+    this.store.destroy()
+    this.models.forEach(model => model.destroy())
+  }
 
-    const $groupContainer = $container.querySelector('.items[data-role="group"]')
+  private buildUI() {
+    const $group = document.createElement('div')
+    $group.className = 'group'
+    $group.innerHTML = this.template()
+    $sidebar.append($group)
+
+    const $groupContainer = $group.querySelector('.items[data-role="group"]')
     const onCenter = () => {
       const componentsBbox = this.models.map(model => model.mapComponent.boundingBox())
-      const boundingBox = turf.bbox(
-        turf.featureCollection(componentsBbox.map(bbox => turf.bboxPolygon(bbox)))
-      ) as BoundingBox
-      fitBounds(boundingBox)
+      const boundingBox = mergeBoundingBoxes(componentsBbox)
+      map.flyTo(boundingBox)
     }
-    const { label, bearingControl } = this.definition
+    const { label, bearingControl, info } = this.definition
     const itemComponent = SidebarItem(
-      { label, bearingControl, alternative: true, onCenter },
+      { label, bearingControl, info, alternative: true, onCenter },
       this.store
     )
     $groupContainer!.append(itemComponent.dom())
-    return $container
+    return $group
   }
 
   private buildModels() {
@@ -48,10 +52,8 @@ export class GroupFactory {
 
   private template() {
     return `
-      <div class="group">
-        <div class="items" data-role="group"></div>
-        <div class="items" data-role="models"></div>
-      </div>
+      <div class="items" data-role="group"></div>
+      <div class="items" data-role="models"></div>
     `
   }
 }

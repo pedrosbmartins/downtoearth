@@ -1,17 +1,17 @@
 import { SidebarItem } from '../components/dom'
-import { RegularMapComponent } from '../components/map'
-import { fitBounds } from '../map'
+import { ModelMapComponent } from '../components/map'
+import map from '../initializers/map'
+import * as Setup from '../setups'
 import { GroupStore, ModelStore, RootStore } from '../store'
-import { Model } from '../types'
 
 export class ModelFactory {
   public store: ModelStore
-  public mapComponent: RegularMapComponent
+  public mapComponent: ModelMapComponent
 
   constructor(
-    private definition: Model,
+    private definition: Setup.SingleModel,
     private $container: HTMLElement,
-    private rootStore?: RootStore,
+    private rootStore: RootStore,
     private groupStore?: GroupStore
   ) {
     this.store = new ModelStore(this.definition, this.rootStore, this.groupStore)
@@ -19,23 +19,33 @@ export class ModelFactory {
     this.buildUI()
   }
 
+  public destroy() {
+    this.store.destroy()
+    this.mapComponent.destroy()
+  }
+
   private buildMapComponent() {
-    const { id, layers } = this.definition
-    return new RegularMapComponent(id, this.store, {
-      layerDefinitions: layers
-    })
+    return new ModelMapComponent(this.store, this.definition)
   }
 
   private buildUI() {
-    const { label, icon } = this.definition
+    const { label, icon, bearingControl, info } = this.definition
     const item = SidebarItem(
       {
         label,
         icon,
-        onCenter: () => fitBounds(this.mapComponent.boundingBox())
+        bearingControl,
+        info,
+        onCenter: () => map.flyTo(this.mapComponent.boundingBox())
       },
       this.store
     )
-    this.$container.append(item.dom())
+    let $element = item.dom()
+    if (this.groupStore === undefined) {
+      $element = document.createElement('div')
+      $element.className = 'single-model'
+      $element.append(item.dom())
+    }
+    this.$container.append($element)
   }
 }

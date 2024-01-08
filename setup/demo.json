@@ -1,93 +1,44 @@
 {
-  "unit": {
-    "name": "km",
-    "km": 1
-  },
+  "$schema": "./schema.json",
+  "title": "Demo",
+  "unit": { "name": "km", "km": 1 },
   "root": {
-    "id": "root",
     "label": "Root",
-    "visible": true,
-    "layer": {
-      "id": "root",
-      "shape": "circle",
-      "visible": true,
-      "size": {
-        "type": "relative",
-        "real": 1
+    "size": 2,
+    "features": [
+      {
+        "shape": "circle",
+        "outline": { "color": "green" },
+        "label": { "position": "outline", "value": "Circle" }
       },
-      "fill": {
-        "color": "yellow"
+      {
+        "shape": "circle",
+        "radiusRatio": 0.01,
+        "fill": { "color": "green" },
+        "label": { "position": "outline", "value": "Circle" }
       }
-    },
+    ],
     "sizePresets": [
-      {
-        "label": "1",
-        "value": 1,
-        "default": true
-      },
-      {
-        "label": "5",
-        "value": 5
-      },
-      {
-        "label": "10",
-        "value": 10
-      }
+      { "label": "1 km", "km": 1 },
+      { "label": "10 km", "km": 10, "default": true },
+      { "label": "300 km", "km": 300 }
     ]
   },
-  "groups": [
+  "models": [
     {
-      "id": "group",
-      "label": "Group",
-      "visible": true,
-      "bearingControl": true,
-      "bearing": 270,
-      "offset": {
-        "type": "relative",
-        "real": 10
-      },
+      "label": "Group 1",
+      "offset": 1,
+      "bearing": 180,
       "models": [
         {
-          "id": "1",
-          "label": "Object 1",
-          "visible": true,
-          "layers": [
+          "label": "Model 1",
+          "size": 2,
+          "features": [
             {
-              "id": "1",
               "shape": "circle",
-              "visible": true,
-              "size": {
-                "type": "relative",
-                "real": 2
-              },
-              "fill": {
-                "color": "red"
-              },
-              "drawLineToRoot": true
-            }
-          ]
-        },
-        {
-          "id": "2",
-          "label": "Object 2",
-          "visible": true,
-          "layers": [
-            {
-              "id": "2",
-              "shape": "circle",
-              "visible": true,
-              "size": {
-                "type": "relative",
-                "real": 2
-              },
-              "fill": {
-                "color": "blue"
-              },
-              "offset": {
-                "type": "relative",
-                "real": 2
-              },
-              "drawLineToRoot": true
+              "outline": { "color": "red" },
+              "offset": 1,
+              "bearing": 180
             }
           ]
         }

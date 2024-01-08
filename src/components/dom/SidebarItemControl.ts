@@ -20,7 +20,7 @@ class SidebarItemControlComponent<D extends AnyStoreData> extends DOMComponent<
   render() {
     const $div = document.createElement('div')
     $div.className = 'center'
-    $div.innerHTML = `<img alt="center" src="../assets/icons/ui/${this.props.icon}.png" />`
+    $div.innerHTML = `<img alt="${this.props.icon}" src="./assets/icons/ui/${this.props.icon}.png" />`
     $div.addEventListener('click', this.props.onClick)
     if (this.props.children) $div.append(...this.props.children)
     return $div

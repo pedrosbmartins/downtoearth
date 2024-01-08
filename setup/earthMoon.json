@@ -1,0 +1,57 @@
+{
+  "$schema": "./schema.json",
+  "title": "Example",
+  "root": {
+    "icon": "earth",
+    "label": "Earth",
+    "size": 12742,
+    "features": [
+      {
+        "shape": "circle",
+        "label": { "value": "Earth", "position": "center" },
+        "fill": { "color": "#6b93d6", "opacity": 0.5 },
+        "outline": { "color": "#4f4cb0" }
+      }
+    ],
+    "sizePresets": [
+      { "label": "10 m", "km": 0.01 },
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "10 km", "km": 10 }
+    ]
+  },
+  "models": [
+    {
+      "label": "Moon",
+      "bearingControl": true,
+      "bearing": 90,
+      "models": [
+        {
+          "label": "Orbit",
+          "size": 769496,
+          "icon": "moon",
+          "features": [
+            {
+              "shape": "circle",
+              "outline": { "color": "darkgray" }
+            }
+          ]
+        },
+        {
+          "label": "Body",
+          "size": 3474.8,
+          "icon": "moon",
+          "popup": { "content": "Moon" },
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "gray" },
+              "outline": { "color": "darkgray" },
+              "offset": 384748,
+              "drawLineToRoot": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "$schema": "./schema.json",
+  "title": "Demo",
+  "unit": { "name": "km", "km": 1 },
+  "root": {
+    "label": "Root",
+    "size": 1,
+    "features": [
+      {
+        "shape": "circle",
+        "fill": { "color": "green" }
+      }
+    ],
+    "sizePresets": [
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "10 km", "km": 10 },
+      { "label": "100 km", "km": 100 }
+    ]
+  },
+  "models": [
+    {
+      "label": "Object 1",
+      "size": 20,
+      "features": [
+        {
+          "shape": "circle",
+          "outline": { "color": "red" }
+        }
+      ]
+    },
+    {
+      "label": "Group 1",
+      "bearingControl": true,
+      "models": [
+        {
+          "label": "Grouped Object 1",
+          "bearingControl": true,
+          "size": 1,
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "blue" },
+              "drawLineToRoot": true,
+              "offset": 10
+            }
+          ]
+        },
+        {
+          "label": "Grouped Object 2",
+          "bearingControl": true,
+          "size": 1,
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "blue" },
+              "drawLineToRoot": true,
+              "offset": -10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Object 2",
+      "size": 10,
+      "features": [
+        {
+          "shape": "circle",
+          "outline": { "color": "orange" }
+        }
+      ]
+    },
+    {
+      "label": "Object 3",
+      "size": 30,
+      "features": [
+        {
+          "shape": "circle",
+          "outline": { "color": "purple" }
+        }
+      ]
+    },
+    {
+      "label": "Group 2",
+      "bearing": 90,
+      "bearingControl": true,
+      "models": [
+        {
+          "label": "Grouped Object 1",
+          "bearingControl": true,
+          "size": 1,
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "yellow" },
+              "drawLineToRoot": true,
+              "offset": 10
+            }
+          ]
+        },
+        {
+          "label": "Grouped Object 2",
+          "bearingControl": true,
+          "size": 1,
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "yellow" },
+              "drawLineToRoot": true,
+              "offset": -10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

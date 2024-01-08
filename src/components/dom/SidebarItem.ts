@@ -1,35 +1,32 @@
-import { AnyStoreEvent, matchEvent, Store, StoreData, StoreEvent } from '../../store/core'
+import { BaseModelData } from '../../store'
+import { AnyStoreEvent, matchEvent, Store, StoreEvent } from '../../store/core'
+import { showDialog } from '../../ui'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 import { SidebarItemControl } from './SidebarItemControl'
 
-type SidebarItemStore = Store<SidebarItemData<string>>
-
-export interface SidebarItemData<T extends string> extends StoreData<T> {
-  visible: boolean
-  center: number[]
-  bearing?: number
-}
+type SidebarItemStore = Store<BaseModelData<string>>
 
 export function SidebarItem<S extends SidebarItemStore>(props: Props, store: S) {
   return new SidebarItemComponent(store, { ...props, events: ['visible'] })
 }
 
-interface Props extends ComponentProps<HTMLDivElement, SidebarItemData<any>> {
+interface Props extends ComponentProps<HTMLDivElement, BaseModelData<any>> {
   label: string
   icon?: string
   alternative?: boolean
   bearingControl?: boolean
+  info?: string
   onCenter?: () => void
 }
 
 function matchDataEvent(
   storeId: string,
   event: AnyStoreEvent
-): event is StoreEvent<SidebarItemData<any>> {
+): event is StoreEvent<BaseModelData<any>> {
   return (
-    matchEvent<SidebarItemData<'root'>>(storeId, 'root', event) ||
-    matchEvent<SidebarItemData<'group'>>(storeId, 'group', event) ||
-    matchEvent<SidebarItemData<'model'>>(storeId, 'model', event)
+    matchEvent<BaseModelData<'root'>>(storeId, 'root', event) ||
+    matchEvent<BaseModelData<'group'>>(storeId, 'group', event) ||
+    matchEvent<BaseModelData<'model'>>(storeId, 'model', event)
   )
 }
 
@@ -37,7 +34,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
   S,
   HTMLDivElement,
   Props,
-  SidebarItemData<any>
+  BaseModelData<any>
 > {
   render() {
     const $container = document.createElement('div')
@@ -47,19 +44,29 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
 
     const $controls = $container.querySelector('.controls')!
 
+    if (this.props.info) {
+      const InfoControl = SidebarItemControl<BaseModelData<any>>(this.store, {
+        icon: 'info',
+        onClick: () => {
+          showDialog(this.props.label, { type: 'text', value: this.props.info! })
+        }
+      })
+      $controls.append(InfoControl.dom())
+    }
+
     if (this.props.bearingControl) {
       const $bearingSlider = document.createElement<'input'>('input')
       $bearingSlider.className = 'bearing-slider'
       $bearingSlider.setAttribute('type', 'range')
       $bearingSlider.setAttribute('min', '0')
-      $bearingSlider.setAttribute('max', '360')
+      $bearingSlider.setAttribute('max', '720')
       $bearingSlider.setAttribute('value', '270')
       $bearingSlider.setAttribute('step', '1')
       $bearingSlider.addEventListener('input', event =>
         this.store.set({ bearing: (event.target as any).value })
       )
 
-      const BearingControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
+      const BearingControl = SidebarItemControl<BaseModelData<any>>(this.store, {
         icon: 'bearing',
         children: [$bearingSlider],
         onClick: event => {
@@ -75,12 +82,12 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       $controls.append(BearingControl.dom())
     }
 
-    const VisibilityControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
-      icon: 'hide',
+    const VisibilityControl = SidebarItemControl<BaseModelData<any>>(this.store, {
+      icon: this.store.get('visible') ? 'hide' : 'show',
       events: ['visible'],
       onUpdate: ($, event) => {
         if (matchDataEvent(this.storeId, event)) {
-          $.innerHTML = `<img alt="center" src="../assets/icons/ui/${
+          $.innerHTML = `<img alt="center" src="./assets/icons/ui/${
             event.data.visible ? 'hide' : 'show'
           }.png" />`
         }
@@ -90,7 +97,7 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       }
     })
 
-    const CenterControl = SidebarItemControl<SidebarItemData<any>>(this.store, {
+    const CenterControl = SidebarItemControl<BaseModelData<any>>(this.store, {
       icon: 'center',
       onClick: this.props.onCenter ?? (() => {})
     })
@@ -129,7 +136,7 @@ function SidebarItemIconTemplate({ label, icon }: SidebarItemTemplateProps) {
   $div.className = 'icon'
   const $img = document.createElement('img')
   $img.setAttribute('alt', label)
-  $img.setAttribute('src', `../assets/icons/astro-objects-outline/${icon}.png`)
+  $img.setAttribute('src', `./assets/icons/models/${icon}.png`)
   $div.append($img)
   return $div.outerHTML
 }

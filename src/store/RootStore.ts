@@ -1,23 +1,23 @@
-import { SidebarItemData } from '../components/dom/SidebarItem'
-import { INITIAL_CENTER } from '../constants'
-import { isRelativeSize, Root } from '../types'
-import { AnyStoreEvent, Store, StoreData } from './core'
+import { BaseModelData } from '.'
+import { initialCenter } from '../initializers/center'
+import * as Setup from '../setups'
+import { LngLat } from '../types'
+import { AnyStoreEvent, Store } from './core'
 
-export interface RootData extends StoreData<'root'>, SidebarItemData<'root'> {
+export interface RootData extends BaseModelData<'root'> {
   size: { real: number; rendered: number }
 }
 
 export class RootStore extends Store<RootData> {
-  constructor(definition: Root, center?: number[]) {
-    const { visible, layer, sizePresets } = definition
-    const realSize = isRelativeSize(layer.size) ? layer.size.real : layer.size
-    const renderedSize = sizePresets.find(sp => sp.default)!.value
-    super('root', {
+  constructor(definition: Setup.Root, center?: LngLat) {
+    const { visible, sizePresets } = definition
+    const renderedSize = (sizePresets.find(sp => sp.default) ?? sizePresets[0]).km
+    super({
       type: 'root',
-      visible,
-      center: center ?? INITIAL_CENTER,
+      visible: visible ?? true,
+      center: center ?? initialCenter,
       size: {
-        real: realSize,
+        real: definition.size,
         rendered: renderedSize
       }
     })

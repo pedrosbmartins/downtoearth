@@ -1,0 +1,44 @@
+{
+  "$schema": "./schema.json",
+  "title": "Demo",
+  "unit": { "name": "km", "km": 1 },
+  "root": {
+    "label": "Root",
+    "size": 10,
+    "features": [
+      {
+        "shape": "circle",
+        "fill": { "color": "green" }
+      }
+    ],
+    "sizePresets": [
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "10 km", "km": 10 },
+      { "label": "100 km", "km": 100 }
+    ]
+  },
+  "models": [
+    {
+      "label": "Object 1",
+      "size": 20,
+      "features": [
+        {
+          "shape": "circle",
+          "outline": { "color": "red", "width": 3 }
+        },
+        {
+          "shape": "circle",
+          "radiusRatio": 0.25,
+          "fill": { "color": "blue" },
+          "offset": 10
+        },
+        {
+          "shape": "circle",
+          "radiusRatio": 0.25,
+          "fill": { "color": "blue" },
+          "offset": -10
+        }
+      ]
+    }
+  ]
+}

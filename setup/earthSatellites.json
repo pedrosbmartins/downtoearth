@@ -1,0 +1,92 @@
+{
+  "$schema": "./schema.json",
+  "title": "Earth Satellites & JWST",
+  "root": {
+    "icon": "earth",
+    "label": "Earth",
+    "size": 12742,
+    "features": [
+      {
+        "shape": "circle",
+        "label": { "value": "Earth", "position": "center" },
+        "fill": { "color": "#6b93d6", "opacity": 0.5 },
+        "outline": { "color": "#4f4cb0" }
+      }
+    ],
+    "sizePresets": [
+      { "label": "10 m", "km": 0.01 },
+      { "label": "1 km", "km": 1, "default": true },
+      { "label": "10 km", "km": 10 }
+    ]
+  },
+  "models": [
+    {
+      "label": "Satellites",
+      "models": [
+        {
+          "label": "International Space Station",
+          "size": 13142,
+          "icon": "iss",
+          "features": [
+            {
+              "shape": "circle",
+              "label": { "value": "International Space Station", "position": "outline" },
+              "outline": { "color": "#291866" }
+            }
+          ]
+        },
+        {
+          "label": "Hubble Space Telescope",
+          "size": 13838,
+          "icon": "hubble",
+          "features": [
+            {
+              "shape": "circle",
+              "label": { "value": "Hubble Space Telescope", "position": "outline" },
+              "outline": { "color": "#52606B" }
+            }
+          ]
+        },
+        {
+          "label": "Sputnik 1 (Спутник-1)",
+          "size": 13910.4,
+          "icon": "sputnik",
+          "features": [
+            {
+              "shape": "circle",
+              "label": { "value": "Sputnik 1", "position": "outline" },
+              "outline": { "color": "#3F577D" }
+            }
+          ]
+        },
+        {
+          "label": "Moon",
+          "size": 769496,
+          "icon": "moon",
+          "features": [
+            {
+              "shape": "circle",
+              "label": { "value": "Moon", "position": "outline" },
+              "outline": { "color": "darkgray" }
+            }
+          ]
+        },
+        {
+          "label": "James Webb Space Telescope",
+          "popup": { "content": "James Webb Space Telescope" },
+          "icon": "jwst",
+          "size": 0.022,
+          "bearingControl": true,
+          "info": "The James Webb Space Telescope is technically not an Earth satellite. It is in a solar orbit near the Sun-Earth L2 Lagrange point.",
+          "features": [
+            {
+              "shape": "circle",
+              "fill": { "color": "#CF9537" },
+              "offset": 1.5e6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,63 +1,76 @@
-import { GroupStore, RootData, RootStore } from '.'
-import { SidebarItemData } from '../components/dom/SidebarItem'
-import { Model } from '../types'
-import {
-  AnyObservable,
-  AnyStoreEvent,
-  eventField,
-  matchEvent,
-  Observable,
-  Store,
-  StoreData
-} from './core'
+import { BaseModelData, GroupStore, RootData, RootStore } from '.'
+import { initialCenter } from '../initializers/center'
+import * as Setup from '../setups'
+import { AnyObservable, AnyStoreEvent, eventField, matchEvent, Observable, Store } from './core'
 import { GroupData } from './GroupStore'
 
-export interface ModelData extends StoreData<'model'>, SidebarItemData<'model'> {
+export interface ModelData extends BaseModelData<'model'> {
   sizeRatio: number
 }
 
 export class ModelStore extends Store<ModelData> {
-  private rootStore: RootStore | undefined
+  private rootStore: RootStore
   private groupStore: GroupStore | undefined
 
-  constructor(model: Model, rootStore: RootStore | undefined, groupStore: GroupStore | undefined) {
+  constructor(
+    definition: Setup.SingleModel,
+    rootStore: RootStore,
+    groupStore: GroupStore | undefined
+  ) {
     const observables: AnyObservable[] = []
-    if (rootStore) observables.push(new Observable(rootStore, ['size']))
-    if (groupStore) observables.push(new Observable(groupStore, ['visible', 'center', 'bearing']))
+    const rootObservables: Array<keyof RootData> = ['size']
+    if (groupStore) {
+      observables.push(new Observable(groupStore, ['visible', 'center', 'bearing']))
+    } else {
+      rootObservables.push('center')
+    }
+    observables.push(new Observable(rootStore, rootObservables))
     const data: ModelData = {
       type: 'model',
-      visible: model.visible,
+      visible: definition.visible ?? true,
       sizeRatio: rootStore?.sizeRatio() ?? 1.0,
-      center: groupStore?.get('center') ?? []
+      center: groupStore?.get('center') ?? rootStore?.get('center') ?? initialCenter
     }
-    super(`model-${model.id}`, data, observables)
+    super(data, observables)
     this.rootStore = rootStore
     this.groupStore = groupStore
   }
 
   onUpdate(event: AnyStoreEvent): void {
-    if (this.rootStore && matchEvent<RootData>(this.rootStore.id, 'root', event)) {
-      if (eventField(event) === 'size') {
+    this.matchRootEvent(event)
+    this.matchGroupEvent(event)
+  }
+
+  private matchRootEvent(event: AnyStoreEvent) {
+    if (!matchEvent<RootData>(this.rootStore.id, 'root', event)) return
+    switch (eventField(event)) {
+      case 'size':
         this.set({ sizeRatio: this.rootStore.sizeRatio() })
-      }
+        break
+      case 'center':
+        this.set({ center: event.data.center })
+        break
     }
-    if (this.groupStore && matchEvent<GroupData>(this.groupStore.id, 'group', event)) {
-      switch (eventField(event)) {
-        case 'visible':
-          this.set({ visible: event.data.visible })
-          break
-        case 'center':
-          this.set({ center: event.data.center })
-          break
-        case 'bearing':
-          this.set({ bearing: event.data.bearing })
-          break
-      }
+  }
+
+  private matchGroupEvent(event: AnyStoreEvent) {
+    if (!this.groupStore) return
+    if (!matchEvent<GroupData>(this.groupStore.id, 'group', event)) return
+    switch (eventField(event)) {
+      case 'visible':
+        this.set({ visible: event.data.visible })
+        break
+      case 'center':
+        this.set({ center: event.data.center })
+        break
+      case 'bearing':
+        this.set({ bearing: event.data.bearing })
+        break
     }
   }
 
   public rootCenter() {
-    return this.rootStore?.get('center')
+    return this.rootStore.get('center')
   }
 
   public groupBearing() {

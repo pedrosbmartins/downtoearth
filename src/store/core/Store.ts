@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { AnyStoreData } from './StoreData'
 import { AnyStoreEvent } from './StoreEvent'
 import { AnyObservable, StoreListener } from './StoreListener'
@@ -10,10 +11,12 @@ interface ListenerConfig {
 export type AnyStore = Store
 
 export abstract class Store<D extends AnyStoreData = { type: any }> extends StoreListener {
+  public readonly id: string
   protected listeners: { [field: string]: ListenerConfig[] } = {}
 
-  constructor(public readonly id: string, protected data: D, observables?: AnyObservable[]) {
+  constructor(protected data: D, observables?: AnyObservable[]) {
     super(observables ?? [])
+    this.id = nanoid()
     Object.keys(data).forEach(field =>
       this.register(this, field as keyof D, (e: AnyStoreEvent) => this.onUpdate(e))
     )
@@ -49,7 +52,8 @@ export abstract class Store<D extends AnyStoreData = { type: any }> extends Stor
   }
 
   private broadcast(field: keyof D) {
-    ;(this.listeners[field] ?? []).forEach(({ listener }) => {
+    if (!this.listeners[field]) return
+    this.listeners[field].forEach(({ listener }) => {
       listener.dispatchEvent(
         new MessageEvent<D>(this.eventName(field), {
           origin: `${this.id}/${field}`,

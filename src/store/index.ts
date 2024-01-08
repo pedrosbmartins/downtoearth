@@ -1,5 +1,12 @@
-export type BoundingBox = [number, number, number, number]
+import { LngLat } from '../types'
+import { StoreData } from './core'
 
-export { RootStore, RootData } from './RootStore'
 export { GroupStore } from './GroupStore'
-export { ModelStore, ModelData } from './ModelStore'
+export { ModelData, ModelStore } from './ModelStore'
+export { RootData, RootStore } from './RootStore'
+
+export interface BaseModelData<T extends string> extends StoreData<T> {
+  visible: boolean
+  center: LngLat
+  bearing?: number
+}

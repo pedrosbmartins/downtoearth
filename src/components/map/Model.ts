@@ -1,58 +1,37 @@
-import { AnyStore, StoreListener } from '../../store/core'
-import { Layer } from '../../types'
-import { Circle } from '../map/primitives'
+import * as Setup from '../../setups'
+import { ModelData, ModelStore } from '../../store'
+import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
+import { MapComponent } from './MapComponent'
 
-export interface ModelProps {
-  layerDefinitions: Layer[]
-}
-
-export interface ModelLayer {
-  rendered: Circle
-  definition: Layer
-}
-
-export abstract class ModelMapComponent<S extends AnyStore> extends StoreListener {
-  protected layers: ModelLayer[] = []
-
-  constructor(
-    protected id: string,
-    protected store: S,
-    events: string[],
-    protected props: ModelProps
-  ) {
-    super([{ store, events }])
+export class ModelMapComponent extends MapComponent<ModelStore> {
+  constructor(store: ModelStore, definition: Setup.SingleModel) {
+    super(store, ['visible', 'center', 'sizeRatio', 'bearing'], definition)
   }
 
-  public destroy() {
-    this.layers.forEach(layer => layer.rendered.destroy())
+  onUpdate(event: AnyStoreEvent) {
+    if (matchEvent<ModelData>(this.store.id, 'model', event)) {
+      switch (eventField(event)) {
+        case 'visible':
+          event.data.visible ? this.show() : this.hide()
+          break
+        case 'sizeRatio':
+        case 'center':
+        case 'bearing':
+          this.update()
+          break
+      }
+    }
   }
 
-  protected show() {
-    this.layers.forEach(({ rendered }) => rendered.show())
+  protected sizeRatio(): number {
+    return this.store.get('sizeRatio')
   }
 
-  protected hide() {
-    this.layers.forEach(({ rendered }) => rendered.hide())
+  protected defaultBearing(): number {
+    return this.store.get('bearing') ?? this.store.groupBearing() ?? 0
   }
 
-  protected resize(value: number) {
-    this.layers.forEach(({ rendered }) => {
-      rendered.resize(value)
-    })
+  protected rootCenter() {
+    return this.store.rootCenter()
   }
-
-  protected setCenter(value: number[]) {
-    this.layers.forEach(({ rendered }) => {
-      rendered.setCenter(value)
-    })
-  }
-
-  protected buildLayers() {
-    return this.props.layerDefinitions.map(layer => {
-      const circle = this.buildLayer(layer)
-      return { definition: layer, rendered: circle }
-    })
-  }
-
-  protected abstract buildLayer(layer: Layer): Circle
 }

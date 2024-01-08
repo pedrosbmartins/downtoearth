@@ -1,6 +1,6 @@
+import * as Setup from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { matchEvent } from '../../store/core'
-import { SizePreset } from '../../types'
 import { ComponentProps, DOMComponent } from './DOMComponent'
 import { SizePresetSelector } from './SizePresetSelector'
 
@@ -9,7 +9,7 @@ export function SizePresets(props: Props, store: RootStore) {
 }
 
 interface Props extends ComponentProps<HTMLDivElement, RootData> {
-  presets?: SizePreset[]
+  presets?: Setup.SizePreset[]
 }
 
 class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props, RootData> {
@@ -27,14 +27,15 @@ class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props
     if (!sizePresets) return $wrapper
     const $container = document.createElement('div')
     $container.className = 'container'
-    sizePresets.forEach(preset => {
+    let defaultIndex = sizePresets.findIndex(sp => sp.default)
+    sizePresets.forEach((preset, index) => {
       const PresetButton = SizePresetSelector<RootData>(store, {
         label: preset.label,
-        selected: preset.default,
+        selected: index === defaultIndex || (defaultIndex === -1 && index === 0),
         events: ['size'],
         onUpdate: ($, event) => {
           if (matchEvent<RootData>(this.storeId, 'root', event)) {
-            const isCurrent = event.data.size?.rendered === preset.value
+            const isCurrent = event.data.size?.rendered === preset.km
             const $selectorItem = $.querySelector('.selector-item')!
             if (isCurrent) {
               $selectorItem.classList.add('selected')
@@ -43,7 +44,7 @@ class SizePresetsComponent extends DOMComponent<RootStore, HTMLDivElement, Props
             }
           }
         },
-        onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.value } })
+        onClick: () => store.set({ size: { ...store.get('size')!, rendered: preset.km } })
       })
       $container.append(PresetButton.dom())
     })

@@ -1,12 +1,11 @@
-import { Result } from '@mapbox/mapbox-gl-geocoder'
-import { LngLatLike } from 'mapbox-gl'
 import { SidebarItem, SizePresets } from '../components/dom'
 import { RootMapComponent } from '../components/map'
-import { INITIAL_CITY } from '../constants'
-import { buildGeocoder, reverseGeocoding } from '../geocoding'
-import map, { fitBounds, geolocate, isGeolocateResultEvent } from '../map'
+import { reverseGeocoding } from '../geocoding'
+import { initialCenter } from '../initializers/center'
+import map from '../initializers/map'
+import * as Setup from '../setups'
 import { RootStore } from '../store'
-import { Root } from '../types'
+import { LngLat } from '../types'
 import { $sidebar } from '../ui'
 
 export class RootFactory extends EventTarget {
@@ -16,14 +15,14 @@ export class RootFactory extends EventTarget {
   private $ui: HTMLElement
   private $geocoderInput: HTMLInputElement | undefined
 
-  constructor(private definition: Root, private currentLngLat?: number[]) {
+  constructor(private definition: Setup.Root, private currentLngLat?: LngLat) {
     super()
 
     this.store = new RootStore(this.definition, this.currentLngLat)
     this.$ui = this.buildUI()
 
     this.buildMapComponent()
-    this.buildGeocoder()
+    this.buildGeocoder(currentLngLat)
 
     this.store.register(this, 'center', async () => {
       if (this.$geocoderInput) {
@@ -34,40 +33,35 @@ export class RootFactory extends EventTarget {
       }
     })
 
-    map.on('click', event => {
-      const center = event.lngLat.toArray()
-      this.store.set({ center })
+    map.onClick(({ lngLat }) => {
+      this.store.set({ center: lngLat })
     })
 
-    geolocate.on('geolocate', (event: any) => {
-      if (isGeolocateResultEvent(event)) {
-        const { longitude, latitude } = event.coords
-        const center = [longitude, latitude]
-        this.store.set({ center })
-      }
+    map.onGeolocate(({ lngLat }) => {
+      this.store.set({ center: lngLat })
     })
+  }
+
+  public destroy() {
+    this.store.destroy()
+    this.mapComponent?.destroy()
   }
 
   private buildMapComponent() {
-    const { sizePresets, layer } = this.definition
-    if (layer) {
-      this.mapComponent = new RootMapComponent('root', this.store, {
-        size: sizePresets.find(sp => sp.default)!.value,
-        layerDefinitions: [layer]
-      })
-    }
+    this.mapComponent = new RootMapComponent(this.store, this.definition)
   }
 
   private buildUI() {
-    const { label, sizePresets, icon } = this.definition
+    const { label, sizePresets, icon, info } = this.definition
 
     const $container = document.createElement('div')
+    $container.className = 'root'
     $container.innerHTML = this.template()
     $sidebar.append($container)
 
-    const onCenter = () => this.mapComponent && fitBounds(this.mapComponent.boundingBox())
+    const onCenter = () => this.mapComponent && map.flyTo(this.mapComponent.boundingBox())
     const $items = $container.querySelector('.items')
-    const itemComponent = SidebarItem({ label, icon, onCenter }, this.store)
+    const itemComponent = SidebarItem({ label, icon, info, onCenter }, this.store)
     $items?.append(itemComponent.dom())
 
     const $sizePresetContainer = $container.querySelector('div[data-role="size-presets"]')
@@ -77,29 +71,28 @@ export class RootFactory extends EventTarget {
     return $container
   }
 
-  private buildGeocoder() {
-    const { $geocoderInput } = buildGeocoder(this.$ui, async (event: { result: Result }) => {
-      const { center } = event.result
-      map.setCenter(center as LngLatLike)
+  private async buildGeocoder(currentLngLat: LngLat | undefined) {
+    const $geocoderInput = map.buildGeocoder(this.$ui, center => {
+      map.setCenter(center)
       this.store.set({ center })
     })
     this.$geocoderInput = $geocoderInput
-    $geocoderInput.value = `${INITIAL_CITY.name}, ${INITIAL_CITY.country}`
+    const center = currentLngLat ?? initialCenter
+    const locationText = (await reverseGeocoding(center)) ?? center.toString()
+    $geocoderInput.value = locationText
   }
 
   private template() {
     return `
-      <div class="root">
-        <div class="items"></div>
-        <div class="controls">
-          <div class="control">
-            <span class="label">Position</span>
-            <div class="container">
-              <div id="geocoder" class="geocoder"></div>
-            </div>
+      <div class="items"></div>
+      <div class="controls">
+        <div class="control">
+          <span class="label">Position</span>
+          <div class="container">
+            <div id="geocoder" class="geocoder"></div>
           </div>
-          <div data-role="size-presets"></div>
         </div>
+        <div data-role="size-presets"></div>
       </div>
     `
   }

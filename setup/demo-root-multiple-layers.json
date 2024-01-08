@@ -1,0 +1,28 @@
+{
+  "$schema": "./schema.json",
+  "title": "Demo",
+  "unit": { "name": "km", "km": 1 },
+  "root": {
+    "label": "Root",
+    "size": 10,
+    "features": [
+      {
+        "shape": "circle",
+        "offset": -4,
+        "bearing": 90,
+        "fill": { "color": "green" }
+      },
+      {
+        "shape": "circle",
+        "offset": 4,
+        "bearing": 90,
+        "fill": { "color": "red" }
+      }
+    ],
+    "sizePresets": [
+      { "label": "1 km", "km": 1 },
+      { "label": "10 km", "km": 10, "default": true },
+      { "label": "100 km", "km": 100 }
+    ]
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "$ref": "#/definitions/Setup",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "CircleFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "bearing": {
+          "type": "number"
+        },
+        "drawLineToRoot": {
+          "type": "boolean"
+        },
+        "fill": {
+          "$ref": "#/definitions/Fill"
+        },
+        "label": {
+          "$ref": "#/definitions/Label"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "outline": {
+          "$ref": "#/definitions/Outline"
+        },
+        "radiusRatio": {
+          "type": "number"
+        },
+        "shape": {
+          "const": "circle",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shape"
+      ],
+      "type": "object"
+    },
+    "EllipseFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "axesRatios": {
+          "additionalProperties": false,
+          "properties": {
+            "semiMajor": {
+              "type": "number"
+            },
+            "semiMinor": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "semiMajor",
+            "semiMinor"
+          ],
+          "type": "object"
+        },
+        "bearing": {
+          "type": "number"
+        },
+        "drawLineToRoot": {
+          "type": "boolean"
+        },
+        "fill": {
+          "$ref": "#/definitions/Fill"
+        },
+        "label": {
+          "$ref": "#/definitions/Label"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "outline": {
+          "$ref": "#/definitions/Outline"
+        },
+        "shape": {
+          "const": "ellipse",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shape"
+      ],
+      "type": "object"
+    },
+    "Feature": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/CircleFeature"
+        },
+        {
+          "$ref": "#/definitions/EllipseFeature"
+        }
+      ]
+    },
+    "Fill": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "opacity": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "color"
+      ],
+      "type": "object"
+    },
+    "GroupModel": {
+      "additionalProperties": false,
+      "properties": {
+        "bearing": {
+          "type": "number"
+        },
+        "bearingControl": {
+          "type": "boolean"
+        },
+        "info": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "models": {
+          "items": {
+            "$ref": "#/definitions/SingleModel"
+          },
+          "type": "array"
+        },
+        "offset": {
+          "type": "number"
+        },
+        "popup": {
+          "$ref": "#/definitions/Popup"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "label",
+        "models"
+      ],
+      "type": "object"
+    },
+    "Label": {
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "enum": [
+            "center",
+            "outline"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "position"
+      ],
+      "type": "object"
+    },
+    "Model": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/GroupModel"
+        },
+        {
+          "$ref": "#/definitions/SingleModel"
+        }
+      ]
+    },
+    "Outline": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "color"
+      ],
+      "type": "object"
+    },
+    "Popup": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content"
+      ],
+      "type": "object"
+    },
+    "Root": {
+      "additionalProperties": false,
+      "properties": {
+        "bearingControl": {
+          "type": "boolean"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/Feature"
+          },
+          "type": "array"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "popup": {
+          "$ref": "#/definitions/Popup"
+        },
+        "size": {
+          "type": "number"
+        },
+        "sizePresets": {
+          "items": {
+            "$ref": "#/definitions/SizePreset"
+          },
+          "type": "array"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "features",
+        "label",
+        "size",
+        "sizePresets"
+      ],
+      "type": "object"
+    },
+    "Setup": {
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "models": {
+          "items": {
+            "$ref": "#/definitions/Model"
+          },
+          "type": "array"
+        },
+        "root": {
+          "$ref": "#/definitions/Root"
+        },
+        "title": {
+          "type": "string"
+        },
+        "unit": {
+          "$ref": "#/definitions/Unit"
+        }
+      },
+      "required": [
+        "title",
+        "root"
+      ],
+      "type": "object"
+    },
+    "SingleModel": {
+      "additionalProperties": false,
+      "properties": {
+        "bearingControl": {
+          "type": "boolean"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/definitions/Feature"
+          },
+          "type": "array"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "info": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "popup": {
+          "$ref": "#/definitions/Popup"
+        },
+        "size": {
+          "type": "number"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "features",
+        "label",
+        "size"
+      ],
+      "type": "object"
+    },
+    "SizePreset": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "type": "boolean"
+        },
+        "km": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "km"
+      ],
+      "type": "object"
+    },
+    "Unit": {
+      "additionalProperties": false,
+      "properties": {
+        "km": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "km"
+      ],
+      "type": "object"
+    }
+  }
+}

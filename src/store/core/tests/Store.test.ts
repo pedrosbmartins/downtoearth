@@ -11,7 +11,7 @@ class TestStore extends Store<Data> {
 }
 
 describe('Store', () => {
-  const store = new TestStore('test', { type: 'test', value: 42 })
+  const store = new TestStore({ type: 'test', value: 42 })
   describe('#get', () => {
     it('returns store data', () => {
       expect(store.get('value')).toBe(42)

@@ -1,0 +1,470 @@
+@import url('./maplibre-gl-geocoder.css');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.65em;
+  margin: 0;
+}
+
+a {
+  color: #fff;
+}
+
+.maplibregl-popup-content {
+  background-color: #2d2d2d;
+  border-radius: 15px;
+  color: #fff;
+  cursor: default;
+  font-family: 'Open Sans', sans-serif;
+  padding: 2px 10px;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  background-color: transparent;
+  border: 0;
+  border-right: 1px dashed #555;
+  height: 40px;
+  width: 1px;
+  margin-left: -1px;
+}
+
+#geocoder {
+  width: 100%;
+}
+
+.mapboxgl-ctrl-geocoder {
+  background-color: #373737;
+  flex: 1;
+  font-size: 15px;
+  min-width: auto;
+  line-height: 20px;
+  width: 100%;
+}
+.mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--icon {
+  display: none;
+}
+.mapboxgl-ctrl-geocoder,
+.mapboxgl-ctrl-geocoder .suggestions {
+  box-shadow: none;
+}
+.mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--input {
+  color: #fff;
+  height: 35px;
+  outline: 0;
+  padding: 6px 15px;
+}
+.mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder--button {
+  background-color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4d4d4d;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5d5d5d;
+}
+
+#app {
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#map-container {
+  flex: 1;
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+#setup-dropdown {
+  margin-bottom: 20px;
+  font-weight: 300;
+  background-color: #252525;
+  color: #ffffffcc;
+  width: 100%;
+  border: 0;
+  padding: 10px 5px;
+  border-radius: 5px;
+  outline: 0;
+}
+
+/* Sidebar */
+#sidebar {
+  background-color: #2d2d2d;
+  box-sizing: border-box;
+  color: #fff;
+  overflow-y: auto;
+  padding: 45px 30px 30px 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 100vh;
+  z-index: 100;
+  transition: left 1s;
+}
+#sidebar.hidden {
+  left: -400px;
+}
+#sidebar .header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 25px 0;
+}
+#sidebar .header .logo img {
+  max-height: 22px;
+}
+#sidebar .header #hide-button {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+#sidebar .header #hide-button img {
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+}
+#sidebar.hidden .header #hide-button img {
+  transform: scale(-1);
+}
+
+#sidebar .header .info {
+  display: flex;
+  gap: 8px;
+  margin-left: 12px;
+  width: 100%;
+}
+#sidebar .header .info a,
+#sidebar .header .info div {
+  cursor: pointer;
+  opacity: 0.5;
+}
+#sidebar .header .info a:hover,
+#sidebar .header .info div:hover {
+  opacity: 0.75;
+}
+#sidebar .header .info img {
+  width: 16px;
+  height: 16px;
+  margin-left: -1px;
+}
+
+#show-button {
+  cursor: pointer;
+  opacity: 0;
+  padding: 10px;
+  position: absolute;
+  top: 35px;
+  left: 10px;
+  transition: opacity 1s 0.8s;
+  z-index: 10;
+}
+#show-button.sidebar-hidden {
+  opacity: 1;
+}
+#show-button img {
+  width: 22px;
+  height: 22px;
+}
+
+@media screen and (max-width: 700px) {
+  #sidebar {
+    width: 350px;
+  }
+  #sidebar.hidden {
+    left: -350px;
+  }
+}
+
+/* Sidebar Single/Group Models */
+#sidebar .group:not(:first-child) {
+  margin: 20px 0 20px 0;
+}
+
+/* Root SidebarItem */
+#sidebar .root {
+  margin-bottom: 30px;
+}
+
+#sidebar .root > .item {
+  margin-bottom: 15px;
+}
+
+#sidebar .root > .controls {
+  display: flex;
+  flex-direction: column;
+}
+#sidebar .root > .controls .control {
+  align-items: center;
+  display: flex;
+  margin-bottom: 15px;
+}
+#sidebar .root > .controls .control:last-of-type {
+  margin-bottom: 0;
+}
+#sidebar .root > .controls .control .label {
+  color: #bbb;
+  font-size: 1.2em;
+  width: 100px;
+}
+@media screen and (max-width: 700px) {
+  #sidebar .root > .controls .control .label {
+    width: 80px;
+  }
+}
+#sidebar .root > .controls .control .container {
+  background-color: #373737;
+  border-radius: 5px;
+  display: flex;
+  flex: 1;
+  height: 35px;
+}
+#sidebar .root > .controls .control .container .selector {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+#sidebar .root > .controls .control .container .selector .selector-item {
+  align-items: center;
+  align-self: stretch;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  text-align: center;
+}
+#sidebar .root > .controls .control .container .selector .selector-item:last-of-type span {
+  border: 0;
+}
+#sidebar .root > .controls .control .container .selector .selector-item:hover {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+#sidebar .root > .controls .control .container .selector .selector-item span {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  flex: 1;
+  font-weight: 600;
+}
+#sidebar .root > .controls .control .container .selector .selector-item.selected {
+  background-color: #fff;
+}
+#sidebar .root > .controls .control .container .selector .selector-item.selected span {
+  color: #000;
+}
+@media screen and (max-width: 700px) {
+  #sidebar .root > .controls .control .container .selector .selector-item {
+    font-size: 0.8em;
+  }
+}
+
+/* Sidebar Item */
+#sidebar .item {
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: default;
+  display: flex;
+  padding: 10px 5px;
+}
+#sidebar .item:last-of-type {
+  border-bottom: 0;
+}
+#sidebar .item.alternative .label {
+  opacity: 0.4;
+}
+#sidebar .item .icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 15px;
+}
+#sidebar .item .icon img {
+  height: 100%;
+  width: 100%;
+}
+#sidebar .item .label span {
+  font-weight: 300;
+  font-size: 1.8em;
+}
+#sidebar .item .controls {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+#sidebar .item .controls > div {
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
+}
+#sidebar .item .controls > div:last-of-type {
+  margin-right: 0;
+}
+#sidebar .item .controls > div img {
+  cursor: pointer;
+  opacity: 0.75;
+  height: 100%;
+  width: 100%;
+}
+#sidebar .item .controls > div img:hover {
+  opacity: 1;
+}
+#sidebar .item .controls .bearing-control {
+  background-color: #1d1d1d;
+  border-radius: 5px;
+  cursor: default;
+  display: flex;
+  opacity: 1;
+  padding: 8px;
+  position: absolute;
+  z-index: 100;
+}
+#sidebar .item .controls .bearing-control:hover {
+  cursor: default;
+}
+
+/* Bearing Slider */
+.bearing-slider {
+  display: none;
+}
+.bearing-slider.show {
+  display: block;
+}
+
+input[type='range'] {
+  width: 400%;
+  margin: 5px 0;
+  background-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type='range']:focus {
+  outline: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  background: #000000;
+  border: 0.2px solid #010101;
+  border-radius: 1.3px;
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-thumb {
+  margin-top: -6.2px;
+  width: 19px;
+  height: 13px;
+  background: #111111;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+input[type='range']:focus::-webkit-slider-runnable-track {
+  background: #0d0d0d;
+}
+input[type='range']::-moz-range-track {
+  background: #000000;
+  border: 0.2px solid #010101;
+  border-radius: 1.3px;
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+}
+input[type='range']::-moz-range-thumb {
+  width: 19px;
+  height: 13px;
+  background: #111111;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+}
+input[type='range']::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  border-width: 7px 0;
+  color: transparent;
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+}
+input[type='range']::-ms-fill-lower {
+  background: #000000;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type='range']::-ms-fill-upper {
+  background: #000000;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type='range']::-ms-thumb {
+  width: 19px;
+  height: 13px;
+  background: #111111;
+  border: 0;
+  border-radius: 7px;
+  cursor: pointer;
+  margin-top: 0px;
+  /*Needed to keep the Edge thumb centred*/
+}
+input[type='range']:focus::-ms-fill-lower {
+  background: #000000;
+}
+input[type='range']:focus::-ms-fill-upper {
+  background: #0d0d0d;
+}
+@supports (-ms-ime-align: auto) {
+  /* Pre-Chromium Edge only styles, selector taken from hhttps://stackoverflow.com/a/32202953/7077589 */
+  input[type='range'] {
+    margin: 0;
+    /*Edge starts the margin from the thumb, not the track as other browsers do*/
+  }
+}
+
+#dialog-modal {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+#dialog-modal.hidden {
+  display: none;
+}
+
+#dialog-modal .content {
+  background-color: #090909;
+  cursor: default;
+  color: #bbb;
+  margin: 25vh auto 0 auto;
+  padding: 20px 50px;
+  font-size: 1.2em;
+  width: 300px;
+}
+
+#dialog-modal .content h2 {
+  color: #fff;
+  font-weight: 300;
+}

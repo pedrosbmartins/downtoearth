@@ -1,0 +1,42 @@
+{
+  "$schema": "./schema.json",
+  "title": "Pluto",
+  "unit": { "name": "AU", "km": 149597870.7 },
+  "root": {
+    "icon": "sun",
+    "label": "Sun",
+    "popup": { "content": "Sun" },
+    "size": 0.0093,
+    "features": [
+      {
+        "shape": "circle",
+        "fill": { "color": "#fff2d1", "opacity": 0.75 },
+        "outline": { "color": "rgba(0,0,0,0.25)" }
+      }
+    ],
+    "sizePresets": [
+      { "label": "1 m", "km": 0.001 },
+      { "label": "10 m", "km": 0.01, "default": true },
+      { "label": "100 m", "km": 0.1 },
+      { "label": "1 km", "km": 1 }
+    ]
+  },
+  "models": [
+    {
+      "label": "Pluto",
+      "icon": "pluto",
+      "size": 78.472,
+      "features": [
+        {
+          "shape": "ellipse",
+          "label": { "value": "Pluto", "position": "outline" },
+          "outline": { "color": "#45331D" },
+          "axesRatios": {
+            "semiMajor": 0.5,
+            "semiMinor": 0.4848
+          }
+        }
+      ]
+    }
+  ]
+}

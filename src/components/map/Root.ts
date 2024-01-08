@@ -1,19 +1,11 @@
-import { INITIAL_CENTER } from '../../constants'
+import * as Setup from '../../setups'
 import { RootData, RootStore } from '../../store'
 import { AnyStoreEvent, eventField, matchEvent } from '../../store/core'
-import { Layer } from '../../types'
-import { Circle } from '../map/primitives'
-import { ModelLayer, ModelMapComponent, ModelProps } from './Model'
+import { MapComponent } from './MapComponent'
 
-export class RootMapComponent extends ModelMapComponent<RootStore> {
-  private layer: ModelLayer
-  private size: number
-
-  constructor(id: string, store: RootStore, props: ModelProps & { size: number }) {
-    super(id, store, ['visible', 'size', 'center'], props)
-    this.size = props.size
-    this.layers = this.buildLayers()
-    this.layer = this.layers[0]
+export class RootMapComponent extends MapComponent<RootStore> {
+  constructor(store: RootStore, definition: Setup.Root) {
+    super(store, ['visible', 'size', 'center'], definition)
   }
 
   onUpdate(event: AnyStoreEvent) {
@@ -23,24 +15,22 @@ export class RootMapComponent extends ModelMapComponent<RootStore> {
           event.data.visible ? this.show() : this.hide()
           break
         case 'size':
-          this.resize(event.data.size!.rendered)
-          break
         case 'center':
-          this.setCenter(event.data.center!)
+          this.update()
           break
       }
     }
   }
 
-  public boundingBox() {
-    return this.layer.rendered.boundingBox()
+  protected sizeRatio(): number {
+    return this.store.sizeRatio()
   }
 
-  protected buildLayer(layer: Layer) {
-    return new Circle(`${this.id}-${layer.id}`, {
-      size: this.size,
-      definition: layer,
-      center: this.store.get('center') ?? INITIAL_CENTER
-    })
+  protected defaultBearing(): number {
+    return this.store.get('bearing') ?? 0
+  }
+
+  protected rootCenter() {
+    return this.store.get('center')
   }
 }
