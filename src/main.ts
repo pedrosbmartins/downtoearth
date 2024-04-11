@@ -1,5 +1,5 @@
 import * as turf from '@turf/turf'
-import { ImageSource, ImageSourceSpecification, RasterLayerSpecification } from 'maplibre-gl'
+import { ImageSourceSpecification, RasterLayerSpecification } from 'maplibre-gl'
 import alphaCentauri from '../setup/alphaCentauri.json'
 import demo from '../setup/demo.json'
 import earthMoon from '../setup/earthMoon.json'
@@ -9,7 +9,6 @@ import solarSystem from '../setup/solarSystem.json'
 import starSizes from '../setup/starSizes.json'
 import starSizes_solarSystem from '../setup/starSizes_solarSystem.json'
 import { App } from './app'
-import { initialCenter } from './initializers/center'
 import map from './initializers/map'
 import { URLData } from './initializers/urldata'
 import { Setup } from './setups'
@@ -37,7 +36,7 @@ const setups = {
 const app = new App()
 
 map.onLoad(() => {
-  const initialSetup: keyof typeof setups = 'solarSystem'
+  const initialSetup: keyof typeof setups = 'demo'
   const $setupOptionElement = $setupDropdown.querySelector(`option[value=${initialSetup}]`)
   if ($setupOptionElement) {
     $setupOptionElement.setAttribute('selected', 'true')
@@ -55,7 +54,7 @@ map.onLoad(() => {
     map.setCenter(center)
   }
 
-  // app.initialize(setup, center)
+  app.initialize(setup, center)
 
   $setupDropdown.addEventListener('change', function (this: HTMLSelectElement) {
     const { value } = this
@@ -98,14 +97,14 @@ map.onLoad(() => {
     await displaySharingDialog(link)
   })
 
-  map.instance.addSource(MiddleEarth.sourceId, MiddleEarth.source(initialCenter))
-  map.instance.addLayer(MiddleEarth.layer())
+  // map.instance.addSource(MiddleEarth.sourceId, MiddleEarth.source(initialCenter))
+  // map.instance.addLayer(MiddleEarth.layer())
 
-  map.instance.on('click', e => {
-    const center = e.lngLat.toArray()
-    const source = map.instance.getSource(MiddleEarth.sourceId) as ImageSource
-    source.setCoordinates(MiddleEarth.coordinates(center) as any)
-  })
+  // map.instance.on('click', e => {
+  //   const center = e.lngLat.toArray()
+  //   const source = map.instance.getSource(MiddleEarth.sourceId) as ImageSource
+  //   source.setCoordinates(MiddleEarth.coordinates(center) as any)
+  // })
 })
 
 class MiddleEarth {
@@ -125,7 +124,7 @@ class MiddleEarth {
   static source(center: number[]): ImageSourceSpecification {
     return {
       type: 'image',
-      url: 'http://127.0.0.1:8080/assets/middle-earth.jpg',
+      url: 'http://127.0.0.1:8080/assets/middle-earth-bw.jpg',
       coordinates: this.coordinates(center) as any
     }
   }
@@ -137,7 +136,7 @@ class MiddleEarth {
       source: MiddleEarth.sourceId,
       paint: {
         'raster-fade-duration': 0,
-        'raster-opacity': 0.4
+        'raster-opacity': 0.75
       }
     }
   }

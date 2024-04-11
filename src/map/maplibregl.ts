@@ -1,15 +1,18 @@
 import maplibregl, {
   FillLayerSpecification,
   GeoJSONSource,
+  ImageSource,
+  ImageSourceSpecification,
   LayerSpecification,
   LineLayerSpecification,
+  RasterLayerSpecification,
   SourceSpecification,
   SymbolLayerSpecification
 } from 'maplibre-gl'
 
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import { BaseMap, ClickEventHandler, EventHandler, GeolocateEventHandler } from '.'
-import { Feature, LineFeature } from '../components/map/features'
+import { Feature, ImageFeature, LineFeature } from '../components/map/features'
 import { ShapeFeature } from '../components/map/features/shapes'
 import * as Setup from '../setups'
 import { BoundingBox, LngLat } from '../types'
@@ -58,6 +61,8 @@ export class Map extends BaseMap {
   ): MapResources {
     if (feature instanceof LineFeature) {
       return LineToRoot.build(id, feature, options)
+    } else if (feature instanceof ImageFeature) {
+      return Image.build(id, feature, options)
     } else if (feature instanceof ShapeFeature) {
       return Shape.build(id, feature, options)
     } else {
@@ -67,9 +72,17 @@ export class Map extends BaseMap {
 
   public updateFeature(id: string, data: GeoJSON.Feature) {
     this.features[id].sourceIds.forEach(sourceId => {
-      const source = this.instance.getSource(sourceId) as GeoJSONSource
-      if (source === undefined || source.type !== 'geojson') return
-      source.setData(data)
+      const source = this.instance.getSource(sourceId)
+      if (source === undefined) return
+      switch (source.type) {
+        case 'geojson':
+          ;(source as GeoJSONSource).setData(data)
+          break
+        case 'image':
+          ;(source as ImageSource).setCoordinates((data.geometry as any).coordinates[0])
+          this.instance.setPaintProperty(this.features[id].layerIds[0], 'raster-opacity', 0.1)
+          break
+      }
     })
   }
 
@@ -331,6 +344,41 @@ class LineToRoot {
       paint: {
         'line-color': '#555',
         'line-width': 2
+      }
+    }
+  }
+}
+
+class Image {
+  public static build(
+    id: string,
+    feature: ImageFeature,
+    options?: { visible?: boolean }
+  ): MapResources {
+    const sourceId = `${id}-rootline`
+    return {
+      source: { id: sourceId, content: Image.source(feature) },
+      layers: [Image.layer(sourceId, options?.visible)]
+    }
+  }
+
+  static source(feature: ImageFeature): ImageSourceSpecification {
+    console.log(feature.data().geometry.coordinates[0])
+    return {
+      type: 'image',
+      url: feature.definition.url,
+      coordinates: feature.data().geometry.coordinates[0] as any
+    }
+  }
+
+  public static layer(sourceId: string, visible: boolean = true): RasterLayerSpecification {
+    return {
+      id: sourceId,
+      type: 'raster',
+      source: sourceId,
+      paint: {
+        'raster-fade-duration': 0,
+        'raster-opacity': 0.75
       }
     }
   }

@@ -9,4 +9,5 @@ export interface BaseModelData<T extends string> extends StoreData<T> {
   visible: boolean
   center: LngLat
   bearing?: number
+  opacity?: number
 }

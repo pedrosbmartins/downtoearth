@@ -10,6 +10,7 @@ export interface BaseModel {
   label: string
   visible?: boolean
   bearingControl?: boolean
+  opacityControl?: boolean
   info?: string
   popup?: Popup
 }
@@ -48,6 +49,7 @@ export interface FeatureBase {
 }
 
 export interface ShapeFeature extends FeatureBase {
+  type: 'shape'
   shape: 'circle' | 'ellipse'
 }
 
@@ -61,7 +63,13 @@ export interface EllipseFeature extends ShapeFeature {
   axesRatios?: { semiMajor: number; semiMinor: number }
 }
 
-export type Feature = CircleFeature | EllipseFeature
+export interface ImageFeature extends FeatureBase {
+  type: 'image'
+  url: string
+  realDimensions: { width: number; height: number }
+}
+
+export type Feature = CircleFeature | EllipseFeature | ImageFeature
 
 export interface Fill {
   color: string

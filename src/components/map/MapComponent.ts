@@ -5,7 +5,14 @@ import { BaseModelData } from '../../store'
 import { Store, StoreListener } from '../../store/core'
 import { BoundingBox, LngLat } from '../../types'
 import { mergeBoundingBoxes, toLngLat } from '../../utils'
-import { CircleFeature, EllipseFeature, Feature, FeatureState, LineFeature } from './features'
+import {
+  CircleFeature,
+  EllipseFeature,
+  Feature,
+  FeatureState,
+  ImageFeature,
+  LineFeature
+} from './features'
 
 export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends StoreListener {
   protected features: Feature[] = []
@@ -48,13 +55,18 @@ export abstract class MapComponent<S extends Store<BaseModelData<any>>> extends 
   }
 
   private buildFeatures(definition: Setup.Feature) {
-    const isCircle = definition.shape === 'circle'
-    const shape = isCircle ? this.buildCircle(definition) : this.buildEllipse(definition)
-    const features: Feature[] = [shape]
-    if (definition.drawLineToRoot) {
-      features.push(new LineFeature(definition, this.featureState(definition), map))
+    if (definition.type === 'image') {
+      console.log('build image', definition)
+      return [new ImageFeature(definition, this.featureState(definition), map)]
+    } else {
+      const isCircle = definition.shape === 'circle'
+      const shape = isCircle ? this.buildCircle(definition) : this.buildEllipse(definition)
+      const features: Feature[] = [shape]
+      if (definition.drawLineToRoot) {
+        features.push(new LineFeature(definition, this.featureState(definition), map))
+      }
+      return features
     }
-    return features
   }
 
   private buildCircle(definition: Setup.CircleFeature) {

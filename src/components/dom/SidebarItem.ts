@@ -15,6 +15,7 @@ interface Props extends ComponentProps<HTMLDivElement, BaseModelData<any>> {
   icon?: string
   alternative?: boolean
   bearingControl?: boolean
+  opacityControl?: boolean
   info?: string
   onCenter?: () => void
 }
@@ -80,6 +81,34 @@ class SidebarItemComponent<S extends SidebarItemStore> extends DOMComponent<
       })
 
       $controls.append(BearingControl.dom())
+    }
+
+    if (this.props.opacityControl) {
+      const $opacitySlider = document.createElement<'input'>('input')
+      $opacitySlider.className = 'opacity-slider'
+      $opacitySlider.setAttribute('type', 'range')
+      $opacitySlider.setAttribute('min', '0')
+      $opacitySlider.setAttribute('max', '720')
+      $opacitySlider.setAttribute('value', '270')
+      $opacitySlider.setAttribute('step', '1')
+      $opacitySlider.addEventListener('input', event =>
+        this.store.set({ opacity: (event.target as any).value })
+      )
+
+      const OpacityControl = SidebarItemControl<BaseModelData<any>>(this.store, {
+        icon: 'opacity',
+        children: [$opacitySlider],
+        onClick: event => {
+          if ((event.target as HTMLElement).tagName !== 'IMG') return
+          if ($opacitySlider.classList.contains('show')) {
+            $opacitySlider.classList.remove('show')
+          } else {
+            $opacitySlider.classList.add('show')
+          }
+        }
+      })
+
+      $controls.append(OpacityControl.dom())
     }
 
     const VisibilityControl = SidebarItemControl<BaseModelData<any>>(this.store, {
