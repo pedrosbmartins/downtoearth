@@ -32,6 +32,7 @@
     </li>
     <li><a href="#schema">Schema</a></li>
     <li><a href="#development">Development</a></li>
+    <li><a href="#design">Design</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#credits">Credits</a></li>
   </ol>
@@ -162,6 +163,10 @@ To begin local development:
 2. `yarn start`
 
 The last step runs both `tsc` and `browserify` in watch mode, and also spins up a `live-server` instance on http://localhost:8080 by default.
+
+## Design
+
+The project's design decisions can be [checked out here](./Design.md).
 
 ## License
 
